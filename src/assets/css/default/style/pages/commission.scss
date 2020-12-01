@@ -1,0 +1,44 @@
+// px 转换成 rem
+// $px 带px单位
+$font-size-root: 20px;
+
+@function rem($px) {
+  @return #{$px/$font-size-root}rem;
+}
+
+.cset-data-show {
+  & > .vm-flex-1 {
+    margin-left: rem(10px);
+    margin-right: rem(10px);
+    .title {
+      font-weight: bold;
+    }
+    .num {
+      word-break: break-all;
+    }
+  }
+}
+
+.cset-data-title {
+  & > .vm-flex-1 {
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: rem(-10px);
+      height: 50px;
+      border-right: 1px solid #f0f0f0;
+    }
+    &:last-child:before {
+      display: none;
+    }
+  }
+}
+
+.commission-t-table{
+  img{
+    max-width: 60px;
+    max-height: 60px;
+  }
+}

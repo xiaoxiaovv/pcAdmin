@@ -1,0 +1,34 @@
+<template>
+  <lazy-select v-model="modelValue"
+               :getDataFnOrDataList="getDataFn"
+               :options="mergedOptions"
+               ref="lazySelect" />
+</template>
+
+<script>
+import lazySelectMixin from './mixin'
+import * as incomingApi from '@/modules/pay/api/incoming'
+export default {
+  mixins: [lazySelectMixin],
+  props: {
+    type: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    getDataFn () {
+      if (this.type) {
+        let params = {
+          type: this.type
+        }
+        return incomingApi.getbusiness(params).then(data => (data.obj || []).map(v => this.convertData(v, v, v)))
+      } else {
+        return new Promise((resolve, reject) => {
+          resolve([])
+        })
+      }
+    }
+  }
+}
+</script>

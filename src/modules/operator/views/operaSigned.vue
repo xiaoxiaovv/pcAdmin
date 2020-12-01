@@ -1,0 +1,383 @@
+<template>
+  <div class="app-container" v-loading="loading">
+    <div class="action-container">
+      <!--公司-->
+      <el-input v-model="searchForm.name" @keyup.enter.native="search" placeholder="公司" size="small"
+                class="formItem"></el-input>
+      <!--联系人-->
+      <el-input v-model="searchForm.contact" @keyup.enter.native="search" placeholder="联系人" size="small"
+                class="formItem"></el-input>
+      <!--按钮-->
+      <el-button type="primary" size="small" @click="search">查询</el-button>
+      <!-- <el-button type="primary" size="small" @click="advancedSearchOpen">高级查询</el-button> -->
+    </div>
+
+    <!--表格-->
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        type="index"
+        label="序号"
+        width="50">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="公司"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="contact"
+        label="联系人">
+      </el-table-column>
+      <el-table-column
+        prop="phone"
+        label="联系电话">
+      </el-table-column>
+      <el-table-column
+        prop="phone"
+        label="合作期限">
+        <template slot-scope="scope">
+          {{scope.row.createTime | filterTime}}/{{scope.row.endCooperaTime | filterTime}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="saleName"
+        label="归属业务员">
+      </el-table-column>
+      <el-table-column label="状态">
+        <template slot-scope="scope">
+          <template v-if="scope.row.status===1">未签约</template>
+          <template v-else-if="scope.row.status===2">待审核</template>
+          <template v-else-if="scope.row.status===3">已签约</template>
+          <template v-else-if="scope.row.status===4">过期</template>
+          <template v-else-if="scope.row.status===5">禁用</template>
+          <template v-else>--</template>
+        </template>
+      </el-table-column>
+      <el-table-column label="LOGO" align="center">
+        <template slot-scope="scope">
+          <div style="width: 60px;height: 60px;display: inline-block;" v-if="scope.row.logo">
+            <img :src="scope.row.logoUrl" style="width: 60px;height: 60px;" @click="viewImg(scope.row.logViewUrl)" />
+          </div>
+          <div v-else>未设置</div>
+        </template>
+      </el-table-column>
+      <!--操作-->
+      <el-table-column
+        fixed="right"
+        label="操作"
+        min-width="200">
+        <template slot-scope="scope">
+          <!--//如果有方法，传入参数“scope.row”-->
+          <!--//如果需要索引，传入参数“scope.$index”-->
+          <!--//如果需要当前整页表格数据，传入参数“tableData”-->
+          <el-button type="text" :disabled="(scope.row.isDirect === 1 && scope.row.allowSubordinateUseLogo === 1) ? false : true" size="medium" @click="setLogo(scope.row)">{{scope.row.logo?'修改LOGO':'设置LOGO'}}</el-button>
+          <el-button type="text" @click="rooterDeatil(scope.row)">详情</el-button>
+          <el-button type="text" @click="resetPassword(scope.row)">重置密码</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination
+      :total-elements="totalElements"
+      :change-callback="getOperatorList"
+      ref="page"></pagination>
+
+    <!--高级查询模态框-->
+    <el-dialog
+      title="高级查询"
+      :visible.sync="advancedSearch"
+      width="30%"
+      :before-close="advancedSearchClose">
+      <span>这是高级查询</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="advancedSearch = false">取 消</el-button>
+        <el-button type="primary" @click="advancedSearch = false">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!--高级查询模态框-->
+    <!--设置logo-->
+    <el-dialog class="vm-dialog"
+               title="网站登录后左上角LOGO设置"
+               width="398px"
+               v-if="dialogSetLogo.show"
+               :visible.sync="dialogSetLogo.show">
+      <SetLogo :propsInfo="dialogSetLogo"
+                @modifyLogo="modifyLogo"></SetLogo>
+    </el-dialog>
+    <!--图片预览-->
+    <ImgView :propImgView="dialogImgViewData" v-if="dialogImgViewData.show"></ImgView>
+  </div>
+</template>
+
+<script>
+import {
+  getOperatorList,
+  operaUpdate
+} from '@/modules/operator/api/operator'
+import {resetPwd} from '@/modules/system/api/user'
+import pagination from '@/components/pagination/index'
+import SetLogo from '@/components/setLogo/index.vue'
+import ImgView from '@/components/imgView/index'
+import * as imgFuncs from '@/utils/getImgUrl.js'
+export default {
+  name: 'operator',
+  components: {pagination, SetLogo, ImgView},
+  data () {
+    return {
+      tableData: [{
+        company: '',
+        contact: '',
+        phone: '',
+        bySalesman: '',
+        joinStart: '',
+        joinEnd: '',
+        finishStart: '',
+        finishEnd: '',
+        level: '',
+        status: '5',
+        test: '2'
+      }], // 表格数据
+      multipleSelection: [], // 选中数据-多选
+      totalElements: 0, // 数据条数
+      loading: false, // loading效果
+      btnLoading: false,
+      formLabelWidth: '150px', // label宽度
+      newFormLabelWidth: '100px', // label宽度
+      // 查询------------------------------------------------------------
+      advancedSearch: false, // 高级查询模态
+      searchForm: {
+        pageNumber: 1,
+        pageSize: 10,
+        name: '', // 公司名
+        contact: '', // 联系人
+        phone: '', // 通讯号码
+        bySalesman: '', // 所属业务员
+        joinStart: '', // 加盟事件开始
+        joinEnd: '', // 加盟事件结束
+        finishStart: '', // 到期事件开始
+        finishEnd: '', // 到期事件结束
+        level: '', // 级别
+        status: ''// 状态
+      }, // 搜索用的表单
+      statusOption: [], // 状态选择器
+      dialogSetLogo: {
+        show: false
+      },
+      dialogImgViewData: {
+        show: false
+      }
+    }
+  },
+  mounted () {
+    this.getOperatorList(1, 10)
+  },
+  methods: {
+
+    /**
+       * 模态框操作  start----------------------------------------
+       **/
+    // 高级查询
+    advancedSearchOpen: function () {
+      this.advancedSearch = true
+    },
+    advancedSearchClose: function () {
+      this.advancedSearch = false
+    },
+
+    /**
+       * 模态框操作 end----------------------------------------
+       **/
+
+    /*
+  * 搜索
+  * */
+    search () {
+      this.$refs.page.search()
+    },
+    /*
+      * 重置
+      * */
+    reset () {
+      this.searchForm = {
+        pageNumber: 1,
+        pageSize: 10,
+        name: '', // 公司名
+        contact: '', // 联系人
+        phone: '', // 通讯号码
+        bySalesman: '', // 所属业务员
+        joinStart: '', // 加盟事件开始
+        joinEnd: '', // 加盟事件结束
+        finishStart: '', // 到期事件开始
+        finishEnd: '', // 到期事件结束
+        level: '', // 级别
+        status: ''// 状态
+      }// 搜索用的表单
+      this.$refs.page.search()
+    },
+
+    /*
+       * 获取{{levelAlias.firstName}}列表
+      * */
+    getOperatorList (number, pageSize) {
+      this.loading = true
+      this.searchForm.status = 3
+      getOperatorList(number, pageSize, this.searchForm).then(response => {
+        this.searchForm.pageNumber = number
+        this.searchForm.pageSize = pageSize
+        let data = response.obj
+        data.content.forEach(item => {
+          let logoUrl = imgFuncs.getImg(item.logo, 1)
+          let logViewUrl = imgFuncs.getImg(item.logo, 2)
+          this.$set(item, 'logoUrl', logoUrl)
+          this.$set(item, 'logViewUrl', logViewUrl)
+        })
+        this.tableData = data.content
+        this.totalElements = data.totalElements
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    // 重置商户密码
+    resetPassword (row) {
+      this.$confirm('重置商户的密码？', '重要操作', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        resetPwd(row.phone).then(response => {
+          this.$message({
+            message: response.msg,
+            type: 'success'
+          })
+          this.btnLoading = false
+          this.$refs.page.refresh()
+        }).catch(() => {
+          this.loading = false
+        })
+      })
+    },
+
+    // resetChecked () {
+    //   this.$refs.tree.setCheckedKeys([])
+    // },
+
+    // 跳转
+    rooterDeatil (data) {
+      // console.log(data)
+      // query发送ID到详情
+      let id = data.id
+      this.$router.push({path: '/operator/views/operaDetail', query: {id: id}})
+    },
+    // 刷新
+
+    refresh () {
+      this.$refs.page.refresh()
+    },
+    /**
+     * logo预览
+     * */
+    viewImg (url) {
+      this.dialogImgViewData = {
+        show: true,
+        url: url
+      }
+    },
+    /**
+     * 设置logo
+     */
+    setLogo (data) {
+      this.dialogSetLogo = {
+        show: true,
+        data: data
+      }
+    },
+    /**
+     * 设置logo--成功
+     */
+    modifyLogo (logo) {
+      let data = this.dialogSetLogo.data
+      let params = {
+        id: data.id,
+        name: data.name,
+        contact: data.name,
+        province: data.province,
+        city: data.city,
+        address: data.address,
+        phone: data.phone,
+        companyId: sessionStorage.getItem('companyId'),
+        logo: logo
+      }
+      operaUpdate(params).then(res => {
+        this.$message.success('设置成功')
+        this.dialogSetLogo.show = false
+        let pageNumber = this.searchForm.pageNumber
+        let pageSize = this.searchForm.pageSize
+        this.getOperatorList(pageNumber, pageSize)
+      })
+    }
+  },
+  filters: {
+
+    // 过滤日期
+    filterTime: function (time) {
+      if (time == null) {
+        return ''
+      }
+      return time.split(' ')[0]
+    },
+
+    // 列表状态过滤器
+    statusfilter: function (s) {
+      let text = ''
+      if (s == '' || s == null || s == undefined) { // "",null,undefined
+        text = 'error'
+      } else {
+        switch (s) {
+          case 1:
+            text = '未启用'
+            break
+          case 2:
+            text = '待审核'
+            break
+          case '3':
+            text = '已签约'
+            break
+          case '4':
+            text = '过期'
+            break
+          case '5':
+            text = '注销'
+            break
+          default :
+            text = '未知'
+            break
+        }
+      }
+      return text
+    }
+
+  }
+}
+</script>
+
+<style scoped>
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+
+  .formItem {
+    display: inline-block;
+    width: 150px;
+    max-width: 100%;
+  }
+</style>

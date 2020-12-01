@@ -1,0 +1,25 @@
+@import '../../global';
+@import 'variable';
+@import 'base';
+@import 'common';
+@import '_size.scss';
+// 图片上传
+@import './components/imgupload.scss';
+// 图片预览
+@import './components/imgshow.scss';
+// 佣金结算
+@import './pages/commission.scss';
+
+// plugins
+
+// components
+
+// pages
+
+// response
+@import 'response/1920';
+@import 'response/1440';
+@import 'response/1366';
+@import 'response/1280';
+@import 'response/1024';
+@import 'response/720';

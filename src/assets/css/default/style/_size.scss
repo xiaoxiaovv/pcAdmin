@@ -1,0 +1,157 @@
+// magin、padding
+$distance-map: (pd: padding, pt: padding-top, pb: padding-bottom, pr: padding-right, pl: padding-left,
+  mg: margin, mt: margin-top, mb: margin-bottom, mr: margin-right, ml: margin-left);
+
+@each $key,
+$propety in $distance-map {
+  @for $i from 0 through 100 {
+    .#{$key}#{$i} {
+      #{$propety}: $i + px;
+    }
+  }
+}
+
+@for $i from 0 through 100 {
+  .vm-margin-#{$i} {
+    margin-left: $i + px;
+  }
+
+  .vm-margin-l-#{$i} {
+    margin-left: $i + px;
+  }
+
+  .vm-margin-r-#{$i} {
+    margin-right: $i + px;
+  }
+
+  .vm-margin-lr-#{$i} {
+    margin-left: $i + px !important;
+    margin-right: $i + px !important;
+  }
+
+  .vm-margin-t-#{$i} {
+    margin-top: $i + px;
+  }
+
+  .vm-margin-b-#{$i} {
+    margin-bottom: $i + px;
+  }
+
+  .vm-margin-tb-#{$i} {
+    margin-top: $i + px;
+    margin-bottom: $i + px;
+  }
+
+  .vm-padding-#{$i} {
+    padding-top: $i + px;
+  }
+
+  .vm-padding-l-#{$i} {
+    padding-left: $i + px;
+  }
+
+  .vm-padding-r-#{$i} {
+    padding-right: $i + px;
+  }
+
+  .vm-padding-lr-#{$i} {
+    padding-left: $i + px !important;
+    padding-right: $i + px !important;
+  }
+
+  .vm-padding-t-#{$i} {
+    padding-top: $i + px;
+  }
+
+  .vm-padding-b-#{$i} {
+    padding-bottom: $i + px;
+  }
+
+  .vm-padding-tb-#{$i} {
+    padding-top: $i + px;
+    padding-bottom: $i + px;
+  }
+
+}
+
+// font-size
+@for $i from 0 through 10 {
+  $v: ($i * 2) + 12;
+
+  .vm-size-#{$v} {
+    font-size: $v + px;
+  }
+}
+
+// width
+@for $i from 0 through 200 {
+  .vm-width-#{$i} {
+    width: $i + px;
+  }
+}
+
+// height
+@for $i from 0 through 200 {
+  .vm-height-#{$i} {
+    height: $i + px;
+  }
+}
+
+// line-height
+@for $i from 0 through 100 {
+  .vm-line-height-#{$i} {
+    line-height: $i + px;
+  }
+}
+
+// color
+@for $i from 0 through 9 {
+  .vm-color-#{$i} {
+    color: #{'#'}#{$i}#{$i}#{$i};
+  }
+}
+
+$distance-map-color: (a: aaa, b: bbb, c: ccc, d: ddd, e: eee,
+  f: fff, a0: a0a0a0, b0: b0b0b0, e0: e0e0e0, f0: f0f0f0);
+@each $keyColor,
+$propetyColor in $distance-map-color {
+  .vm-color-#{$keyColor} {
+    color: #{'#'}#{$propetyColor};
+  }
+}
+
+// bg-color
+// color
+@for $i from 0 through 9 {
+  .vm-bg-#{$i} {
+    background-color: #{'#'}#{$i}#{$i}#{$i};
+  }
+}
+
+$distance-map-bg: (a: aaa, b: bbb, c: ccc, d: ddd, e: eee,
+  f: fff, a0: a0a0a0, b0: b0b0b0, e0: e0e0e0, f0: f0f0f0);
+@each $keyBg,
+$propetyBg in $distance-map-bg {
+  .vm-bg-#{$keyBg} {
+    background-color: #{'#'}#{$propetyBg};
+  }
+}
+
+@for $i from 2 through 10 {
+  .vm-ell-#{$i} {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $i;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+  }
+}
+
+// font-weight
+// color
+@for $i from 1 through 7 {
+  .vm-weight-#{$i} {
+    font-weight: $i#{'00'};
+  }
+}

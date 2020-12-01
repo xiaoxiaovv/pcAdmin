@@ -1,0 +1,189 @@
+// px 转换成 rem
+// $px 带px单位
+$font-size-root: 20px;
+
+@function rem($px) {
+  @return #{$px/$font-size-root}rem;
+}
+
+// 字体大小
+.vm-font-12px {
+  font-size: 12px;
+}
+
+.vm-font-14px {
+  font-size: 14px;
+}
+
+.vm-font-16px {
+  font-size: 16px;
+}
+
+.vm-font-18px {
+  font-size: 18px;
+}
+
+.vm-font-20px {
+  font-size: 20px;
+}
+
+// 字体颜色
+//.vm-color-3 {
+//  color: #333;
+//}
+//.vm-color-6 {
+//  color: #666;
+//}
+//.vm-color-9 {
+//  color: #999;
+//}
+.vm-color-f0 {
+  color: #f0f0f0;
+}
+
+.vm-color-main {
+  color: #4BA8FF;
+}
+
+.vm-color-yellow {
+  color: #FFAE3D;
+}
+
+// 背景色
+.vm-bg-f0 {
+  background-color: #f0f0f0;
+}
+
+.vm-bg-f8 {
+  background-color: #f8f8f8;
+}
+
+// 宽度
+.vm-width-200px {
+  width: 200px;
+}
+// 高度
+.vm-height-200px {
+  height: 200px;
+}
+// margin
+.vm-margin-left-10px {
+  margin-left: 10px;
+}
+
+.vm-margin-right-10px {
+  margin-right: 10px;
+}
+
+// padding
+.vm-padding-left-10px {
+  padding-left: 10px;
+}
+
+.vm-padding-right-10px {
+  padding-right: 10px;
+}
+
+// ell
+.vm-ell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+// ell2
+.vm-ell-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+/*
+.vm-ell-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+*/
+// flex
+.vm-flex {
+  width: 100%;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.vm-flex-1 {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.vm-justify-center {
+  justify-content: center;
+}
+
+.vm-justify-between {
+  justify-content: space-between;
+}
+
+.vm-justify-around {
+  justify-content: space-around;
+}
+
+.vm-align-items-center {
+  align-items: center;
+}
+
+.vm-align-items-stretch {
+  align-items: stretch;
+}
+
+.vm-align-justify-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.vm-align-center {
+   text-align: center;
+ }
+.vm-align-left {
+  text-align: left;
+}
+.vm-align-right {
+  text-align: right;
+}
+.vm-inline-block {
+  display: inline-block;
+}
+.vm-float-left {
+  float: left;
+}
+.vm-float-right {
+  float: right;
+}
+
+.vm-cursor-pointer {
+  cursor: pointer;
+}
+
+
+.el-form-show {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}

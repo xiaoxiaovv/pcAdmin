@@ -1,0 +1,259 @@
+@import "./variables.scss";
+@import "./mixin.scss";
+@import "./transition.scss";
+@import "./element-ui.scss";
+// @import './sidebar.scss';
+@import "./agent.scss";
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+.filter-container {
+  padding-bottom: 10px;
+
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+  // background: #F2F2F2;
+}
+
+.pagination-container {
+  margin-top: 30px;
+  text-align: right;
+}
+
+.action-container {
+  margin-bottom: 10px;
+}
+
+.action-container .el-button {
+  margin-left: 0;
+}
+
+//表格图片预览样式
+.tablePhotoPreviewContainer .el-dialog__header {
+  padding: 0;
+}
+
+.tablePhotoPreviewContainer img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+// margin
+.mr20 {
+  margin-right: 20px;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.color-blue {
+  color: #108ee9;
+}
+// 重置首页日期组件样式
+.index-page {
+  .el-range-editor--small {
+    padding-left: 0;
+    padding-right: 0;
+    width: 204px !important;
+  }
+
+  .el-range-editor--small .el-icon-date {
+    display: none;
+  }
+
+  .el-date-editor .el-range-separator {
+    width: 12%;
+  }
+
+  .el-date-editor .el-range-input {
+    width: 48%;
+  }
+
+  .el-date-editor .el-range__close-icon {
+    display: none;
+  }
+}
+
+.ico {
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+  &.ico_home {
+    width: 18px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_home.png");
+  }
+
+  &.ico_user {
+    width: 16px !important;
+    height: 15px !important;
+    background-image: url("../assets/images/index/ico_user.png");
+  }
+
+  &.ico_member {
+    width: 18px !important;
+    height: 18px !important;
+    background-image: url("../assets/images/index/ico_member.png");
+  }
+
+  &.ico_phone {
+    width: 12px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_phone.png");
+  }
+
+  &.ico_store {
+    width: 15px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_store.png");
+  }
+
+  &.ico_system {
+    width: 16px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_system.png");
+  }
+
+  &.ico_merchant {
+    width: 16px !important;
+    height: 15px !important;
+    background-image: url("../assets/images/index/ico_merchant.png");
+  }
+
+  &.ico_business {
+    width: 16px !important;
+    height: 15px !important;
+    background-image: url("../assets/images/index/ico_business.png");
+  }
+
+  &.ico_data {
+    width: 15px !important;
+    height: 15px !important;
+    background-image: url("../assets/images/index/ico_data.png");
+  }
+
+  &.ico_advertise {
+    width: 14px !important;
+    height: 15px !important;
+    background-image: url("../assets/images/index/ico_advertise.png");
+  }
+
+  &.ico_commission {
+    width: 16px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico-commission.png");
+  }
+
+  &.ico_device {
+    width: 16px !important;
+    height: 14px !important;
+    background-image: url("../assets/images/index/ico_device.png");
+  }
+
+  &.ico_agentsec {
+    width: 15px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_agentsec.png");
+  }
+
+  &.ico_agentthird {
+    width: 16px !important;
+    height: 14px !important;
+    background-image: url("../assets/images/index/ico_agentthird.png");
+  }
+
+  &.ico_merchant_sec {
+    width: 16px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_merchant_sec.png");
+  }
+
+  &.ico_notice {
+    width: 16px !important;
+    height: 13px !important;
+    background-image: url("../assets/images/index/ico_notice.png");
+  }
+  &.ico_guild {
+    width: 16px !important;
+    height: 16px !important;
+    background-image: url("../assets/images/index/ico_guild.png");
+  }
+}
