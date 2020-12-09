@@ -73,6 +73,19 @@ export function getZfbCode (params) {
   })
 }
 
+/**
+ * 手机pos&网联-查询进件状态
+ * @param {*} params
+ */
+export function getSjPosCode(params) {
+  return request({
+    url: '/batchFeed/pos/get_pos_feedstatus',
+    method: 'get',
+    params
+  })
+}
+
+
 // 设置费率
 export function setRate (params) {
   return request({

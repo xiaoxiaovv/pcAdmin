@@ -33,12 +33,15 @@
                    name="8"
                    v-if="payConfig.indexOf('富友') > -1"></el-tab-pane>
 
-      <el-tab-pane label="中国银联"
+      <!--<el-tab-pane label="中国银联"
 	               name="9"
-	               v-if="payConfig.indexOf('银联') > -1"></el-tab-pane>
-      <el-tab-pane label="拉卡拉"
+	               v-if="payConfig.indexOf('银联') > -1"></el-tab-pane>-->
+      <!--<el-tab-pane label="拉卡拉"
                    name="10"
-                   v-if="payConfig.indexOf('拉卡拉') > -1"></el-tab-pane>
+                   v-if="payConfig.indexOf('拉卡拉') > -1"></el-tab-pane>-->
+      <el-tab-pane label="手机pos"
+                   name="11"
+                   v-if="payConfig.indexOf('手机pos') > -1"></el-tab-pane>
     </el-tabs>
     <div v-show="activeName === '1'">
       <el-card class="box-card">
@@ -1109,6 +1112,98 @@
       </el-card>
     </div>
 
+    <!--手机pos-->
+    <div v-show="activeName === '11'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>手机pos通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>手机pos交易费率</td>
+              <td>{{(detail.posTradeRate === null || detail.posTradeRate === undefined) ? '暂无' : detail.posTradeRate+'%'}}</td>
+            </tr>
+            <tr>
+              <td>手机pos提现费</td>
+              <td>{{(detail.posDrawFee === null || detail.posDrawFee === undefined) ? '暂无' : detail.posDrawFee}}</td>
+            </tr>
+            <tr>
+              <td>网联交易费率</td>
+              <td>{{(detail.quickTradeRate === null || detail.quickTradeRate === undefined) ? '暂无' : detail.quickTradeRate+'%'}}</td>
+            </tr>
+            <tr>
+            <td>网联提现费</td>
+            <td>{{(detail.quickDrawFee === null || detail.quickDrawFee === undefined) ? '暂无' : detail.quickDrawFee}}</td>
+          </tr>
+            <tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{sjPosData.posMchId || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>注册名称</td>
+              <td>{{sjPosData.posRegisName || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>手机pos交易费率</td>
+              <td>{{(sjPosData.posTradeRate === null || sjPosData.posTradeRate === undefined) ? '暂无' : sjPosData.posTradeRate+'%'}}</td>
+            </tr>
+            <tr>
+              <td>手机pos提现费</td>
+              <td>{{(sjPosData.posDrawFee === null || sjPosData.posDrawFee === undefined) ? '暂无' : sjPosData.posDrawFee+'%'}}</td>
+            </tr>
+            <tr>
+              <td>网联交易费率</td>
+              <td>{{(sjPosData.quickDrawFee === null || sjPosData.quickDrawFee === undefined) ? '暂无' : sjPosData.quickDrawFee+'%'}}</td>
+            </tr>
+            <tr>
+              <td>网联提现费</td>
+              <td>{{(sjPosData.quickDrawFee === null || sjPosData.quickDrawFee === undefined) ? '暂无' : sjPosData.quickDrawFee+'%'}}</td>
+            </tr>
+            <tr>
+              <td>进件状态</td>
+              <td>{{entryStatus[sjPosData.entryStatus] || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件结果</td>
+              <td>{{sjPosData.posMsg || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{sjPosData.commitTime || '暂无'}}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+    </div>
+
     <!--修改结算费率-->
     <el-dialog class="vm-dialog vm-dialog-body-top-10px"
                title="费率修改"
@@ -1146,6 +1241,7 @@ export default {
       chData: '',
       fyData: '',
       zfbData: '',
+      sjPosData: '',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1162,6 +1258,12 @@ export default {
       },
       payConfig: [],
       fyEntryStatus: {
+        '-1': '进件失败',
+        1: '待进件',
+        2: '进件审核中',
+        3: '进件成功'
+      },
+      entryStatus: {
         '-1': '进件失败',
         1: '待进件',
         2: '进件审核中',
@@ -1250,6 +1352,11 @@ export default {
       } else if (item.channel === 7) { // 支付宝
         detailApi.getZfbCode({ id: item.id }).then(res => {
           this.zfbData = res.obj
+          console.log(res)
+        })
+      }else if (item.channel === 10) { // 手机pos  8：银联   9：拉卡拉
+        detailApi.getSjPosCode({ id: item.id }).then(res => {
+          this.sjPosData = res.obj
           console.log(res)
         })
       }

@@ -160,8 +160,10 @@
 
 			     <!-- <el-radio label="15"
 			          v-if="payConfig.indexOf('银联') > -1">中国银联</el-radio>-->
-            <el-radio label="16"
-                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
+           <!-- <el-radio label="16"
+                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>-->
+            <el-radio label="17"
+                      v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
 
           </el-radio-group>
         </el-form-item>
@@ -704,6 +706,60 @@
                         placeholder="拉卡拉秘钥"></el-input>
             </el-form-item>
           </div>
+
+          <!--手机pos-->
+          <div v-show="payParam.payWay==17">
+            <el-form-item label="手机pos机构号">
+              <el-input type="text"
+                        v-model.trim="topParam.posOrgId"
+                        :disabled="payDisable"
+                        placeholder="手机pos机构号"></el-input>
+            </el-form-item>
+            <el-form-item label="手机pos交易费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.posTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="手机pos提现费">
+              <el-input type="text"
+                        v-model.trim="topParam.posDrawFee"
+                        :disabled="payDisable"
+                        placeholder="手机pos提现费"></el-input>
+            </el-form-item>
+            <el-form-item label="网联交易费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.quickTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="网联提现费">
+              <el-input type="text"
+                        v-model.trim="topParam.quickDrawFee"
+                        :disabled="payDisable"
+                        placeholder="网联提现费"></el-input>
+            </el-form-item>
+            <el-form-item label="手机posMd5Key">
+              <el-input type="text"
+                        v-model.trim="topParam.posMd5Key"
+                        :disabled="payDisable"
+                        placeholder="手机posMd5Key"></el-input>
+            </el-form-item>
+            <el-form-item label="手机posAesKey">
+              <el-input type="text"
+                        v-model.trim="topParam.posAesKey"
+                        :disabled="payDisable"
+                        placeholder="手机posAesKey"></el-input>
+            </el-form-item>
+          </div>
         </div>
 
 
@@ -761,9 +817,9 @@
 			<!--<el-radio label="15"
 					  class="mt10"
 					  v-if="payConfig.indexOf('银联') > -1">中国银联</el-radio>-->
-            <el-radio label="16"
+           <!-- <el-radio label="16"
                       class="mt10"
-                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
+                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>-->
 
             <!--
             <el-radio label="5">惠闪付</el-radio>
@@ -1706,7 +1762,15 @@ export default {
         lakalaChannelId: '', // 拉卡拉渠道号
         lklShopNo: '',           //拉卡拉appid
         lklToken: '',        //拉卡拉token
-        lakalaRSAKey:''  //拉卡拉秘钥
+        lakalaRSAKey:'',  //拉卡拉秘钥
+        //  手机pos
+        posDrawFee: '', // 手机pos提现费
+        posTradeRate: '', // 手机pos交易费率
+        quickDrawFee: '', // 网联提现费
+        quickTradeRate: '', // 网联交易费率
+        posOrgId: '', // 手机pos机构号
+        posMd5Key: '',           //手机posMd5Key
+        posAesKey: ''        //手机posAesKey
 
       },
       // 商户支付参数
@@ -1975,6 +2039,14 @@ export default {
       this.topParam.lklShopNo = ''          //拉卡拉appid
       this.topParam.lklToken = ''        //拉卡拉token
       this.topParam.lakalaRSAKey =''  //拉卡拉秘钥
+      //  手机pos
+      this.topParam.posDrawFee = '' // 手机pos提现费
+      this.topParam.posTradeRate = '' // 手机pos交易费率
+      this.topParam.quickDrawFee = '' // 网联提现费
+      this.topParam.quickTradeRate = '' // 网联交易费率
+      this.topParam.posOrgId = '' // 手机pos机构号
+      this.topParam.posMd5Key = ''           //手机posMd5Key
+      this.topParam.posAesKey = ''        //手机posAesKey
     },
     // 获取服务商支付参数
     findTopPayConfig() {
@@ -2057,6 +2129,15 @@ export default {
         this.topParam.lklShopNo = data.lklShopNo          //拉卡拉appid
         this.topParam.lklToken = data.lklToken        //拉卡拉token
         this.topParam.lakalaRSAKey =data.lakalaRSAKey  //拉卡拉秘钥
+        //  手机pos
+        this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
+        this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) * 100 : 0 // 手机pos交易费率
+        this.topParam.quickDrawFee = data.quickDrawFee // 网联提现费
+        this.topParam.quickTradeRate = Number(data.quickTradeRate) ? Number(data.quickTradeRate) * 100 : 0 // 网联交易费率
+        this.topParam.posOrgId = data.posOrgId // 手机pos机构号
+        this.topParam.posMd5Key = data.posMd5Key           //手机posMd5Key
+        this.topParam.posAesKey = data.posAesKey        //手机posAesKey
+
         console.log(response)
       }).catch(() => {
         this.loading = false
@@ -2098,6 +2179,9 @@ export default {
       //  拉卡拉
       this.topParam.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
       this.topParam.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
+      //  手机pos
+      this.topParam.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
+      this.topParam.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
