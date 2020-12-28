@@ -813,6 +813,10 @@
             <el-radio label="14"
                       class="mt10"
                       v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
+<!--            15银联   16拉卡拉-->
+            <el-radio label="17"
+                      class="mt10"
+                      v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
 
 			<!--<el-radio label="15"
 					  class="mt10"
@@ -1480,7 +1484,7 @@
           </el-form-item>
         </div>-->
         <!--=拉卡拉配置-->
-        <div v-show="payParam.payWay==16">
+        <!--<div v-show="payParam.payWay==16">
           <el-form-item label="微信利率">
             <el-input-number :disabled="payDisable"
                              :precision="2"
@@ -1520,15 +1524,65 @@
           </el-form-item>
           <el-form-item label="商户终端号">
             <div style="display: flex;">
-              <!-- <el-input v-model.trim="taskCode"
+              &lt;!&ndash; <el-input v-model.trim="taskCode"
                         :disabled="payDisable"
                         placeholder="随行付任务编码"
-                        clearable></el-input> -->
+                        clearable></el-input> &ndash;&gt;
               <el-input v-model.trim="payParam.lakala.termId"
                         :disabled="payDisable"
                         placeholder="商户终端号"></el-input>
             </div>
 
+          </el-form-item>
+        </div>-->
+        <!--=手机pos配置-->
+        <div v-show="payParam.payWay==17">
+          <el-form-item label="手机pos交易费率">
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.sjPos.posTradeRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="手机pos交易费率签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="手机pos提现费">
+            <el-input v-model.trim="payParam.sjPos.posDrawFee"
+                      :disabled="payDisable"
+                      placeholder="手机pos提现费"></el-input>
+          </el-form-item>
+          <el-form-item label="网联交易费率">
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.sjPos.quickTradeRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="手机pos商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="网联提现费">
+            <el-input v-model.trim="payParam.sjPos.quickDrawFee"
+                      :disabled="payDisable"
+                      placeholder="网联提现费"></el-input>
+          </el-form-item>
+          <el-form-item label="商户编号">
+            <el-input v-model.trim="payParam.sjPos.merCode"
+                      :disabled="payDisable"
+                      placeholder="商户编号"></el-input>
           </el-form-item>
         </div>
         <!--=秒到配置-->
@@ -1873,6 +1927,13 @@ export default {
           aliInterestRate: '',
           lklMercId: '',  //拉卡拉 商户编码
           termId: ''  //拉卡拉终端号
+        },
+        sjPos: {
+          posTradeRate: '', //手机pos交易费率
+          posDrawFee: '', //手机pos提现费
+          quickTradeRate: '',  //网联交易费率
+          quickDrawFee: '',  //网联提现费
+          merCode: '' //
         }
 
       },
@@ -2131,9 +2192,9 @@ export default {
         this.topParam.lakalaRSAKey =data.lakalaRSAKey  //拉卡拉秘钥
         //  手机pos
         this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
-        this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) * 100 : 0 // 手机pos交易费率
+        this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) : 0 // 手机pos交易费率
         this.topParam.quickDrawFee = data.quickDrawFee // 网联提现费
-        this.topParam.quickTradeRate = Number(data.quickTradeRate) ? Number(data.quickTradeRate) * 100 : 0 // 网联交易费率
+        this.topParam.quickTradeRate = Number(data.quickTradeRate) ? Number(data.quickTradeRate) : 0 // 网联交易费率
         this.topParam.posOrgId = data.posOrgId // 手机pos机构号
         this.topParam.posMd5Key = data.posMd5Key           //手机posMd5Key
         this.topParam.posAesKey = data.posAesKey        //手机posAesKey
@@ -2180,8 +2241,8 @@ export default {
       this.topParam.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
       this.topParam.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
       //  手机pos
-      this.topParam.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
-      this.topParam.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
+      this.topParam.posTradeRate = params.posTradeRate // 手机pos交易费率
+      this.topParam.quickTradeRate = params.quickTradeRate // 网联交易费率
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -2293,6 +2354,13 @@ export default {
       this.payParam.lakala.aliInterestRate = ''
       this.payParam.lakala.lklMercId = '' //编码
       this.payParam.lakala.termId = '' //终端号
+
+      //手机pos
+      this.payParam.sjPos.posTradeRate = ''
+      this.payParam.sjPos.posDrawFee = ''
+      this.payParam.sjPos.quickTradeRate = ''
+      this.payParam.sjPos.quickDrawFee = ''
+      this.payParam.sjPos.merCode = ''
     },
     findPayConfig(merchantId) {
       findPayConfig(merchantId).then(response => {
@@ -2429,6 +2497,15 @@ export default {
           this.payParam.lakala.aliInterestRate = lakalaData.aliInterestRate * 100
           this.payParam.lakala.lklMercId = lakalaData.lklMercId //编码
           this.payParam.lakala.termId = lakalaData.termId //终端号
+        }
+        // 手机pos
+        let sjPosData = data.sjPos
+        if (sjPosData) {
+          this.payParam.sjPos.posTradeRate = sjPosData.posTradeRate * 100
+          this.payParam.sjPos.posDrawFee = sjPosData.posDrawFee
+          this.payParam.sjPos.quickTradeRate = sjPosData.quickTradeRate * 100
+          this.payParam.sjPos.quickDrawFee = sjPosData.quickDrawFee
+          this.payParam.sjPos.merCode = sjPosData.merCode
         }
       }).catch(() => {
         this.loading = false
@@ -2677,6 +2754,18 @@ export default {
         let params = {
           merchantId: this.merchantId,
           payWay: 16,
+          payConfig: JSON.stringify(config)
+        }
+        arr.push(params)
+      }
+      // 手机pos
+      if (this.payParam.sjPos && (this.payParam.sjPos.posTradeRate || this.payParam.sjPos.posDrawFee || this.payParam.sjPos.quickTradeRate || this.payParam.sjPos.quickDrawFee || this.payParam.sjPos.merCode)) {
+        config = JSON.parse(JSON.stringify(this.payParam.sjPos))
+        config.posTradeRate = Number((this.payParam.sjPos.posTradeRate / 100).toFixed(4))
+        config.quickTradeRate = Number((this.payParam.sjPos.quickTradeRate / 100).toFixed(4))
+        let params = {
+          merchantId: this.merchantId,
+          payWay: 17,
           payConfig: JSON.stringify(config)
         }
         arr.push(params)

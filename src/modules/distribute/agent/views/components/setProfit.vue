@@ -13,6 +13,8 @@
           <el-radio class="mb10" :label="12" v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付</el-radio>
           <el-radio class="mb10" :label="13" v-if="payConfig.indexOf('易生') > -1">易生</el-radio>
           <el-radio class="mb10" :label="14" v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
+          <el-radio class="mb10" :label="17" v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
+          <el-radio class="mb10" :label="18" v-if="payConfig.indexOf('网联') > -1">网联</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="抽佣比例:" show-message prop="payProrata">
@@ -35,6 +37,10 @@
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.yiShengPayProrata" v-if="payWay === 13">
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.newLandPayProrata" v-if="payWay === 14">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.posPayProrata" v-if="payWay === 17">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.quickPayProrata" v-if="payWay === 18">
         </el-input-number>
         %
         <el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
@@ -90,6 +96,8 @@ export default {
         tqSxfPayProrata: null,
         yiShengPayProrata: null,
         newLandPayProrata: null,
+        posPayProrata:null,
+        quickPayProrata:null,
         id: null
       },
       rules: {
@@ -134,6 +142,9 @@ export default {
 
         newRes.yiShengPayProrata = Number(newRes.yiShengPayProrata) ? Number(newRes.yiShengPayProrata) * 100 : 0
         newRes.newLandPayProrata = Number(newRes.newLandPayProrata) ? Number(newRes.newLandPayProrata) * 100 : 0
+        //手机pos和网联
+        newRes.posPayProrata = Number(newRes.posPayProrata) ? Number(newRes.posPayProrata) * 100 : 0
+        newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
         this.params = newRes
       })
     },
@@ -160,6 +171,9 @@ export default {
 
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
+      //手机pos和网联
+      params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
+      params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
       listApi.rateSetTwo(params).then(res => {
         this.$message.success(res.msg)
         this.propsInfo.show = false

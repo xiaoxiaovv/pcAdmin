@@ -1177,15 +1177,15 @@
             </tr>
             <tr>
               <td>手机pos提现费</td>
-              <td>{{(sjPosData.posDrawFee === null || sjPosData.posDrawFee === undefined) ? '暂无' : sjPosData.posDrawFee+'%'}}</td>
+              <td>{{(sjPosData.posDrawFee === null || sjPosData.posDrawFee === undefined) ? '暂无' : sjPosData.posDrawFee}}</td>
             </tr>
             <tr>
               <td>网联交易费率</td>
-              <td>{{(sjPosData.quickDrawFee === null || sjPosData.quickDrawFee === undefined) ? '暂无' : sjPosData.quickDrawFee+'%'}}</td>
+              <td>{{(sjPosData.quickTradeRate === null || sjPosData.quickTradeRate === undefined) ? '暂无' : sjPosData.quickTradeRate+'%'}}</td>
             </tr>
             <tr>
               <td>网联提现费</td>
-              <td>{{(sjPosData.quickDrawFee === null || sjPosData.quickDrawFee === undefined) ? '暂无' : sjPosData.quickDrawFee+'%'}}</td>
+              <td>{{(sjPosData.quickDrawFee === null || sjPosData.quickDrawFee === undefined) ? '暂无' : sjPosData.quickDrawFee}}</td>
             </tr>
             <tr>
               <td>进件状态</td>
@@ -1357,6 +1357,8 @@ export default {
       }else if (item.channel === 10) { // 手机pos  8：银联   9：拉卡拉
         detailApi.getSjPosCode({ id: item.id }).then(res => {
           this.sjPosData = res.obj
+          // this.sjPosData.posTradeRate = this.sjPosData.posTradeRate*100
+          // this.sjPosData.quickTradeRate = this.sjPosData.quickTradeRate*100
           console.log(res)
         })
       }
