@@ -6,7 +6,6 @@ import {
 
 // export const url = window.location.protocol+"//"+window.location.host
 // export const url = 'http://192.168.1.150'
-// export const url = 'http://pay-adm.vmajy.com'
 export const url = window.serverUrl || window.location.protocol + '//' + window.location.host
 
 const instance = axios.create({

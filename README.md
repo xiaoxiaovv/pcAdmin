@@ -22,4 +22,6 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 /dist/
- window.serverUrl = 'http://pay-adm.vmajy.com'
+ window.serverUrl = 'http://mamipay.com'
+ #忽略文件
+ ###从git拉去的文件带'-去掉中文‘的文件需要将'-去掉中文‘删掉来使用该文件，包括根目录的indexDev-去掉中文.html和config/index-去掉中文.js
