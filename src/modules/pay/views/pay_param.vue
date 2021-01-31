@@ -164,6 +164,8 @@
                       v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>-->
             <el-radio label="17"
                       v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
+            <el-radio label="19"
+                      v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
 
           </el-radio-group>
         </el-form-item>
@@ -758,6 +760,50 @@
                         v-model.trim="topParam.posAesKey"
                         :disabled="payDisable"
                         placeholder="手机posAesKey"></el-input>
+            </el-form-item>
+          </div>
+
+          <!--开店宝-->
+          <div v-show="payParam.payWay==19">
+            <el-form-item label="开店宝渠道号">
+              <el-input type="text"
+                        v-model.trim="topParam.kdbChannelCode"
+                        :disabled="payDisable"
+                        placeholder="开店宝渠道号"></el-input>
+            </el-form-item>
+            <el-form-item label="费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.kdbWxTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="appid">
+              <el-input type="text"
+                        v-model.trim="topParam.posAesKey"
+                        :disabled="payDisable"
+                        placeholder="appid"></el-input>
+            </el-form-item>
+            <el-form-item label="商户私钥">
+              <el-input type="text"
+                        v-model.trim="topParam.kdbMercPrivateKey"
+                        :disabled="payDisable"
+                        placeholder="商户私钥"></el-input>
+            </el-form-item>
+            <el-form-item label="商户公钥">
+              <el-input type="text"
+                        v-model.trim="topParam.kdbMercPublicKey"
+                        :disabled="payDisable"
+                        placeholder="商户公钥"></el-input>
+            </el-form-item>
+            <el-form-item label="Md5Key">
+              <el-input type="text"
+                        v-model.trim="topParam.kdbAppsecret"
+                        :disabled="payDisable"
+                        placeholder="Md5Key"></el-input>
             </el-form-item>
           </div>
         </div>
@@ -1824,8 +1870,14 @@ export default {
         quickTradeRate: '', // 网联交易费率
         posOrgId: '', // 手机pos机构号
         posMd5Key: '',           //手机posMd5Key
-        posAesKey: ''        //手机posAesKey
-
+        posAesKey: '',        //手机posAesKey
+      //  开店宝
+        kdbAppId:'',
+        kdbAppsecret:'', //md5key
+        kdbChannelCode:'', //渠道编号
+        kdbMercPrivateKey:'', //私钥
+        kdbMercPublicKey:'', //公钥
+        kdbWxTradeRate:'' //费率
       },
       // 商户支付参数
       payDialog: false,
@@ -1934,7 +1986,17 @@ export default {
           quickTradeRate: '',  //网联交易费率
           quickDrawFee: '',  //网联提现费
           merCode: '' //
+        },
+        //  开店宝
+        kdb: {
+          kdbAppId:'',
+          kdbAppsecret:'', //md5key
+          kdbChannelCode:'', //渠道编号
+          kdbMercPrivateKey:'', //私钥
+          kdbMercPublicKey:'', //公钥
+          kdbWxTradeRate:'' //费率
         }
+
 
       },
       headers: {
@@ -2108,6 +2170,19 @@ export default {
       this.topParam.posOrgId = '' // 手机pos机构号
       this.topParam.posMd5Key = ''           //手机posMd5Key
       this.topParam.posAesKey = ''        //手机posAesKey
+
+      //  开店宝
+      this.topParam.kdbAppId = '' //
+      this.topParam.kdbAppsecret = '' // md5key
+      this.topParam.kdbChannelCode = '' // 渠道编号
+      this.topParam.kdbMercPrivateKey = '' // 私钥
+      this.topParam.kdbMercPublicKey = '' // 公钥
+      this.topParam.kdbWxTradeRate = ''   //费率
+
+
+
+
+
     },
     // 获取服务商支付参数
     findTopPayConfig() {
@@ -2192,12 +2267,20 @@ export default {
         this.topParam.lakalaRSAKey =data.lakalaRSAKey  //拉卡拉秘钥
         //  手机pos
         this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
-        this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) : 0 // 手机pos交易费率
+        this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) * 100 : 0 // 手机pos交易费率
         this.topParam.quickDrawFee = data.quickDrawFee // 网联提现费
-        this.topParam.quickTradeRate = Number(data.quickTradeRate) ? Number(data.quickTradeRate) : 0 // 网联交易费率
+        this.topParam.quickTradeRate = Number(data.quickTradeRate) ? Number(data.quickTradeRate) * 100 : 0 // 网联交易费率
         this.topParam.posOrgId = data.posOrgId // 手机pos机构号
         this.topParam.posMd5Key = data.posMd5Key           //手机posMd5Key
         this.topParam.posAesKey = data.posAesKey        //手机posAesKey
+
+        //  开店宝
+        this.topParam.kdbAppId = data.kdbAppId //
+        this.topParam.kdbAppsecret = data.kdbAppsecret // md5key
+        this.topParam.kdbChannelCode = data.kdbChannelCode // 渠道编号
+        this.topParam.kdbMercPrivateKey = data.kdbMercPrivateKey // 私钥
+        this.topParam.kdbMercPublicKey = data.kdbMercPublicKey // 公钥
+        this.topParam.kdbWxTradeRate = Number(data.kdbWxTradeRate) ? Number(data.kdbWxTradeRate) * 100 : 0   //费率
 
         console.log(response)
       }).catch(() => {
@@ -2241,8 +2324,10 @@ export default {
       this.topParam.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
       this.topParam.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
       //  手机pos
-      this.topParam.posTradeRate = params.posTradeRate // 手机pos交易费率
-      this.topParam.quickTradeRate = params.quickTradeRate // 网联交易费率
+      this.topParam.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
+      this.topParam.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
+      //开店宝
+      this.topParam.kdbWxTradeRate = (Number(params.kdbWxTradeRate) / 100).toFixed(4)    //费率
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -2361,6 +2446,13 @@ export default {
       this.payParam.sjPos.quickTradeRate = ''
       this.payParam.sjPos.quickDrawFee = ''
       this.payParam.sjPos.merCode = ''
+      //  开店宝
+      this.payParam.kdbAppId = '' //
+      this.payParam.kdbAppsecret = '' // md5key
+      this.payParam.kdbChannelCode = '' // 渠道编号
+      this.payParam.kdbMercPrivateKey = '' // 私钥
+      this.payParam.kdbMercPublicKey = '' // 公钥
+      this.payParam.kdbWxTradeRate = ''   //费率
     },
     findPayConfig(merchantId) {
       findPayConfig(merchantId).then(response => {
@@ -2507,6 +2599,14 @@ export default {
           this.payParam.sjPos.quickDrawFee = sjPosData.quickDrawFee
           this.payParam.sjPos.merCode = sjPosData.merCode
         }
+
+        // 开店宝
+        let kdbData = data.kdb
+        if (kdbData) {
+          this.payParam.kdb.kdbWxTradeRate = kdbData.kdbWxTradeRate * 100
+          this.payParam.kdb.merCode = kdbData.merCode //商户编号
+        }
+
       }).catch(() => {
         this.loading = false
       })
@@ -2766,6 +2866,17 @@ export default {
         let params = {
           merchantId: this.merchantId,
           payWay: 17,
+          payConfig: JSON.stringify(config)
+        }
+        arr.push(params)
+      }
+      // 开店宝
+      if (this.payParam.kdb && (this.payParam.kdb.kdbWxTradeRate || this.payParam.kdb.merCode)) {
+        config = JSON.parse(JSON.stringify(this.payParam.kdb))
+        config.kdbWxTradeRate = Number((this.payParam.kdb.kdbWxTradeRate / 100).toFixed(4))
+        let params = {
+          merchantId: this.merchantId,
+          payWay: 19,
           payConfig: JSON.stringify(config)
         }
         arr.push(params)
