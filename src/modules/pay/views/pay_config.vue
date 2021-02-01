@@ -97,9 +97,10 @@
               <el-radio v-model="form.wx.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
               <el-radio v-model="form.wx.scanPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.wx.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.wx.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
 
-			        <el-radio v-model="form.wx.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
-              <el-radio v-model="form.wx.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>
+<!--			        <el-radio v-model="form.wx.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>-->
+<!--              <el-radio v-model="form.wx.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
 			</div>
           </div>
@@ -122,9 +123,10 @@
               <el-radio v-model="form.wx.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
               <el-radio v-model="form.wx.wapPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.wx.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.wx.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
 
-			        <el-radio v-model="form.wx.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
-              <el-radio v-model="form.wx.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>
+			        <!--<el-radio v-model="form.wx.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
+              <el-radio v-model="form.wx.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
             </div>
           </div>
@@ -148,9 +150,10 @@
               <el-radio v-model="form.ali.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
               <el-radio v-model="form.ali.scanPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.ali.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.ali.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
 
-              <el-radio v-model="form.ali.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
-              <el-radio v-model="form.ali.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>
+              <!--<el-radio v-model="form.ali.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
+              <el-radio v-model="form.ali.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
             </div>
           </div>
@@ -173,9 +176,10 @@
               <el-radio v-model="form.ali.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
               <el-radio v-model="form.ali.wapPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.ali.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.ali.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
 
-			        <el-radio v-model="form.ali.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
-              <el-radio v-model="form.ali.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>
+			        <!--<el-radio v-model="form.ali.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
+              <el-radio v-model="form.ali.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
 			</div>
           </div>

@@ -783,7 +783,7 @@
             </el-form-item>
             <el-form-item label="appid">
               <el-input type="text"
-                        v-model.trim="topParam.posAesKey"
+                        v-model.trim="topParam.kdbAppId"
                         :disabled="payDisable"
                         placeholder="appid"></el-input>
             </el-form-item>
@@ -863,10 +863,14 @@
             <el-radio label="17"
                       class="mt10"
                       v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
+            <el-radio label="19"
+                      class="mt10"
+                      v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
 
-			<!--<el-radio label="15"
-					  class="mt10"
-					  v-if="payConfig.indexOf('银联') > -1">中国银联</el-radio>-->
+
+            <!--<el-radio label="15"
+                  class="mt10"
+                  v-if="payConfig.indexOf('银联') > -1">中国银联</el-radio>-->
            <!-- <el-radio label="16"
                       class="mt10"
                       v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>-->
@@ -1631,6 +1635,33 @@
                       placeholder="商户编号"></el-input>
           </el-form-item>
         </div>
+        <!--开店宝配置-->
+        <div v-show="payParam.payWay==19">
+          <el-form-item label="利率">
+            <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
+                      placeholder="例如：0.002"></el-input> -->
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.kdb.kdbWxTradeRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="开店宝商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <!-- subMchId -->
+          <el-form-item label="商户号">
+            <el-input v-model.trim="payParam.kdb.merCode"
+                      :disabled="payDisable"
+                      placeholder="商户号"></el-input>
+          </el-form-item>
+        </div>
         <!--=秒到配置-->
         <!-- <div v-show="payParam.payWay==4">
           <el-form-item label="微信利率">
@@ -1989,11 +2020,7 @@ export default {
         },
         //  开店宝
         kdb: {
-          kdbAppId:'',
-          kdbAppsecret:'', //md5key
-          kdbChannelCode:'', //渠道编号
-          kdbMercPrivateKey:'', //私钥
-          kdbMercPublicKey:'', //公钥
+          merCode:'', //通道商户编号
           kdbWxTradeRate:'' //费率
         }
 
