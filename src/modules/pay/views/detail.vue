@@ -42,6 +42,9 @@
       <el-tab-pane label="手机pos"
                    name="11"
                    v-if="payConfig.indexOf('手机pos') > -1"></el-tab-pane>
+      <el-tab-pane label="开店宝"
+                   name="12"
+                   v-if="payConfig.indexOf('开店宝') > -1"></el-tab-pane>
     </el-tabs>
     <div v-show="activeName === '1'">
       <el-card class="box-card">
@@ -1204,6 +1207,95 @@
       </el-card>
     </div>
 
+
+    <!--开店宝通道-->
+    <div v-show="activeName === '12'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>开店宝通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>交易费率</td>
+              <td>{{detail.kdbWxTradeRate ||  '--'}} %</td>
+            </tr>
+            <tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{ kdbData.kdbMchId || '暂无' }}</td>
+            </tr>
+
+
+                <tr>
+                  <td>卡支付渠道</td>
+                  <td>{{ kdbKaStateText }}</td>
+                </tr>
+                <tr v-if="kdbKaMsgShow">
+                  <td >失败原因</td>
+                  <td>{{ kdbKaMsg }}</td>
+                </tr>
+
+
+              <tr>
+                <td>支付宝支付渠道</td>
+                <td>{{ kdbZfbStateText }}</td>
+              </tr>
+              <tr v-if="kdbZfbMsgShow">
+                <td >失败原因</td>
+                <td>{{ kdbZfbMsg }}</td>
+              </tr>
+
+
+                <tr>
+                  <td>微信支付渠道</td>
+                  <td>{{ kdbWxStateText }}</td>
+                </tr>
+                <tr v-if="kdbWxMsgShow">
+                  <td >失败原因</td>
+                  <td>{{ kdbWxMsg }}</td>
+                </tr>
+
+
+            <tr v-if="!kdbDetailShow">
+              <td>进件结果</td>
+              <td>{{ kdbData.kdbMsg }}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{ kdbData.commitTime || '暂无' }}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+    </div>
+
     <!--修改结算费率-->
     <el-dialog class="vm-dialog vm-dialog-body-top-10px"
                title="费率修改"
@@ -1242,6 +1334,7 @@ export default {
       fyData: '',
       zfbData: '',
       sjPosData: '',
+      kdbData: '',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1268,7 +1361,35 @@ export default {
         1: '待进件',
         2: '进件审核中',
         3: '进件成功'
-      }
+      },
+      //开店宝枚举
+      kdbEnum: {
+        kdbMsg:{
+          wayType:{
+            1:'卡支付渠道',
+            7:'支付宝支付渠道',
+            8:'微信支付渠道'
+          },
+          state:{
+            1: '审核通过',
+            2: '审核失败',
+            3: '审核中'
+          }
+        }
+      },
+      kdbKaStateText:'',
+      kdbKaMsg:'',
+      kdbKaShow: false,
+      kdbKaMsgShow: false,
+      kdbZfbStateText:'',
+      kdbZfbMsg:'',
+      kdbZfbShow: false,
+      kdbZfbMsgShow: false,
+      kdbWxStateText:'',
+      kdbWxMsg:'',
+      kdbWxShow: false,
+      kdbWxMsgShow: false,
+      kdbDetailShow: false
     }
   },
   mounted() {
@@ -1354,12 +1475,21 @@ export default {
           this.zfbData = res.obj
           console.log(res)
         })
-      }else if (item.channel === 10) { // 手机pos  8：银联   9：拉卡拉
+      }else if (item.channel === 10) { // 手机pos          8：银联   9：拉卡拉
         detailApi.getSjPosCode({ id: item.id }).then(res => {
           this.sjPosData = res.obj
           // this.sjPosData.posTradeRate = this.sjPosData.posTradeRate*100
           // this.sjPosData.quickTradeRate = this.sjPosData.quickTradeRate*100
           console.log(res)
+        })
+      }else if (item.channel === 11) { // 开店宝
+        detailApi.getKdbCode({ id: item.id }).then(res => {
+          this.kdbData = res.obj
+          // console.log('this.kdbData0000000000',this.kdbData)
+          this.kdbData.kdbMsg = JSON.parse(this.kdbData.kdbMsg)
+          // console.log('this.kdbData11111111111',this.kdbData)
+          this.kdbMsgHandle(this.kdbData)
+          // console.log('开店宝进件info==================',res)
         })
       }
     },
@@ -1464,6 +1594,41 @@ export default {
      */
     add0(m) {
       return m < 10 ? '0' + m : m
+    },
+    kdbMsgHandle(kdbData){
+      if(kdbData.entryStatus ==2 || kdbData.entryStatus ==3 ){
+        this.kdbDetailShow = true;
+      }else {
+        this.kdbDetailShow = false;
+        return //这代表kdbData.kdbMsg不是json，不需要下方的json处理
+      }
+
+      let msgArr = kdbData.kdbMsg
+      for(let i=0;i<msgArr.length;i++){
+        if(msgArr[i].wayType === 1){
+
+          this.kdbKaStateText = this.kdbEnum.kdbMsg.state[msgArr[i].state]
+          this.kdbKaMsg = msgArr[i].message
+          this.kdbKaShow = true;
+          if(msgArr[i].state === 2){
+            this.kdbKaMsgShow = true
+          }
+        }else if(msgArr[i].wayType === 7){
+          this.kdbZfbStateText = this.kdbEnum.kdbMsg.state[msgArr[i].state]
+          this.kdbZfbMsg = msgArr[i].message
+          this.kdbZfbShow = true;
+          if(msgArr[i].state === 2){
+            this.kdbZfbMsgShow = true
+          }
+        }else if(msgArr[i].wayType === 8){
+          this.kdbWxStateText = this.kdbEnum.kdbMsg.state[msgArr[i].state]
+          this.kdbWxMsg = msgArr[i].message
+          this.kdbWxShow = true;
+          if(msgArr[i].state === 2){
+            this.kdbWxMsgShow = true
+          }
+        }
+      }
     }
   },
   filters: {

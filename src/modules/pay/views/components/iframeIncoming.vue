@@ -28,9 +28,10 @@ export default {
   created () {
     // let id = '1191270044721963009'
     let token = sessionStorage.token
+    let companyId= sessionStorage.getItem("companyId")
     if (this.dialog.data) {
       const url = window.serverUrl || window.location.protocol + '//' + window.location.host
-      this.url = url + `/web/h5/index.html#/client_info_record??from=iframe&id=${this.dialog.data.id}&token=${token}`
+      this.url = url + `/web/h5/index.html#/client_info_record??from=iframe&id=${this.dialog.data.id}&token=${token}&companyId=${companyId}`
     }
     var that = this
     window.addEventListener('message', e => {

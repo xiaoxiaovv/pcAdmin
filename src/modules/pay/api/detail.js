@@ -85,6 +85,18 @@ export function getSjPosCode(params) {
   })
 }
 
+/**
+ * 开店宝-查询进件状态
+ * @param {*} params
+ */
+export function getKdbCode(params) {
+  return request({
+    url: '/batchFeed/kdb/get_kdb_feedstatus',
+    method: 'get',
+    params
+  })
+}
+
 
 // 设置费率
 export function setRate (params) {
