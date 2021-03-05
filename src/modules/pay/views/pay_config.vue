@@ -59,6 +59,8 @@
           <div>微信付款码支付通道配置：<span class="color-orange">{{showChannel(1, scope.row.mchPayChanelInfo.wxScanPay)}}</span></div>
           <div>支付宝公众号支付通道配置：<span class="color-orange">{{showChannel(2, scope.row.mchPayChanelInfo.aliWebPay)}}</span></div>
           <div>支付宝付款码支付通道配置：<span class="color-orange">{{showChannel(2, scope.row.mchPayChanelInfo.aliScanPay)}}</span></div>
+          <div>银联公众号支付通道配置：<span class="color-orange">{{showChannel(9, scope.row.mchPayChanelInfo.ylWebPay)}}</span></div>
+          <div>银联付款码支付通道配置：<span class="color-orange">{{showChannel(9, scope.row.mchPayChanelInfo.ylScanPay)}}</span></div>
         </template>
       </el-table-column>
       <el-table-column
@@ -98,6 +100,7 @@
               <el-radio v-model="form.wx.scanPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.wx.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.wx.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.wx.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
 
 <!--			        <el-radio v-model="form.wx.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>-->
 <!--              <el-radio v-model="form.wx.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -124,6 +127,7 @@
               <el-radio v-model="form.wx.wapPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.wx.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.wx.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.wx.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
 
 			        <!--<el-radio v-model="form.wx.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.wx.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -151,6 +155,7 @@
               <el-radio v-model="form.ali.scanPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.ali.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.ali.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.ali.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
 
               <!--<el-radio v-model="form.ali.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.ali.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -177,11 +182,69 @@
               <el-radio v-model="form.ali.wapPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
               <el-radio v-model="form.ali.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.ali.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.ali.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
 
 			        <!--<el-radio v-model="form.ali.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.ali.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
 			</div>
+          </div>
+
+          <!--
+          <el-radio v-model="form.ali.wapPay" label="2" border>会员宝</el-radio>
+          <el-radio v-model="form.ali.wapPay" label="3" border>易融码</el-radio>
+          -->
+        </el-tab-pane>
+
+        <el-tab-pane label="银联">
+          <div class="sl-flex">
+            <div class="paychannel-config-title">
+              <span>付款码支付(B扫C)</span>
+            </div>
+            <div class="sl-flex-1">
+              <el-radio v-model="form.yl.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+
+              <!--<el-radio v-model="form.yl.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
+
+            </div>
+          </div>
+          <!--
+          <el-radio v-model="form.yl.scanPay" label="5" border>惠闪付</el-radio>
+          <el-radio v-model="form.yl.scanPay" label="3" border>易融码</el-radio>
+          -->
+          <br>
+          <div class="sl-flex">
+            <div class="paychannel-config-title">
+              <span>公众号支付(C扫B)</span>
+            </div>
+            <div class="sl-flex-1">
+              <el-radio v-model="form.yl.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="13" v-if="payConfig.indexOf('易生') > -1" border>易生</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+
+              <!--<el-radio v-model="form.yl.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
+
+            </div>
           </div>
 
           <!--
@@ -222,6 +285,10 @@ export default {
           wapPay: ''
         },
         ali: {
+          scanPay: '',
+          wapPay: ''
+        },
+        yl: {
           scanPay: '',
           wapPay: ''
         }
@@ -292,6 +359,9 @@ export default {
           } else if (obj.payWay == 2) {
             this.form.ali.scanPay = obj.scanPayChannel + ''
             this.form.ali.wapPay = obj.webPayChannel + ''
+          } else if (obj.payWay == 9) {
+            this.form.yl.scanPay = obj.scanPayChannel + ''
+            this.form.yl.wapPay = obj.webPayChannel + ''
           }
         }
         setTimeout(() => {
@@ -307,6 +377,8 @@ export default {
       this.form.wx.wapPay = ''
       this.form.ali.scanPay = ''
       this.form.ali.wapPay = ''
+      this.form.yl.scanPay = ''
+      this.form.yl.wapPay = ''
     },
 
     /**

@@ -14,7 +14,9 @@
           <el-radio class="mb10" :label="13" v-if="payConfig.indexOf('易生') > -1">易生</el-radio>
           <el-radio class="mb10" :label="14" v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
           <el-radio class="mb10" :label="17" v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
-          <el-radio class="mb10" :label="18" v-if="payConfig.indexOf('网联') > -1">网联</el-radio>
+          <el-radio class="mb10" :label="18" v-if="payConfig.indexOf('网联') > -1">快捷支付</el-radio>
+          <el-radio class="mb10" :label="19" v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
+          <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="抽佣比例:" show-message prop="payProrata">
@@ -100,6 +102,8 @@ export default {
         newLandPayProrata: null,
         posPayProrata:null,
         quickPayProrata:null,
+        kdbPayProrata:null,
+        chanpayPayProrata:null,
         id: null
       },
       rules: {
@@ -147,6 +151,8 @@ export default {
         //手机pos和网联
         newRes.posPayProrata = Number(newRes.posPayProrata) ? Number(newRes.posPayProrata) * 100 : 0
         newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
+        newRes.kdbPayProrata = Number(newRes.kdbPayProrata) ? Number(newRes.kdbPayProrata) * 100 : 0
+        newRes.chanpayPayProrata = Number(newRes.chanpayPayProrata) ? Number(newRes.chanpayPayProrata) * 100 : 0
         this.params = newRes
       })
     },
@@ -176,6 +182,8 @@ export default {
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
+      params.kdbPayProrata = Number(params.kdbPayProrata) ? Number((params.kdbPayProrata / 100).toFixed(4)) : 0
+      params.chanpayPayProrata = Number(params.chanpayPayProrata) ? Number((params.chanpayPayProrata / 100).toFixed(4)) : 0
       listApi.rateSetThree(params).then(res => {
         this.$message.success(res.msg)
         this.propsInfo.show = false

@@ -166,6 +166,8 @@
                       v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
             <el-radio label="19"
                       v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
+            <el-radio label="20"
+                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
 
           </el-radio-group>
         </el-form-item>
@@ -806,6 +808,45 @@
                         placeholder="Md5Key"></el-input>
             </el-form-item>
           </div>
+
+          <!--畅捷-->
+          <div v-show="payParam.payWay==20">
+            <el-form-item label="畅捷渠道号">
+              <el-input type="text"
+                        v-model.trim="topParam.acqSpId"
+                        :disabled="payDisable"
+                        placeholder="畅捷渠道号"></el-input>
+            </el-form-item>
+            <el-form-item label="费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.chanpayTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+
+            <el-form-item label="服务商私钥">
+              <el-input type="text"
+                        v-model.trim="topParam.merchantPrivateKey"
+                        :disabled="payDisable"
+                        placeholder="服务商私钥"></el-input>
+            </el-form-item>
+            <el-form-item label="平台公钥">
+              <el-input type="text"
+                        v-model.trim="topParam.chanpayPublicKey"
+                        :disabled="payDisable"
+                        placeholder="平台公钥"></el-input>
+            </el-form-item>
+            <el-form-item label="算法类型">
+              <el-input type="text"
+                        v-model.trim="topParam.signType"
+                        :disabled="payDisable"
+                        placeholder="算法类型"></el-input>
+            </el-form-item>
+          </div>
         </div>
 
 
@@ -866,6 +907,9 @@
             <el-radio label="19"
                       class="mt10"
                       v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
+            <el-radio label="20"
+                      class="mt10"
+                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
 
 
             <!--<el-radio label="15"
@@ -1662,6 +1706,34 @@
                       placeholder="商户号"></el-input>
           </el-form-item>
         </div>
+
+        <!--畅捷配置-->
+        <div v-show="payParam.payWay==20">
+          <el-form-item label="费率">
+            <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
+                      placeholder="例如：0.002"></el-input> -->
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.cj.chanpayWxTradeRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <!-- subMchId -->
+          <el-form-item label="商户号">
+            <el-input v-model.trim="payParam.cj.merCode"
+                      :disabled="payDisable"
+                      placeholder="商户号"></el-input>
+          </el-form-item>
+        </div>
         <!--=秒到配置-->
         <!-- <div v-show="payParam.payWay==4">
           <el-form-item label="微信利率">
@@ -1908,7 +1980,14 @@ export default {
         kdbChannelCode:'', //渠道编号
         kdbMercPrivateKey:'', //私钥
         kdbMercPublicKey:'', //公钥
-        kdbWxTradeRate:'' //费率
+        kdbWxTradeRate:'', //费率
+
+        //  畅捷
+        signType:'', //畅捷支付算法类型
+        acqSpId:'', //渠道编号
+        merchantPrivateKey:'', //私钥
+        chanpayPublicKey:'', //公钥
+        chanpayTradeRate:'' //费率
       },
       // 商户支付参数
       payDialog: false,
@@ -2022,6 +2101,11 @@ export default {
         kdb: {
           merCode:'', //通道商户编号
           kdbWxTradeRate:'' //费率
+        },
+        //  畅捷
+        cj: {
+          merCode:'', //通道商户编号
+          chanpayWxTradeRate:'' //费率
         }
 
 
@@ -2069,6 +2153,7 @@ export default {
     getSystemCOnfigInfo() {
       getSystemCOnfig().then(res => {
         this.payConfig = [...res.obj]
+        console.log('66666666666666666666666666',this.payConfig)
       })
     },
     /**
@@ -2206,6 +2291,13 @@ export default {
       this.topParam.kdbMercPublicKey = '' // 公钥
       this.topParam.kdbWxTradeRate = ''   //费率
 
+      //  畅捷
+      this.topParam.signType = '' // 算法类型
+      this.topParam.acqSpId = '' // 渠道编号
+      this.topParam.merchantPrivateKey = '' // 私钥
+      this.topParam.chanpayPublicKey = '' // 公钥
+      this.topParam.chanpayTradeRate = ''   //费率
+
 
 
 
@@ -2309,7 +2401,14 @@ export default {
         this.topParam.kdbMercPublicKey = data.kdbMercPublicKey // 公钥
         this.topParam.kdbWxTradeRate = Number(data.kdbWxTradeRate) ? Number(data.kdbWxTradeRate) * 100 : 0   //费率
 
-        console.log(response)
+        //  畅捷
+        this.topParam.signType = data.signType // 算法类型
+        this.topParam.acqSpId = data.acqSpId // 渠道编号
+        this.topParam.merchantPrivateKey = data.merchantPrivateKey // 私钥
+        this.topParam.chanpayPublicKey = data.chanpayPublicKey // 公钥
+        this.topParam.chanpayTradeRate = Number(data.chanpayTradeRate) ? Number(data.chanpayTradeRate) * 100 : 0    //费率
+
+        // console.log(response)
       }).catch(() => {
         this.loading = false
       })
@@ -2355,6 +2454,8 @@ export default {
       this.topParam.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
       //开店宝
       this.topParam.kdbWxTradeRate = (Number(params.kdbWxTradeRate) / 100).toFixed(4)    //费率
+      //畅捷
+      this.topParam.chanpayTradeRate = (Number(params.chanpayTradeRate) / 100).toFixed(4)    //费率
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -2474,12 +2575,11 @@ export default {
       this.payParam.sjPos.quickDrawFee = ''
       this.payParam.sjPos.merCode = ''
       //  开店宝
-      this.payParam.kdbAppId = '' //
-      this.payParam.kdbAppsecret = '' // md5key
-      this.payParam.kdbChannelCode = '' // 渠道编号
-      this.payParam.kdbMercPrivateKey = '' // 私钥
-      this.payParam.kdbMercPublicKey = '' // 公钥
-      this.payParam.kdbWxTradeRate = ''   //费率
+      this.payParam.kdb.merCode = '' // 通道商户编号
+      this.payParam.kdb.kdbWxTradeRate = '' // 费率
+      //  畅捷
+      this.payParam.cj.merCode = '' // 通道商户编号
+      this.payParam.cj.chanpayWxTradeRate = '' // 费率
     },
     findPayConfig(merchantId) {
       findPayConfig(merchantId).then(response => {
@@ -2632,6 +2732,13 @@ export default {
         if (kdbData) {
           this.payParam.kdb.kdbWxTradeRate = kdbData.kdbWxTradeRate * 100
           this.payParam.kdb.merCode = kdbData.merCode //商户编号
+        }
+
+        // 畅捷
+        let cjData = data.chanpay
+        if (cjData) {
+          this.payParam.cj.chanpayWxTradeRate = cjData.chanpayWxTradeRate * 100
+          this.payParam.cj.merCode = cjData.merCode //商户编号
         }
 
       }).catch(() => {
@@ -2904,6 +3011,17 @@ export default {
         let params = {
           merchantId: this.merchantId,
           payWay: 19,
+          payConfig: JSON.stringify(config)
+        }
+        arr.push(params)
+      }
+      // 畅捷
+      if (this.payParam.cj && (this.payParam.cj.chanpayWxTradeRate || this.payParam.cj.merCode)) {
+        config = JSON.parse(JSON.stringify(this.payParam.cj))
+        config.chanpayWxTradeRate = Number((this.payParam.cj.chanpayWxTradeRate / 100).toFixed(4))
+        let params = {
+          merchantId: this.merchantId,
+          payWay: 20,
           payConfig: JSON.stringify(config)
         }
         arr.push(params)

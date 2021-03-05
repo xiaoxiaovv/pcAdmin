@@ -96,6 +96,17 @@ export function getKdbCode(params) {
     params
   })
 }
+/**
+ * 畅捷-查询进件状态
+ * @param {*} params
+ */
+export function getCjCode(params) {
+  return request({
+    url: '/batchFeed/chanpay/get_cj_feedstatus',
+    method: 'get',
+    params
+  })
+}
 
 
 // 设置费率

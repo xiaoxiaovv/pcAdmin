@@ -45,6 +45,9 @@
       <el-tab-pane label="开店宝"
                    name="12"
                    v-if="payConfig.indexOf('开店宝') > -1"></el-tab-pane>
+      <el-tab-pane label="畅捷"
+                   name="13"
+                   v-if="payConfig.indexOf('畅捷支付') > -1"></el-tab-pane>
     </el-tabs>
     <div v-show="activeName === '1'">
       <el-card class="box-card">
@@ -1296,6 +1299,66 @@
       </el-card>
     </div>
 
+    <!--畅捷通道-->
+    <div v-show="activeName === '13'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>畅捷通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>费率</td>
+              <td>{{(detail.chanpayTradeRate === null || detail.chanpayTradeRate === undefined) ? '暂无' : detail.chanpayTradeRate+'%'}}</td>
+            </tr>
+            <tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{cjData.chanpayMchId || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件状态</td>
+              <td>{{entryStatus[cjData.entryStatus] || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件结果</td>
+              <td>{{cjData.chanpayMsg || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{cjData.commitTime || '暂无'}}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+    </div>
+
     <!--修改结算费率-->
     <el-dialog class="vm-dialog vm-dialog-body-top-10px"
                title="费率修改"
@@ -1335,6 +1398,7 @@ export default {
       zfbData: '',
       sjPosData: '',
       kdbData: '',
+      cjData:'',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1402,6 +1466,22 @@ export default {
     this.getSystemCOnfigInfo()
   },
   methods: {
+  isJson(str) {
+    if (typeof str == 'string') {
+      try {
+        var obj = JSON.parse(str);
+        if (typeof obj == 'object' && obj) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        console.log('error：' + str + '!!!' + e);
+        return false;
+      }
+    }
+    console.log('It is not a string!')
+  },
     /**
      * 获取通道配置列表
      * */
@@ -1485,10 +1565,25 @@ export default {
       }else if (item.channel === 11) { // 开店宝
         detailApi.getKdbCode({ id: item.id }).then(res => {
           this.kdbData = res.obj
+          let jsonFlag= false
+          jsonFlag = this.isJson(this.kdbData.kdbMsg)
           // console.log('this.kdbData0000000000',this.kdbData)
-          this.kdbData.kdbMsg = JSON.parse(this.kdbData.kdbMsg)
+          if(jsonFlag){
+            this.kdbData.kdbMsg = JSON.parse(this.kdbData.kdbMsg)
+          }
+          this.kdbData.jsonFlag = jsonFlag
+          // this.kdbData.kdbMsg = JSON.parse(this.kdbData.kdbMsg)
           // console.log('this.kdbData11111111111',this.kdbData)
           this.kdbMsgHandle(this.kdbData)
+          // console.log('开店宝进件info==================',res)
+        })
+      }else if (item.channel === 12) { // 畅捷
+        detailApi.getCjCode({ id: item.id }).then(res => {
+          this.cjData = res.obj
+          // console.log('this.cjData0000000000',this.cjData)
+          // this.cjData.cjMsg = this.cjData.cjMsg
+          // console.log('this.cjData11111111111',this.cjData)
+          // this.cjMsgHandle(this.cjData)
           // console.log('开店宝进件info==================',res)
         })
       }
@@ -1596,7 +1691,7 @@ export default {
       return m < 10 ? '0' + m : m
     },
     kdbMsgHandle(kdbData){
-      if(kdbData.entryStatus ==2 || kdbData.entryStatus ==3 ){
+      if(kdbData.jsonFlag ){
         this.kdbDetailShow = true;
       }else {
         this.kdbDetailShow = false;
