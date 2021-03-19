@@ -82,10 +82,11 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
         </el-input-number>
+        %
 
-        <el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
+        <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
-        </el-tooltip>
+        </el-tooltip>-->
         <!--<el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>-->
@@ -176,7 +177,7 @@ export default {
     }
   },
   mounted () {
-    this.setTipText()
+    // this.setTipText()
   },
   watch: {},
   computed: {},
@@ -186,17 +187,17 @@ export default {
     this.getSystemCOnfigInfo()
   },
   methods: {
-    setTipText(){
-      const levelAlias = JSON.parse(sessionStorage.levelAlias)
-      let str = '的分佣比例，比如填写60%，则分商户流水佣金的60%给'
+    /*setTipText(){
+      // const levelAlias = JSON.parse(sessionStorage.levelAlias)
+      // let str = '的分佣比例，比如填写60%，则分商户流水佣金的60%给'
       if(this.typeVal === 1){
-        this.tipText = `${levelAlias.firstName}${str}${levelAlias.firstName}`;
+        // this.tipText = `${levelAlias.firstName}${str}${levelAlias.firstName}`;
       }else if(this.typeVal === 2){
-        this.tipText = `${levelAlias.secondName}${str}${levelAlias.secondName}`;
+        // this.tipText = `${levelAlias.secondName}${str}${levelAlias.secondName}`;
       }else if(this.typeVal === 3){
-        this.tipText = `${levelAlias.thirdName}${str}${levelAlias.thirdName}`;
+        // this.tipText = `${levelAlias.thirdName}${str}${levelAlias.thirdName}`;
       }
-    },
+    },*/
     getSystemCOnfigInfo () {
       getSystemCOnfig().then(res => {
         this.payConfig = [...res.obj]
