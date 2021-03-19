@@ -169,6 +169,7 @@
     </el-dialog>
     <!--新增模态框-->
     <el-dialog title="新增商户"
+               :close-on-click-modal="false"
                width="450px"
                :visible.sync="newMerchant"
                :before-close="newMerchantClose">

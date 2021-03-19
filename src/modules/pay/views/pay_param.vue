@@ -2307,6 +2307,7 @@ export default {
     findTopPayConfig() {
       findTopPayConfig().then(response => {
         let data = response.obj
+        this.topParam.serviceProviderId = data.serviceProviderId
         this.topParam.id = data.id
         this.topParam.wxAppId = data.wxAppId
         this.topParam.wxMchId = data.wxMchId

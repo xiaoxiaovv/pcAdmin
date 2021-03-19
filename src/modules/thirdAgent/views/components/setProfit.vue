@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--该文件弃用被公共组件替代-->
     <el-form  ref="validateForm" label-width="100px" :model="params" :rules="rules" @submit.native.prevent>
       <el-form-item label="支付方式:">
         <el-radio-group v-model="payWay">
@@ -97,7 +98,6 @@ export default {
         lsPayProrata: null,
         chPayProrata: null,
         tqSxfPayProrata: null,
-
         yiShengPayProrata: null,
         newLandPayProrata: null,
         posPayProrata:null,

@@ -224,7 +224,7 @@
                v-if="dialogProfit.show"
                :visible.sync="dialogProfit.show">
       <SetProfitCompent :propsInfo="dialogProfit"
-                        :typeVal="2"
+                        :typeVal="3"
                         @getTableList="search"></SetProfitCompent>
     </el-dialog>
   </div>
@@ -244,7 +244,8 @@ import {resetPwd} from '@/modules/system/api/user'
 import pagination from '@/components/pagination/index'
 import cityJson from '@/assets/city/city.json'
 import * as utilsCollect from '@/utils/utilsCollect'
-import SetProfitCompent from './components/setProfit'
+// import SetProfitCompent from './components/setProfit'
+import SetProfitCompent from '../../operator/views/components/setProfit'
 import { levelAliasMixin } from '@/mixins'
 import * as validatorRules from '@/utils/validator'
 

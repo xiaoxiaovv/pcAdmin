@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--该文件弃用被公共组件替代-->
     <el-form  ref="validateForm" label-width="100px" :model="params" :rules="rules" @submit.native.prevent>
       <el-form-item label="支付方式:">
         <el-radio-group v-model="payWay">
@@ -52,6 +53,8 @@
         <el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>
+
+
       </el-form-item>
       <el-form-item>
         <div class="vm-text-right">
