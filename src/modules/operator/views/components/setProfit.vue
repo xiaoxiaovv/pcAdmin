@@ -19,7 +19,7 @@
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="抽佣比例:" show-message prop="payProrata">
+      <!--<el-form-item label="抽佣比例:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayProrata" v-if="payWay === 1">
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayProrata" v-if="payWay === 2">
@@ -52,7 +52,7 @@
         <el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="抽佣费率:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayRate" v-if="payWay === 1">
         </el-input-number>
@@ -131,7 +131,7 @@ export default {
     return {
       // tipTextA: `${levelAlias.firstName}的分佣比例，比如填写60%，则分商户流水佣金的60%给${levelAlias.firstName}`,
       // tipTextB: `${levelAlias.secondName}的分佣比例，比如填写60%，则分商户流水佣金的60%给${levelAlias.secondName}`,
-      tipText:'',
+      // tipText:'',
       payWay: 1,
       params: {
         zfbPayProrata: null,
