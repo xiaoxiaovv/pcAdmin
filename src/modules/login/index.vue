@@ -270,7 +270,7 @@ export default {
       this.setCookie('', '', -1) // 修改2值都为空，天数为负1天就好了
     },
     openCript () {
-      window.open('http://www.beian.miit.gov.cn')
+      window.open('http://beian.miit.gov.cn')
     }
   }
 }

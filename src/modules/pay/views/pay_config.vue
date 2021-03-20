@@ -202,7 +202,7 @@
               <span>付款码支付(B扫C)</span>
             </div>
             <div class="sl-flex-1">
-              <el-radio v-model="form.yl.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
+<!--              <el-radio v-model="form.yl.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>银联服务商</el-radio>-->
               <el-radio v-model="form.yl.scanPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.yl.scanPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
               <el-radio v-model="form.yl.scanPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
@@ -229,7 +229,7 @@
               <span>公众号支付(C扫B)</span>
             </div>
             <div class="sl-flex-1">
-              <el-radio v-model="form.yl.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
+<!--              <el-radio v-model="form.yl.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>银联服务商</el-radio>-->
               <el-radio v-model="form.yl.wapPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.yl.wapPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
               <el-radio v-model="form.yl.wapPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
