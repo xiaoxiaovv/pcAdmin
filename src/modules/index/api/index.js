@@ -57,3 +57,14 @@ export function findCountData (st, et, companyId) {
     }
   })
 }
+
+// 当前月交易流水佣金数据接口
+export function findCommissionCurrentMonth (companyId) {
+  return request({
+    url: '/current/running_account/date_transaction_app',
+    method: 'get',
+    params: {
+      companyId
+    }
+  })
+}

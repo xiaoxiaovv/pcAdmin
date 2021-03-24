@@ -129,3 +129,21 @@ export function getSxfMerchantQuery (params) {
     params: params
   })
 }
+// 佣金提现参数保存
+export function saveCommissionConfig (params) {
+  console.log('6666666666666',params.rateCash)
+  return request({
+    url: '/pay/pay_config/save_cash_out_config',
+    method: 'post',
+    jsonHeader: true,
+    data: params
+  })
+}
+// 佣金提现参数查询
+export function getCommissionConfig () {
+  return request({
+    url: '/pay/pay_config/find_cash_out_config',
+    method: 'get'
+    // params: params
+  })
+}

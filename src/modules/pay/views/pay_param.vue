@@ -55,6 +55,15 @@
                  @click="openTopConfigDialog">{{levelAlias.oemName}}支付参数</el-button>
       <el-button type="primary"
                  size="small"
+                 @click="openCommissionConfigDialog">佣金提现参数</el-button>
+      <!--<el-button type="primary"
+                 size="small"
+                 @click="getCommissionConfig">获取佣金生成参数</el-button>-->
+      <el-button type="primary"
+                 size="small"
+                 @click="findCommissionCurrentMonth">获取当月佣金</el-button>
+      <el-button type="primary"
+                 size="small"
                  @click="openTopCommissionDialog">佣金生成</el-button>
     </div>
 
@@ -127,6 +136,69 @@
     <pagination :total-elements="totalElements"
                 :change-callback="getMerchantList"
                 ref="page"></pagination>
+<!--服务商支付参数配置-->
+    <el-dialog :title="`佣金提现参数配置`"
+               :visible.sync="commissionDialog"
+               :before-close="closeCommissionDialog"
+               width="700px">
+      <el-form :model="commissionParam"
+               label-width="auto">
+        <el-form-item label="最小提现金额">
+          <el-input-number :disabled="payDisable"
+                           :precision="2"
+                           :min="0"
+                           :max="100"
+                           :step="10"
+                           v-model="commissionParam.minCashAmount">
+          </el-input-number>
+        </el-form-item>
+        <el-form-item label="最大提现金额">
+          <el-input-number :disabled="payDisable"
+                           :precision="2"
+                           :min="0"
+                           :max="100"
+                           :step="10"
+                           v-model="commissionParam.maxCashAmount">
+          </el-input-number>
+        </el-form-item>
+        <el-form-item label="佣金提现费率">
+          <el-input-number :disabled="payDisable"
+                           :precision="2"
+                           :min="0"
+                           :max="100"
+                           :step="0.01"
+                           v-model="commissionParam.rateCash">
+          </el-input-number>
+          %
+        </el-form-item>
+        <el-form-item label="提现方式">
+          <el-radio-group :disabled="payDisable"
+                          @change="radioChange"
+                          v-model="commissionParam.cashOutWay"
+                          class="radio-bottom-params">
+            <el-radio label="1">手动</el-radio>
+            <el-radio label="2">自动</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="支持到账账号类型" prop="cashOutTypes">
+          <el-checkbox-group :disabled="payDisable" v-model="commissionParam.cashOutTypes" @change="cashChange">
+            <el-checkbox label="1" name="cashOutTypes">微信</el-checkbox>
+            <el-checkbox label="2" name="cashOutTypes">支付宝</el-checkbox>
+            <el-checkbox label="4" name="cashOutTypes">银行卡</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button @click="closeCommissionDialog">取 消</el-button>
+        <el-button type="warning"
+                   @click="canConfig">配 置</el-button>
+        <el-button type="primary"
+                   @click="saveCommissionConfig"
+                   v-loading="btnLoading"
+                   :disabled="payDisable">提 交</el-button>
+      </div>
+    </el-dialog>
 <!--服务商支付参数配置-->
     <el-dialog :title="`${levelAlias.oemName}支付参数配置`"
                :visible.sync="topPayDialog"
@@ -730,10 +802,17 @@
               %
             </el-form-item>
             <el-form-item label="手机pos提现费">
-              <el-input type="text"
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.5"
+                               v-model="topParam.posDrawFee">
+              </el-input-number>
+              <!--<el-input type="text"
                         v-model.trim="topParam.posDrawFee"
                         :disabled="payDisable"
-                        placeholder="手机pos提现费"></el-input>
+                        placeholder="手机pos提现费"></el-input>-->
             </el-form-item>
             <el-form-item label="网联交易费率">
               <el-input-number :disabled="payDisable"
@@ -746,10 +825,17 @@
               %
             </el-form-item>
             <el-form-item label="网联提现费">
-              <el-input type="text"
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.5"
+                               v-model="topParam.quickDrawFee">
+              </el-input-number>
+              <!--<el-input type="text"
                         v-model.trim="topParam.quickDrawFee"
                         :disabled="payDisable"
-                        placeholder="网联提现费"></el-input>
+                        placeholder="网联提现费"></el-input>-->
             </el-form-item>
             <el-form-item label="手机posMd5Key">
               <el-input type="text"
@@ -1860,9 +1946,10 @@
 
 <script>
 import { getMerchantList } from '@/modules/merchant/top/api/merchant'
+import { findCommissionCurrentMonth } from '@/modules/index/api'
 import pagination from '@/components/pagination/index'
 import { url } from '@/utils/request'
-import { findTopPayConfig, saveTopPayConfig, findPayConfig, savePayConfig, updateAppid, getSystemCOnfig, getYspayPrivateSignKeyVal, getSxfMerchantQuery } from '@/modules/pay/api/pay_config'
+import { findTopPayConfig, saveTopPayConfig, findPayConfig, savePayConfig, updateAppid, getSystemCOnfig, getYspayPrivateSignKeyVal, getSxfMerchantQuery, saveCommissionConfig, getCommissionConfig} from '@/modules/pay/api/pay_config'
 // import {fileUpload} from '@/modules/file/api/upload'
 import { levelAliasMixin } from '@/mixins'
 import CreateCommission from './components/createCommission.vue'
@@ -2109,6 +2196,16 @@ export default {
         }
 
 
+      },
+      //佣金提现参数
+      commissionDialog: false,
+      commissionDisable: true,
+      commissionParam:{
+        minCashAmount: 0, // 最小提现金额
+        maxCashAmount: 0, // 最大提现金额
+        rateCash: 0,  // 佣金提现费率
+        cashOutWay: '', // 提现方式:1手动2自动
+        cashOutTypes: [] // 支持账号类型:1微信2支付宝4银行卡
       },
       headers: {
         authorized: sessionStorage.token
@@ -2746,6 +2843,84 @@ export default {
         this.loading = false
       })
     },
+    radioChange(){
+      console.log(2222222222,this.commissionParam.cashOutWay)
+    },
+    cashChange(){
+      console.log(111111111111,this.commissionParam.cashOutTypes)
+    },
+    //获取佣金配置
+    getCommissionConfig(){
+      getCommissionConfig().then(res=>{
+        let commissionParamData = res.obj
+        this.commissionParam.rateCash = commissionParamData.rateCash * 100;
+        this.commissionParam.cashOutWay = commissionParamData.cashOutWay //提现方式
+        this.commissionParam.minCashAmount = commissionParamData.minCashAmount
+        this.commissionParam.maxCashAmount = commissionParamData.maxCashAmount
+        this.commissionParam.cashOutTypes = commissionParamData.cashOutTypes
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    //当月佣金总额
+    findCommissionCurrentMonth(){
+      this.companyId = sessionStorage.getItem('companyId')
+      findCommissionCurrentMonth(this.companyId)
+    },
+    /**
+     * 佣金提现参数配置
+     */
+    openCommissionConfigDialog(){
+      this.commissionDialog = true;
+      this.getCommissionConfig()
+
+
+    },
+
+    // 保存分佣提现参数
+    saveCommissionConfig() {
+      let postData = {};
+      postData.minCashAmount = 10
+      postData.maxCashAmount = 20
+      postData.rateCash = 0.02
+      postData.cashOutWay = '1'
+      postData.cashOutTypes = ['1','2','4']
+      // console.log('postData444444444444',postData)
+      this.btnLoading = true // 锁定按钮
+      this.payDisable = true
+      this.commissionParam.rateCash = Number((this.commissionParam.rateCash / 100).toFixed(4))
+      console.log(33333333,this.commissionParam.rateCash)
+      // todo 不进行深拷贝，在浏览器看请求数据，费率会自动变为0
+      let newData = JSON.parse(JSON.stringify(this.commissionParam))
+      saveCommissionConfig(newData).then(response => {
+        this.$message({
+          message: response.msg,
+          type: 'success'
+        })
+        this.btnLoading = false
+        this.clearCommissionParam()
+        this.closeCommissionDialog()
+      }).catch(() => {
+        this.payDisable = false
+        this.btnLoading = false
+        this.loading = false
+      })
+    },
+    clearCommissionParam(){
+      this.commissionParam.rateCash = 0;
+      this.commissionParam.cashOutTypes = []
+      this.commissionParam.cashOutWay = ''
+      this.commissionParam.maxCashAmount = 0
+      this.commissionParam.minCashAmount = 0
+    },
+    closeCommissionDialog() {
+      this.commissionDialog = false
+      this.payDisable = true
+      let se = this
+      setTimeout(function () {
+        se.clearCommissionParam()
+      }, 100)
+    },
     // 保存支付参数
     savePayConfig() {
       this.btnLoading = true // 锁定按钮
@@ -3057,6 +3232,7 @@ export default {
       })
       this.topParam.wxCertPath = response.obj
     },
+
     /**
      * 佣金生成
      */
