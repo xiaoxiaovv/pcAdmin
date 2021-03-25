@@ -19,7 +19,7 @@
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
         </el-radio-group>
       </el-form-item>
-      <!--<el-form-item label="抽佣比例:" show-message prop="payProrata">
+      <el-form-item label="抽佣比例:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayProrata" v-if="payWay === 1">
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayProrata" v-if="payWay === 2">
@@ -52,7 +52,7 @@
         <el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>
-      </el-form-item>-->
+      </el-form-item>
       <el-form-item label="抽佣费率:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayRate" v-if="payWay === 1">
         </el-input-number>
@@ -144,6 +144,7 @@ export default {
         tqSxfPayProrata: null,
         yiShengPayProrata: null,
         newLandPayProrata: null,
+        unionPayProrata:null,
         posPayProrata:null,
         quickPayProrata:null,
         kdbPayProrata:null,
@@ -222,6 +223,7 @@ export default {
 
         newRes.yiShengPayProrata = Number(newRes.yiShengPayProrata) ? Number(newRes.yiShengPayProrata) * 100 : 0
         newRes.newLandPayProrata = Number(newRes.newLandPayProrata) ? Number(newRes.newLandPayProrata) * 100 : 0
+        newRes.unionPayProrata = Number(newRes.unionPayProrata) ? Number(newRes.unionPayProrata) * 100 : 0
         //手机pos和网联
         newRes.posPayProrata = Number(newRes.posPayProrata) ? Number(newRes.posPayProrata) * 100 : 0
         newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
@@ -287,6 +289,7 @@ export default {
 
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
+      params.unionPayProrata = Number(params.unionPayProrata) ? Number(params.unionPayProrata) * 100 : 0
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0

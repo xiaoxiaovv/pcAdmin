@@ -131,7 +131,7 @@ export function getSxfMerchantQuery (params) {
 }
 // 佣金提现参数保存
 export function saveCommissionConfig (params) {
-  console.log('6666666666666',params.rateCash)
+  // console.log('6666666666666',params.rateCash)
   return request({
     url: '/pay/pay_config/save_cash_out_config',
     method: 'post',
