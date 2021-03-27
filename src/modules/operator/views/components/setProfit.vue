@@ -19,40 +19,40 @@
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="抽佣比例:" show-message prop="payProrata">
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayProrata" v-if="payWay === 1">
+      <!--<el-form-item label="抽佣比例:" show-message prop="payProrata">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayProrata" v-show="payWay === 1000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayProrata" v-if="payWay === 2">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayProrata" v-show="payWay === 2000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.fyPayProrata" v-if="payWay === 6">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.fyPayProrata" v-show="payWay === 6000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.sxfPayProrata" v-if="payWay === 7">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.sxfPayProrata" v-show="payWay === 7000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.ysPayProrata" v-if="payWay === 9">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.ysPayProrata" v-show="payWay === 9000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lsPayProrata" v-if="payWay === 10">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lsPayProrata" v-show="payWay === 1000">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chPayProrata" v-if="payWay === 11">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chPayProrata" v-show="payWay === 1100">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.tqSxfPayProrata" v-if="payWay === 12">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.tqSxfPayProrata" v-show="payWay === 1200">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.yiShengPayProrata" v-if="payWay === 13">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.yiShengPayProrata" v-show="payWay === 1300">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.newLandPayProrata" v-if="payWay === 14">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.newLandPayProrata" v-show="payWay === 1400">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.posPayProrata" v-if="payWay === 17">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.posPayProrata" v-show="payWay === 1700">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.quickPayProrata" v-if="payWay === 18">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.quickPayProrata" v-show="payWay === 1800">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.kdbPayProrata" v-if="payWay === 19">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.kdbPayProrata" v-show="payWay === 1900">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayProrata" v-if="payWay === 20">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayProrata" v-show="payWay === 2000">
         </el-input-number>
         %
         <el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="抽佣费率:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayRate" v-if="payWay === 1">
         </el-input-number>
@@ -243,6 +243,7 @@ export default {
 
         newRes.yiShengPayRate = Number(newRes.yiShengPayRate) ? Number(newRes.yiShengPayRate) * 100 : 0
         newRes.newLandPayRate = Number(newRes.newLandPayRate) ? Number(newRes.newLandPayRate) * 100 : 0
+        // newRes.unionPayRate = Number(newRes.unionPayRate) ? Number(newRes.unionPayRate) * 100 : 0
         //手机pos和网联
         newRes.posPayRate = Number(newRes.posPayRate) ? Number(newRes.posPayRate) * 100 : 0
         newRes.quickPayRate = Number(newRes.quickPayRate) ? Number(newRes.quickPayRate) * 100 : 0
@@ -290,6 +291,7 @@ export default {
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
       params.unionPayProrata = Number(params.unionPayProrata) ? Number(params.unionPayProrata) * 100 : 0
+      params.unionPayRate = Number(params.unionPayRate) ? Number(params.unionPayRate) * 100 : 0
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
