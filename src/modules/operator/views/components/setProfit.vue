@@ -243,7 +243,8 @@ export default {
 
         newRes.yiShengPayRate = Number(newRes.yiShengPayRate) ? Number(newRes.yiShengPayRate) * 100 : 0
         newRes.newLandPayRate = Number(newRes.newLandPayRate) ? Number(newRes.newLandPayRate) * 100 : 0
-        // newRes.unionPayRate = Number(newRes.unionPayRate) ? Number(newRes.unionPayRate) * 100 : 0
+        newRes.unionPayRate = Number(newRes.unionPayRate) ? Number(newRes.unionPayRate) * 100 : 0
+
         //手机pos和网联
         newRes.posPayRate = Number(newRes.posPayRate) ? Number(newRes.posPayRate) * 100 : 0
         newRes.quickPayRate = Number(newRes.quickPayRate) ? Number(newRes.quickPayRate) * 100 : 0
@@ -290,14 +291,15 @@ export default {
 
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
-      params.unionPayProrata = Number(params.unionPayProrata) ? Number(params.unionPayProrata) * 100 : 0
-      params.unionPayRate = Number(params.unionPayRate) ? Number(params.unionPayRate) * 100 : 0
+      params.unionPayProrata = Number(params.unionPayProrata) ? Number((params.unionPayProrata / 100).toFixed(4)) : 0
+
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
       params.kdbPayProrata = Number(params.kdbPayProrata) ? Number((params.kdbPayProrata / 100).toFixed(4)) : 0
       params.chanpayPayProrata = Number(params.chanpayPayProrata) ? Number((params.chanpayPayProrata / 100).toFixed(4)) : 0
       //费率分佣
+      params.unionPayRate = Number(params.unionPayRate) ? Number((params.unionPayRate / 100).toFixed(4)) : 0
       params.fyPayRate = Number(params.fyPayRate) ? Number((params.fyPayRate / 100).toFixed(4)) : 0
       params.sxfPayRate = Number(params.sxfPayRate) ? Number((params.sxfPayRate / 100).toFixed(4)) : 0
       params.wxPayRate = Number(params.wxPayRate) ? Number((params.wxPayRate / 100).toFixed(4)) : 0
