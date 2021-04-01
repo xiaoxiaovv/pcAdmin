@@ -53,13 +53,13 @@
       <el-button type="primary"
                  size="small"
                  @click="openTopConfigDialog">{{levelAlias.oemName}}支付参数</el-button>
-      <!--<el-button type="primary"
+      <el-button type="primary"
                  size="small"
                  @click="openCommissionConfigDialog">佣金提现参数</el-button>
-      &lt;!&ndash;<el-button type="primary"
+      <!--<el-button type="primary"
                  size="small"
-                 @click="getCommissionConfig">获取佣金生成参数</el-button>&ndash;&gt;
-      <el-button type="primary"
+                 @click="getCommissionConfig">获取佣金生成参数</el-button>-->
+     <!-- <el-button type="primary"
                  size="small"
                  @click="findCommissionCurrentMonth">获取当月佣金</el-button>-->
       <el-button type="primary"

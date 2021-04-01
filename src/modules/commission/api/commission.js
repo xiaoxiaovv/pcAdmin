@@ -5,6 +5,66 @@ import request from '@/utils/request'
 /**
  *佣金结算--列表获取
  */
+export function commissionRateList (params) {
+  return request({
+    url: '/order/cash/out/apply_list_pc',
+    method: 'get',
+    // jsonHeader: true,
+    params
+  })
+}
+/**
+ *佣金结算--状态修改
+ */
+export function commissionModifyStatus (params) {
+  return request({
+    url: '/order/cash/out/modify_status',
+    method: 'post',
+    jsonHeader: true,
+    data:params
+  })
+}
+/**
+ *佣金结算--列表获取
+ */
+export function commissionRateList1 (params) {
+  return request({
+    url: '/order/cash/out/apply_list_pc',
+    method: 'get',
+    // jsonHeader: true,
+    params
+  })
+}
+/**
+ *佣金结算--列表获取
+ */
+export function commissionRateList2 (params) {
+  return request({
+    url: '/order/cash/out/apply_list_pc',
+    method: 'get',
+    // jsonHeader: true,
+    params
+  })
+}
+/**
+ *佣金结算--列表获取
+ */
+export function commissionRateList3 (params) {
+  return request({
+    url: '/order/cash/out/apply_list_pc',
+    method: 'get',
+    // jsonHeader: true,
+    params
+  })
+}
+
+
+
+
+// ==================以下是按比例结算相关的api，暂时不用=================================
+/**
+ *佣金结算--列表获取
+ */
 export function commissionList (params) {
   return request({
     url: '/order/commission/list',
