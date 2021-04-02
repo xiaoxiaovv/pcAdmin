@@ -230,6 +230,14 @@
               </td>
             </tr>
             <tr>
+              <td>收银台照片</td>
+              <td>
+                <ImgShow :url="detail.cashierDeskPicId"
+                         v-if="detail.cashierDeskPicId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
               <td>经营省市区</td>
               <td>
                 <template v-if="detail.regProvCdName || detail.regCityCdName || detail.regDistCdName">
