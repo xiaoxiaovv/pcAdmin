@@ -1248,6 +1248,14 @@
                 <span v-else>暂无</span>
               </td>
             </tr>
+            <tr>
+              <td>收银台照片</td>
+              <td>
+                <ImgShow :url="detail.cashierDeskPicId"
+                         v-if="detail.cashierDeskPicId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
           </table>
         </div>
       </el-card>
