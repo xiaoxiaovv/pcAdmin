@@ -650,18 +650,65 @@
               </el-input-number>
               %
             </el-form-item>
-            <el-form-item label="易生主密钥">
-              <el-input type="text"
-                        v-model.trim="topParam.ysMainKey"
-                        :disabled="payDisable"
-                        placeholder="易生主密钥"></el-input>
+            <el-form-item label="D0费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.ysPayServiceRate">
+              </el-input-number>
+              %
             </el-form-item>
+
             <el-form-item label="易生渠道号">
               <el-input type="text"
                         v-model.trim="topParam.ysPayChannelId"
                         :disabled="payDisable"
                         placeholder="易生渠道号"></el-input>
             </el-form-item>
+            <el-form-item label="易生进件系统机构号">
+              <el-input type="text"
+                        v-model.trim="topParam.ysImportOrgId"
+                        :disabled="payDisable"
+                        placeholder="易生进件系统机构号"></el-input>
+            </el-form-item>
+            <el-form-item label="易生主密钥">
+              <el-input type="text"
+                        v-model.trim="topParam.ysMainKey"
+                        :disabled="payDisable"
+                        placeholder="易生主密钥"></el-input>
+            </el-form-item>
+            <el-form-item label="易生进件系统秘钥">
+              <el-input type="text"
+                        v-model.trim="topParam.ysImportKey"
+                        :disabled="payDisable"
+                        placeholder="易生进件系统秘钥"></el-input>
+            </el-form-item>
+            <el-form-item label="易生协议系统商户编号">
+            <el-input type="text"
+                      v-model.trim="topParam.ysAgreementMerId"
+                      :disabled="payDisable"
+                      placeholder="易生协议系统商户编号"></el-input>
+          </el-form-item>
+            <el-form-item label="易生协议系统终端编号">
+            <el-input type="text"
+                      v-model.trim="topParam.ysAgreementTermId"
+                      :disabled="payDisable"
+                      placeholder="易生协议系统终端编号"></el-input>
+          </el-form-item>
+            <el-form-item label="易生协议系统秘钥">
+            <el-input type="text"
+                      v-model.trim="topParam.ysAgreementKey"
+                      :disabled="payDisable"
+                      placeholder="易生协议系统秘钥"></el-input>
+          </el-form-item>
+            <el-form-item label="易生协议系统模板编号">
+            <el-input type="text"
+                      v-model.trim="topParam.ysAgreementTemplateId"
+                      :disabled="payDisable"
+                      placeholder="易生协议系统模板编号"></el-input>
+          </el-form-item>
             <el-form-item label="易生签名私钥">
               <div style="display: flex;">
                 <el-input type="text"
@@ -671,6 +718,20 @@
                 <el-button style="margin-left: 10px;"
                            type="primary"
                            @click="getYspayPrivateSignKey"
+                           size="small"
+                           v-loading="btnLoading"
+                           :disabled="payDisable">获取签名密钥</el-button>
+              </div>
+            </el-form-item>
+            <el-form-item label="易生协议系统签名秘钥">
+              <div style="display: flex;">
+                <el-input type="text"
+                          v-model.trim="topParam.ysAgreementSignKey"
+                          :disabled="payDisable"
+                          placeholder="易生协议系统签名秘钥"></el-input>
+                <el-button style="margin-left: 10px;"
+                           type="primary"
+                           @click="getYsAgreementPrivateSignKeyVal"
                            size="small"
                            v-loading="btnLoading"
                            :disabled="payDisable">获取签名密钥</el-button>
@@ -866,6 +927,16 @@
                                :max="100"
                                :step="0.01"
                                v-model="topParam.kdbWxTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="D0费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.kdbServiceRate">
               </el-input-number>
               %
             </el-form-item>
@@ -1949,7 +2020,7 @@ import { getMerchantList } from '@/modules/merchant/top/api/merchant'
 import { findCommissionCurrentMonth } from '@/modules/index/api'
 import pagination from '@/components/pagination/index'
 import { url } from '@/utils/request'
-import { findTopPayConfig, saveTopPayConfig, findPayConfig, savePayConfig, updateAppid, getSystemCOnfig, getYspayPrivateSignKeyVal, getSxfMerchantQuery, saveCommissionConfig, getCommissionConfig} from '@/modules/pay/api/pay_config'
+import { findTopPayConfig, saveTopPayConfig, findPayConfig, savePayConfig, updateAppid, getSystemCOnfig, getYspayPrivateSignKeyVal, getYsAgreementPrivateSignKeyVal,getSxfMerchantQuery, saveCommissionConfig, getCommissionConfig} from '@/modules/pay/api/pay_config'
 // import {fileUpload} from '@/modules/file/api/upload'
 import { levelAliasMixin } from '@/mixins'
 import CreateCommission from './components/createCommission.vue'
@@ -2041,6 +2112,15 @@ export default {
         ysPayAliRate: '', // 易生支付宝利率
         ysMainKey: '', // 易生主密钥
         ysPaySignKey: '', // 易生签名私钥
+        //新增
+        ysPayServiceRate:  '',  //易生D0服务费率
+        ysImportOrgId:  '',  //易生进件系统机构号
+        ysImportKey :  '',  //易生进件系统秘钥
+        ysAgreementMerId:  '',  //易生协议系统商户编号
+        ysAgreementTermId:  '',  //易生协议系统终端编号
+        ysAgreementKey :  '',  //易生协议系统秘钥
+        ysAgreementTemplateId:  '',  //易生协议系统模板编号
+        ysAgreementSignKey :  '',  //易生协议系统签名秘钥
         // 新大陆
         newLandWxRate: '', // 新大陆微信利率
         newLandAliRate: '', // 新大陆支付宝利率
@@ -2068,6 +2148,7 @@ export default {
         kdbMercPrivateKey:'', //私钥
         kdbMercPublicKey:'', //公钥
         kdbWxTradeRate:'', //费率
+        kdbServiceRate: '', // D0费率
 
         //  畅捷
         signType:'', //畅捷支付算法类型
@@ -2359,6 +2440,14 @@ export default {
       this.topParam.ysPayAliRate = ''
       this.topParam.ysMainKey = ''
       this.topParam.ysPaySignKey = ''
+      this.topParam.ysPayServiceRate = ''  //易生D0服务费率
+      this.topParam.ysImportOrgId = ''  //易生进件系统机构号
+      this.topParam.ysImportKey  = ''  //易生进件系统秘钥
+      this.topParam.ysAgreementMerId = ''  //易生协议系统商户编号
+      this.topParam.ysAgreementTermId = ''  //易生协议系统终端编号
+      this.topParam.ysAgreementKey  = ''  //易生协议系统秘钥
+      this.topParam.ysAgreementTemplateId = ''  //易生协议系统模板编号
+      this.topParam.ysAgreementSignKey  = ''  //易生协议系统签名秘钥
       // 新大陆
       this.topParam.newLandWxRate = ''
       this.topParam.newLandAliRate = ''
@@ -2387,6 +2476,7 @@ export default {
       this.topParam.kdbMercPrivateKey = '' // 私钥
       this.topParam.kdbMercPublicKey = '' // 公钥
       this.topParam.kdbWxTradeRate = ''   //费率
+      this.topParam.kdbServiceRate = ''   //D0费率
 
       //  畅捷
       this.topParam.signType = '' // 算法类型
@@ -2470,6 +2560,16 @@ export default {
         this.topParam.ysPaySignKey = data.ysPaySignKey
         this.topParam.ysPayWxRate = Number(data.ysPayWxRate) ? Number(data.ysPayWxRate) * 100 : 0
         this.topParam.ysPayAliRate = Number(data.ysPayAliRate) ? Number(data.ysPayAliRate) * 100 : 0
+        this.topParam.ysPayServiceRate = Number(data.ysPayServiceRate) ? Number(data.ysPayServiceRate) * 100 : 0//易生D0服务费率
+        this.topParam.ysImportOrgId = data.ysImportOrgId //易生进件系统机构号
+        this.topParam.ysImportKey = data.ysImportKey //易生进件系统秘钥
+        this.topParam.ysAgreementMerId = data.ysAgreementMerId //易生协议系统商户编号
+        this.topParam.ysAgreementTermId = data.ysAgreementTermId //易生协议系统终端编号
+        this.topParam.ysAgreementKey = data.ysAgreementKey //易生协议系统秘钥
+        this.topParam.ysAgreementTemplateId = data.ysAgreementTemplateId //易生协议系统模板编号
+        this.topParam.ysAgreementSignKey = data.ysAgreementSignKey //易生协议系统签名秘钥
+
+
         // 新大陆
         this.topParam.newLandChannelId = data.newLandChannelId
         this.topParam.newLandWxRate = Number(data.newLandWxRate) ? Number(data.newLandWxRate) * 100 : 0
@@ -2498,6 +2598,7 @@ export default {
         this.topParam.kdbMercPrivateKey = data.kdbMercPrivateKey // 私钥
         this.topParam.kdbMercPublicKey = data.kdbMercPublicKey // 公钥
         this.topParam.kdbWxTradeRate = Number(data.kdbWxTradeRate) ? Number(data.kdbWxTradeRate) * 100 : 0   //费率
+        this.topParam.kdbServiceRate = Number(data.kdbServiceRate) ? Number(data.kdbServiceRate) * 100 : 0   //D0费率
 
         //  畅捷
         this.topParam.signType = data.signType // 算法类型
@@ -2539,21 +2640,23 @@ export default {
       // 易生
       params.ysPayWxRate = (Number(params.ysPayWxRate) / 100).toFixed(4)
       params.ysPayAliRate = (Number(params.ysPayAliRate) / 100).toFixed(4)
+      params.ysPayServiceRate = (Number(params.ysPayServiceRate) / 100).toFixed(4) //D0费率
 
       // 新大陆
       params.newLandWxRate = (Number(params.newLandWxRate) / 100).toFixed(4)
       params.newLandAliRate = (Number(params.newLandAliRate) / 100).toFixed(4)
       // 银联 暂时没有
       //  拉卡拉
-      this.topParam.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
-      this.topParam.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
+      params.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
+      params.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
       //  手机pos
-      this.topParam.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
-      this.topParam.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
+      params.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
+      params.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
       //开店宝
-      this.topParam.kdbWxTradeRate = (Number(params.kdbWxTradeRate) / 100).toFixed(4)    //费率
+      params.kdbWxTradeRate = (Number(params.kdbWxTradeRate) / 100).toFixed(4)    //费率
+      params.kdbServiceRate = (Number(params.kdbServiceRate) / 100).toFixed(4)    //D0费率
       //畅捷
-      this.topParam.chanpayTradeRate = (Number(params.chanpayTradeRate) / 100).toFixed(4)    //费率
+      params.chanpayTradeRate = (Number(params.chanpayTradeRate) / 100).toFixed(4)    //费率
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -3266,6 +3369,19 @@ export default {
         this.topParam.ysPaySignKey = res.obj.key
       })
     },
+    /**
+     * 获取易生协议签名密钥
+     */
+    getYsAgreementPrivateSignKeyVal() {
+      let params = {
+        ysPayChanelId: this.topParam.ysPayChannelId,
+        ysAgreementKey: this.topParam.ysAgreementKey
+      }
+      getYsAgreementPrivateSignKeyVal(params).then(res => {
+        this.topParam.ysAgreementSignKey = res.obj.key
+      })
+    },
+
     /**
      * 随行付商户信息查询
      */

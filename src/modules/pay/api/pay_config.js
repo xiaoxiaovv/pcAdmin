@@ -112,10 +112,18 @@ export function getSystemCOnfig (merchantId) {
   })
 }
 
-// 获取系统配置通道
+// 获取易生签名私钥
 export function getYspayPrivateSignKeyVal (params) {
   return request({
     url: '/pay/pay_channel/ys_pay_get_sign',
+    method: 'get',
+    params: params
+  })
+}
+// 获取易生协议系统签名秘钥
+export function getYsAgreementPrivateSignKeyVal (params) {
+  return request({
+    url: '/pay/pay_channel/ys_agreement_get_sign',
     method: 'get',
     params: params
   })
