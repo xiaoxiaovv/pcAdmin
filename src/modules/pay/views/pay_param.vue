@@ -650,7 +650,7 @@
               </el-input-number>
               %
             </el-form-item>
-            <el-form-item label="D0费率">
+            <el-form-item label="商户进件D0费率">
               <el-input-number :disabled="payDisable"
                                :precision="2"
                                :min="0"
@@ -930,7 +930,7 @@
               </el-input-number>
               %
             </el-form-item>
-            <el-form-item label="D0费率">
+            <el-form-item label="商户进件D0费率">
               <el-input-number :disabled="payDisable"
                                :precision="2"
                                :min="0"
@@ -2560,7 +2560,7 @@ export default {
         this.topParam.ysPaySignKey = data.ysPaySignKey
         this.topParam.ysPayWxRate = Number(data.ysPayWxRate) ? Number(data.ysPayWxRate) * 100 : 0
         this.topParam.ysPayAliRate = Number(data.ysPayAliRate) ? Number(data.ysPayAliRate) * 100 : 0
-        this.topParam.ysPayServiceRate = Number(data.ysPayServiceRate) ? Number(data.ysPayServiceRate) * 100 : 0//易生D0服务费率
+        this.topParam.ysPayServiceRate = Number(data.ysPayServiceRate) ? Number(data.ysPayServiceRate) : 0//易生D0服务费率
         this.topParam.ysImportOrgId = data.ysImportOrgId //易生进件系统机构号
         this.topParam.ysImportKey = data.ysImportKey //易生进件系统秘钥
         this.topParam.ysAgreementMerId = data.ysAgreementMerId //易生协议系统商户编号
@@ -2598,7 +2598,7 @@ export default {
         this.topParam.kdbMercPrivateKey = data.kdbMercPrivateKey // 私钥
         this.topParam.kdbMercPublicKey = data.kdbMercPublicKey // 公钥
         this.topParam.kdbWxTradeRate = Number(data.kdbWxTradeRate) ? Number(data.kdbWxTradeRate) * 100 : 0   //费率
-        this.topParam.kdbServiceRate = Number(data.kdbServiceRate) ? Number(data.kdbServiceRate) * 100 : 0   //D0费率
+        this.topParam.kdbServiceRate = Number(data.kdbServiceRate) ? Number(data.kdbServiceRate)  : 0   //D0费率
 
         //  畅捷
         this.topParam.signType = data.signType // 算法类型
@@ -2640,7 +2640,7 @@ export default {
       // 易生
       params.ysPayWxRate = (Number(params.ysPayWxRate) / 100).toFixed(4)
       params.ysPayAliRate = (Number(params.ysPayAliRate) / 100).toFixed(4)
-      params.ysPayServiceRate = (Number(params.ysPayServiceRate) / 100).toFixed(4) //D0费率
+      // params.ysPayServiceRate = (Number(params.ysPayServiceRate) / 100).toFixed(4) //D0费率
 
       // 新大陆
       params.newLandWxRate = (Number(params.newLandWxRate) / 100).toFixed(4)
@@ -2654,7 +2654,7 @@ export default {
       params.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
       //开店宝
       params.kdbWxTradeRate = (Number(params.kdbWxTradeRate) / 100).toFixed(4)    //费率
-      params.kdbServiceRate = (Number(params.kdbServiceRate) / 100).toFixed(4)    //D0费率
+      // params.kdbServiceRate = (Number(params.kdbServiceRate) / 100).toFixed(4)    //D0费率
       //畅捷
       params.chanpayTradeRate = (Number(params.chanpayTradeRate) / 100).toFixed(4)    //费率
 

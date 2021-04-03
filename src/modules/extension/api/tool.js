@@ -45,3 +45,13 @@ export function creatDynamicPswApi (params) {
     params: params
   })
 }
+
+// 提交高德秘钥
+export function saveGaoDeKey (params) {
+  return request({
+    url: '/auth/gaode_map_config',
+    method: 'PUT',
+    data: params,
+    jsonHeader: true
+  })
+}

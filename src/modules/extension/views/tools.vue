@@ -42,7 +42,19 @@
               <p></p>
             </div>
           </div>
+          <div class="tools-item" @click="configGaoDeKey">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置高德秘钥</p>
+              <p></p>
+            </div>
+          </div>
         </div>
+      </div>
+      <div>
+
       </div>
     </el-card>
     <el-card class="box-card" style="display: none">
@@ -144,6 +156,14 @@
                :visible.sync="dialogDynamicPsw.show">
       <DynamicPsw :propsInfo="dialogDynamicPsw"></DynamicPsw>
     </el-dialog>
+    <!--高德-->
+    <el-dialog class="vm-dialog"
+               title="配置高德秘钥"
+               width="400px"
+               v-if="gaoDe.show"
+               :visible.sync="gaoDe.show">
+      <GaoDe :propsInfo="gaoDe"></GaoDe>
+    </el-dialog>
   </div>
 </template>
 
@@ -152,12 +172,16 @@ import * as toolApi from '../api/tool'
 import { levelAliasMixin } from '@/mixins'
 import ToolWechatConfig from './components/toolWechatConfig.vue'
 import DynamicPsw from './components/dynamicPsw.vue'
+import GaoDe from './components/gaoDe.vue'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
-  components: {ToolWechatConfig, DynamicPsw},
+  components: {ToolWechatConfig, DynamicPsw, GaoDe},
   data () {
     return {
+      gaoDe: {
+        show: false
+      },
       wechatInfo: {
         show: false
       },
@@ -199,6 +223,9 @@ export default {
     }
   },
   methods: {
+    configGaoDeKey(){
+      this.gaoDe.show = true
+    },
     /**
        * 前往页面
        * @param handle url路径
