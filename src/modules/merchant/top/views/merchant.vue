@@ -107,6 +107,8 @@
             <!--<el-button type="text" @click="openAppletConfigDialog(scope.row, true)">微信推荐关注配置</el-button>-->
             <el-button type="text"
                        @click="aliLiftNumConfig(scope.row)">支付宝生活号配置</el-button>
+            <!--<el-button type="text"
+                       @click="aliLiftNumConfig(scope.row)">电子围栏配置</el-button>-->
             <!-- <el-button type="text" @click="cancle(scope.row)">注销</el-button> -->
           </template>
         </template>

@@ -143,6 +143,12 @@
                width="700px">
       <el-form :model="commissionParam"
                label-width="auto">
+        <el-form-item label="是否开启提现" :disabled="payDisable">
+        <el-switch v-model="commissionParam.isAllow"
+                   :active-value="1"
+                   :inactive-value="-1">
+        </el-switch>
+        </el-form-item>
         <el-form-item label="最小提现金额">
           <el-input-number :disabled="payDisable"
                            :precision="2"
@@ -171,6 +177,17 @@
           </el-input-number>
           %
         </el-form-item>
+        <el-form-item label="佣金提现服务费">
+          <el-input-number :disabled="payDisable"
+                           :precision="2"
+                           :min="0"
+                           :max="100"
+                           :step="0.01"
+                           v-model="commissionParam.serviceFee">
+          </el-input-number>
+          元
+        </el-form-item>
+
         <el-form-item label="提现方式">
           <el-radio-group :disabled="payDisable"
                           @change="radioChange"
@@ -184,7 +201,7 @@
           <el-checkbox-group :disabled="payDisable" v-model="commissionParam.cashOutTypes" @change="cashChange">
             <el-checkbox label="1" name="cashOutTypes">微信</el-checkbox>
             <el-checkbox label="2" name="cashOutTypes">支付宝</el-checkbox>
-            <el-checkbox label="4" name="cashOutTypes">银行卡</el-checkbox>
+            <el-checkbox label="3" name="cashOutTypes">银行卡</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -2286,7 +2303,8 @@ export default {
         maxCashAmount: 0, // 最大提现金额
         rateCash: 0,  // 佣金提现费率
         cashOutWay: '', // 提现方式:1手动2自动
-        cashOutTypes: [] // 支持账号类型:1微信2支付宝4银行卡
+        cashOutTypes: [], // 支持账号类型:1微信2支付宝3银行卡
+        isAllow:'-1' //是否开启提现
       },
       headers: {
         authorized: sessionStorage.token
@@ -2987,7 +3005,7 @@ export default {
       postData.maxCashAmount = 20
       postData.rateCash = 0.02
       postData.cashOutWay = '1'
-      postData.cashOutTypes = ['1','2','4']
+      // postData.cashOutTypes = []
       // console.log('postData444444444444',postData)
       this.btnLoading = true // 锁定按钮
       this.payDisable = true
