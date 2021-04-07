@@ -239,6 +239,20 @@
           <el-input v-model="newMerchantForm.businessLevOne"
                     style="display: none;"></el-input>
         </el-form-item>
+        <el-form-item label="定位开关">
+          <el-switch v-model="newMerchantForm.isOpen"
+                     :active-value="1"
+                     :inactive-value="-1">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="定位地址："
+                      show-message
+                      prop="address">
+          <el-input v-model="locationAddress"
+                    class="formItem"></el-input>
+          <el-button type="primary" size="small" @click="geoCode">定位</el-button>
+          <!--          <el-button type="primary" size="small" @click="geolocationFn">自动定位</el-button>-->
+        </el-form-item>
         <!--
         <el-form-item label="经营类别：" prop="businessLevOne">
           <el-select v-model="newMerchantForm.businessLevOne" placeholder="请选择一级类别"
@@ -288,7 +302,7 @@
 
     <!--修改模态框-->
     <el-dialog title="修改商户"
-               width="450px"
+               width="500px"
                :visible.sync="editMerchant"
                :before-close="editMerchantClose">
 
@@ -323,6 +337,7 @@
                        filterable
                        clearable
                        :props="propsInfo"
+                       @change="provInfoChange"
                        :options="provList"></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址："
@@ -330,6 +345,7 @@
                       prop="address">
           <el-input v-model="editMerchantForm.address"
                     class="formItem"></el-input>
+<!--          <el-button type="primary" size="small" @click="geoCode">定位</el-button>-->
         </el-form-item>
         <el-form-item label="经营类别："
                       prop="businessLevOne">
@@ -341,6 +357,21 @@
           <el-input v-model="editMerchantForm.businessLevOne"
                     style="display: none;"></el-input>
         </el-form-item>
+        <el-form-item label="定位开关">
+          <el-switch v-model="editMerchantForm.isOpen"
+                     :active-value="1"
+                     :inactive-value="-1">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="定位地址："
+                      show-message
+                      prop="address">
+          <el-input v-model="locationAddress"
+                    class="formItem"></el-input>
+          <el-button type="primary" size="small" @click="geoCode">定位</el-button>
+<!--          <el-button type="primary" size="small" @click="geolocationFn">自动定位</el-button>-->
+        </el-form-item>
+
         <!--
         <el-form-item label="经营类别：" prop="businessLevOne">
           <el-cascader v-model="categoryArr"
@@ -418,6 +449,7 @@ import { levelAliasMixin } from '@/mixins'
 import FollowConfig from './components/followConfig.vue'
 import AliLiftConfig from './components/aliLiftConfig.vue'
 import * as validatorRules from '@/utils/validator'
+import AMapLoader from '@amap/amap-jsapi-loader';
 export default {
   name: 'merchant',
   mixins: [levelAliasMixin],
@@ -433,6 +465,9 @@ export default {
       callback(errors)
     }
     return {
+      locationAddress:'', //定位地址
+      geocoder: null,
+      geolocation:null,
       categoryArr: [],
       categoryNewArr: [],
       propsCategory: {
@@ -478,7 +513,31 @@ export default {
         // payProrata: 0, // 分佣比例【数值】
         companyId: '', // {{levelAlias.firstName}}或者{{levelAlias.secondName}}id
         managerId: '', // 业务员id
-        status: '1' // 正常状态
+        status: '1', // 正常状态
+
+        longitude:'',
+        latitude:'',
+        isOpen:'' //开启定位 1 -1
+      },
+      // 编辑
+      editMerchant: false, // 编辑修改模态框
+      editMerchantForm: {
+        id: '',
+        name: '', // 公司名/个人名
+        contact: '', // 联系人
+        email: '', // 邮箱
+        businessLevOne: '', // 类别
+        businessLevTwo: '', // 类别
+        businessLevThree: '', // 类别
+        provInfo: [],
+        province: '', // 省
+        city: '', // 市
+        address: '', // 详细地址
+
+        longitude:'',
+        latitude:'',
+        isOpen:'' //开启定位 1 -1
+        // payProrata: '' // 分佣比例【数值】
       },
       typeJson: [],
       typeJsonNew: typeJson,
@@ -514,22 +573,7 @@ export default {
       selectedType1: '',
       selectedType2: '',
       selectedType3: '',
-      // 编辑
-      editMerchant: false, // 编辑修改模态框
-      editMerchantForm: {
-        id: '',
-        name: '', // 公司名/个人名
-        contact: '', // 联系人
-        email: '', // 邮箱
-        businessLevOne: '', // 类别
-        businessLevTwo: '', // 类别
-        businessLevThree: '', // 类别
-        provInfo: [],
-        province: '', // 省
-        city: '', // 市
-        address: '' // 详细地址
-        // payProrata: '' // 分佣比例【数值】
-      },
+
       /**
        * 判断规则
        */
@@ -589,6 +633,34 @@ export default {
     }
   },
   created() {
+    AMapLoader.load({
+      "key": "ec2655d926a9b2662c416608d087fff6",              // 申请好的Web端开发者Key，首次调用 load 时必填
+      "version": "1.4.15",   // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      "plugins": ['AMap.Geocoder', 'AMap.Geolocation'],           // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+      "AMapUI": {             // 是否加载 AMapUI，缺省不加载
+        "version": '1.1',   // AMapUI 缺省 1.1
+        "plugins":[],       // 需要加载的 AMapUI ui插件
+      },
+      "Loca":{                // 是否加载 Loca， 缺省不加载
+        "version": '1.3.2'  // Loca 版本，缺省 1.3.2
+      },
+    }).then((AMap)=>{
+      // map = new AMap.Map('container');
+      this.geocoder = new AMap.Geocoder({
+        city: "", //城市设为北京，默认：“全国”
+      });
+      this.geolocation = new AMap.Geolocation({
+        enableHighAccuracy: true, //是否使用高精度定位，默认:true
+        timeout: 10000, //超过10秒后停止定位，默认：5s
+        // position: 'RB', //定位按钮的停靠位置
+        // buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+        // zoomToAccuracy: true //定位成功后是否自动调整地图视野到定位点
+      })
+    }).catch(e => {
+      console.log(e);
+    })
+
+
     this.userType = sessionStorage.getItem('userType')
     this.getProviceTreeCall() // 获取省市区
     this.initCategoryTree() // 初始化经营行业数--由于行业数id重复
@@ -597,7 +669,8 @@ export default {
     this.getMerchantList()
   },
   watch: {
-    'editMerchantForm.provInfo'(val) {
+    'editMerchantForm.provInfo'(val,lable) {
+      // console.log('省市11111111111=================',val,'bbb',lable)
       val = val || []
       this.editMerchantForm.province = val[0] || ''
       this.editMerchantForm.city = val[val.length - 1] || ''
@@ -615,6 +688,64 @@ export default {
     }
   },
   methods: {
+    provInfoChange(e){
+      // // console.log('省市change====',e)
+      // console.log('aaaaaaaaaaaaa=========', this.$refs['editMerchantForm'].getCheckedNodes())
+    },
+    //获取坐标转为中文地址
+    geolocationFn(){
+      // var  that = this;
+      this.geolocation.getCurrentPosition((status, result) => {
+        if (status == 'complete') {
+          // this.longitude = result.position.lng
+          // this.latitude = result.position.lat
+          console.log('获取坐标================',result.position.lng+','+result.position.lat)
+          this.geocoder.getAddress([result.position.lng, result.position.lat], (status, result)=> {
+            if (status === 'complete'&&result.regeocode) {
+              let address = result.regeocode.formattedAddress;
+              this.shopAddress = address
+              console.log('经纬度转地址==================',address)
+              // alert('经纬度转地址'+address)
+            }else{
+              log.error('根据经纬度查询地址失败')
+            }
+          });
+          // 应该监听这四个数据 当全部存在时 执行
+          // if(this.oilData.longitude && this.oilData.latitude && this.oilData.phone && this.startGet) {
+          // this.init()
+          // }
+
+        } else {
+          this.$toast.error('定位失败', result.message)
+        }
+      })
+    },
+    //根据中文地址转为坐标
+    geoCode() {
+      // console.log('省=========',this.editMerchantForm.province)
+      // console.log('市=========',this.editMerchantForm.city)
+      // console.log('aaaaaaaaaaaaa=========', this.$refs['editMerchantForm'])
+    /*  this.$nextTick(()=>{
+        // console.log(this.$refs['editMerchantForm'].presentText)
+      })*/
+
+
+      // let address  = document.getElementById('address').value;
+      this.geocoder.getLocation(this.locationAddress, (status, result)=> {
+        if (status === 'complete'&&result.geocodes.length) {
+          let lngLat = result.geocodes[0].location
+          this.editMerchantForm.longitude = lngLat.lng
+          this.editMerchantForm.latitude = lngLat.lat
+          this.newMerchantForm.longitude = lngLat.lng
+          this.newMerchantForm.latitude = lngLat.lat
+          this.$message.success('点击确定提交')
+          // document.getElementById('lnglat').value = lnglat;
+        }else{
+          // log.error('根据地址查询位置失败');
+          this.$message.error('根据地址查询位置失败')
+        }
+      });
+    },
     /**
      * 初始化企业数
      * */
@@ -1112,6 +1243,10 @@ export default {
       this.editMerchantForm.businessLevOne = row.businessLevOne
       this.editMerchantForm.businessLevTwo = row.businessLevTwo
       this.editMerchantForm.businessLevThree = row.businessLevThree
+      this.editMerchantForm.longitude = row.longitude
+      this.editMerchantForm.latitude = row.latitude
+      this.editMerchantForm.isOpen = row.isOpen
+
       // this.editMerchantForm.payProrata = row.payProrata * 100
       this.dataTypes = typeJson
       let cateNameArr = [row.businessLevOne, row.businessLevTwo, row.businessLevThree]

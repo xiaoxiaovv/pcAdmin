@@ -55,3 +55,15 @@ export function saveGaoDeKey (params) {
     jsonHeader: true
   })
 }
+
+// 获取高德秘钥
+export function getGaoDeKey (companyId) {
+  return request({
+    url: '/auth/gaode_map_config',
+    method: 'get',
+    params: {
+      companyId
+    }
+  })
+}
+

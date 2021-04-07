@@ -143,8 +143,9 @@
                width="700px">
       <el-form :model="commissionParam"
                label-width="auto">
-        <el-form-item label="是否开启提现" :disabled="payDisable">
+        <el-form-item label="是否开启提现" >
         <el-switch v-model="commissionParam.isAllow"
+                   :disabled="payDisable"
                    :active-value="1"
                    :inactive-value="-1">
         </el-switch>
@@ -153,7 +154,7 @@
           <el-input-number :disabled="payDisable"
                            :precision="2"
                            :min="0"
-                           :max="100"
+                           :max="100000000"
                            :step="10"
                            v-model="commissionParam.minCashAmount">
           </el-input-number>
@@ -162,7 +163,7 @@
           <el-input-number :disabled="payDisable"
                            :precision="2"
                            :min="0"
-                           :max="100"
+                           :max="1000000000"
                            :step="10"
                            v-model="commissionParam.maxCashAmount">
           </el-input-number>
@@ -176,6 +177,15 @@
                            v-model="commissionParam.rateCash">
           </el-input-number>
           %
+        </el-form-item>
+        <el-form-item label="单日提现次数">
+          <el-input-number :disabled="payDisable"
+
+                           :min="1"
+                           :max="100"
+                           :step="1"
+                           v-model="commissionParam.dayNums">
+          </el-input-number>
         </el-form-item>
         <el-form-item label="佣金提现服务费">
           <el-input-number :disabled="payDisable"
@@ -2299,12 +2309,14 @@ export default {
       commissionDialog: false,
       commissionDisable: true,
       commissionParam:{
+        serviceFee:'',
+        dayNums:'',
         minCashAmount: 0, // 最小提现金额
         maxCashAmount: 0, // 最大提现金额
         rateCash: 0,  // 佣金提现费率
         cashOutWay: '', // 提现方式:1手动2自动
         cashOutTypes: [], // 支持账号类型:1微信2支付宝3银行卡
-        isAllow:'-1' //是否开启提现
+        isAllow:1 //是否开启提现
       },
       headers: {
         authorized: sessionStorage.token
@@ -2974,11 +2986,13 @@ export default {
     getCommissionConfig(){
       getCommissionConfig().then(res=>{
         let commissionParamData = res.obj
-        this.commissionParam.rateCash = commissionParamData.rateCash * 100;
+        this.commissionParam =  {...res.obj}
+        this.commissionParam.rateCash = this.commissionParam.rateCash * 100;
         this.commissionParam.cashOutWay = commissionParamData.cashOutWay //提现方式
         this.commissionParam.minCashAmount = commissionParamData.minCashAmount
         this.commissionParam.maxCashAmount = commissionParamData.maxCashAmount
         this.commissionParam.cashOutTypes = commissionParamData.cashOutTypes
+        this.commissionParam.isAllow = Number(commissionParamData.isAllow)
       }).catch(() => {
         this.loading = false
       })

@@ -35,6 +35,7 @@ export default {
   },
   data () {
     return {
+
       tableData: [],
       params: {
         gdWebServiceKey: '',
@@ -54,7 +55,21 @@ export default {
   computed: {},
   created () {
   },
+  mounted () {
+    this.getGaoDeKey()
+  },
   methods: {
+    getGaoDeKey(){
+      let companyId = sessionStorage.getItem("companyId")
+      toolApi.getGaoDeKey(companyId).then(res => {
+        // this.$message.success(res.msg)
+        this.params.gdWebServiceKey = res.obj.gdWebServiceKey;
+        this.params.gdWebSideKey = res.obj.gdWebSideKey;
+
+      }).catch(() => {
+        this.$message.error(res.msg)
+      })
+    },
     submitInfo (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
