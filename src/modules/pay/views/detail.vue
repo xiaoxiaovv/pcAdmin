@@ -48,6 +48,9 @@
       <el-tab-pane label="畅捷"
                    name="13"
                    v-if="payConfig.indexOf('畅捷支付') > -1"></el-tab-pane>
+      <el-tab-pane label="易生"
+                   name="14"
+                   v-if="payConfig.indexOf('易生') > -1"></el-tab-pane>
     </el-tabs>
     <div v-show="activeName === '1'">
       <el-card class="box-card">
@@ -70,6 +73,14 @@
               <td>
                 <ImgShow :url="detail.epresentativePhotoId2"
                          v-if="detail.epresentativePhotoId2"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
                 <span v-else>暂无</span>
               </td>
             </tr>
@@ -164,6 +175,14 @@
               <td>
                 <ImgShow :url="detail.bankCardPositivePicId"
                          v-if="detail.bankCardPositivePicId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
                 <span v-else>暂无</span>
               </td>
             </tr>
@@ -1374,6 +1393,65 @@
         </div>
       </el-card>
     </div>
+    <!--易生通道-->
+    <div v-show="activeName === '14'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>易生通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>费率</td>
+              <td>{{(detail.ysWxRate === null || detail.ysWxRate === undefined) ? '暂无' : detail.ysWxRate+'%'}}</td>
+            </tr>
+            <!--<tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>-->
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{yiSData.chanpayMchId || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件状态</td>
+              <td>{{entryStatus[yiSData.entryStatus] || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件结果</td>
+              <td>{{yiSData.ysMsg || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{yiSData.commitTime || '暂无'}}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+    </div>
 
     <!--修改结算费率-->
     <el-dialog class="vm-dialog vm-dialog-body-top-10px"
@@ -1415,6 +1493,7 @@ export default {
       sjPosData: '',
       kdbData: '',
       cjData:'',
+      yiSData:'',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1601,6 +1680,11 @@ export default {
           // console.log('this.cjData11111111111',this.cjData)
           // this.cjMsgHandle(this.cjData)
           // console.log('开店宝进件info==================',res)
+        })
+      }
+      else if (item.channel === 13) { // 畅捷
+        detailApi.getYiSCode({ id: item.id }).then(res => {
+          this.yiSData = res.obj
         })
       }
     },

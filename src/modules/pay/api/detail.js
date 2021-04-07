@@ -108,7 +108,17 @@ export function getCjCode(params) {
   })
 }
 
-
+/**
+ * 易生-查询进件状态
+ * @param {*} params
+ */
+export function getYiSCode(params) {
+  return request({
+    url: '/batchFeed/yisheng/get_ys_feedstatus',
+    method: 'get',
+    params
+  })
+}
 // 设置费率
 export function setRate (params) {
   return request({
