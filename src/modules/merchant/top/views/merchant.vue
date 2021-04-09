@@ -246,11 +246,10 @@
           </el-switch>
         </el-form-item>
         <el-form-item label="定位地址："
-                      show-message
-                      prop="address">
+                      >
           <el-input v-model="locationAddress"
                     class="formItem"></el-input>
-          <el-button type="primary" size="small" @click="geoCode">定位</el-button>
+<!--          <el-button type="primary" size="small" @click="geoCode">定位</el-button>-->
           <!--          <el-button type="primary" size="small" @click="geolocationFn">自动定位</el-button>-->
         </el-form-item>
         <!--
@@ -368,7 +367,7 @@
                       prop="address">
           <el-input v-model="locationAddress"
                     class="formItem"></el-input>
-          <el-button type="primary" size="small" @click="geoCode">定位</el-button>
+<!--          <el-button type="primary" size="small" @click="geoCode">定位</el-button>-->
 <!--          <el-button type="primary" size="small" @click="geolocationFn">自动定位</el-button>-->
         </el-form-item>
 
@@ -411,10 +410,10 @@
       </el-form>
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="editMerchantClose">取消</el-button>
+        <el-button  @click="editMerchantClose">取消</el-button>
         <el-button type="primary"
                    @click="changeMerchant()"
-                   v-loading="btnLoading"
+
                    :disabled="btnLoading">确定</el-button>
       </span>
     </el-dialog>
@@ -721,7 +720,7 @@ export default {
       })
     },
     //根据中文地址转为坐标
-    geoCode() {
+    geoCode(mechantAddOrChange) {
       // console.log('省=========',this.editMerchantForm.province)
       // console.log('市=========',this.editMerchantForm.city)
       // console.log('aaaaaaaaaaaaa=========', this.$refs['editMerchantForm'])
@@ -732,15 +731,24 @@ export default {
 
       // let address  = document.getElementById('address').value;
       this.geocoder.getLocation(this.locationAddress, (status, result)=> {
+        this.btnLoading = true;
         if (status === 'complete'&&result.geocodes.length) {
           let lngLat = result.geocodes[0].location
           this.editMerchantForm.longitude = lngLat.lng
           this.editMerchantForm.latitude = lngLat.lat
           this.newMerchantForm.longitude = lngLat.lng
           this.newMerchantForm.latitude = lngLat.lat
-          this.$message.success('点击确定提交')
+          if(mechantAddOrChange === 1){
+            this.sureAdd()
+          }else if(mechantAddOrChange === 2){
+            this.sureModify()
+          }
+
+
+          // this.$message.success('点击确定提交')
           // document.getElementById('lnglat').value = lnglat;
         }else{
+          this.btnLoading = false;
           // log.error('根据地址查询位置失败');
           this.$message.error('根据地址查询位置失败')
         }
@@ -1131,6 +1139,7 @@ export default {
      * 关闭新增模态框
      */
     newMerchantClose: function () {
+      this.locationAddress = '';
       this.newMerchantForm = {
         name: '', // 公司名/个人名
         contact: '', // 联系人
@@ -1163,16 +1172,22 @@ export default {
     /**
      * 提交
      */
-    submitMerchant: function (sType) {
+    submitMerchant: function () {
+      // this.loading = true
       this.$refs.newMerchantForm.validate((valid) => {
         if (valid) {
-          this.sureAdd(sType)
+          if(this.locationAddress){
+            this.geoCode(1)
+          }else {
+            this.sureAdd()
+          }
+          // this.sureAdd()
         } else {
           return false
         }
       })
     },
-    sureAdd(sType) {
+    sureAdd() {
       if (this.newMerchantForm.password) {
         let isValid = validatorRules.password.valid(this.newMerchantForm.password)
         if (!isValid) {
@@ -1264,6 +1279,7 @@ export default {
      * 关闭编辑模态框
      */
     editMerchantClose: function () {
+      this.locationAddress = '';
       this.editMerchant = false
       this.categoryArr = []
     },
@@ -1272,7 +1288,12 @@ export default {
     changeMerchant() {
       this.$refs.editMerchantForm.validate((valid) => {
         if (valid) {
-          this.sureModify()
+          if(this.locationAddress){
+            this.geoCode(2)
+          }else{
+            this.sureModify()
+          }
+
         } else {
           return false
         }
