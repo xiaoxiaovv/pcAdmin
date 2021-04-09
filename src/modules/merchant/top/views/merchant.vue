@@ -248,6 +248,7 @@
         <el-form-item label="定位地址："
                       >
           <el-input v-model="locationAddress"
+                    placement="请输入商铺地址"
                     class="formItem"></el-input>
 <!--          <el-button type="primary" size="small" @click="geoCode">定位</el-button>-->
           <!--          <el-button type="primary" size="small" @click="geolocationFn">自动定位</el-button>-->
