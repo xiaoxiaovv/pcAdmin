@@ -36,6 +36,26 @@
       <div class="vm-flex-1" v-if="payConfig.indexOf('天阙随行付') > -1">
         <p class="title">天阙随行付交易金额/佣金总额</p>
       </div>
+
+
+      <div class="vm-flex-1" v-if="payConfig.indexOf('易生') > -1">
+        <p class="title">易生交易金额/佣金总额</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('开店宝') > -1">
+        <p class="title">开店宝交易金额/佣金总额</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('畅捷') > -1">
+        <p class="title">畅捷交易金额/佣金总额</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('手机pos') > -1">
+        <p class="title">手机pos交易金额/佣金总额</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('网联') > -1">
+        <p class="title">快捷支付金额/佣金总额</p>
+      </div>
+
+
+
       <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
         <p class="title">已结算佣金</p>
       </div>
@@ -75,6 +95,23 @@
       <div class="vm-flex-1" v-if="payConfig.indexOf('天阙随行付') > -1">
         <p class="num">{{sumarryObj.tqOrderTotal || 0}}/{{sumarryObj.tqCommissionTotal || 0}}</p>
       </div>
+
+      <div class="vm-flex-1" v-if="payConfig.indexOf('易生') > -1">
+        <p class="num">{{ sumarryObj.yiShengOrderTotal || 0 }}/{{ sumarryObj.yiShengCommissionTotal || 0 }}</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('开店宝') > -1">
+        <p class="num">{{ sumarryObj.kdbOrderTotal || 0 }}/{{ sumarryObj.kdbCommissionTotal || 0 }}</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('畅捷') > -1">
+        <p class="num">{{ sumarryObj.chanpayOrderTotal || 0 }}/{{ sumarryObj.chanpayCommissionTotal || 0 }}</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('手机pos') > -1">
+        <p class="num">{{ sumarryObj.posOrderTotal || 0 }}/{{ sumarryObj.posCommissionTotal || 0 }}</p>
+      </div>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('网联') > -1">
+        <p class="num">{{ sumarryObj.quickOrderTotal || 0 }}/{{ sumarryObj.quickCommissionTotal || 0 }}</p>
+      </div>
+
       <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
         <p class="num">{{sumarryObj.settleCommisson}}</p>
       </div>
@@ -155,53 +192,89 @@
         </el-table-column>
         <el-table-column label="交易总额/佣金总额" min-width="100">
           <template slot-scope="scope">
-            {{scope.row.orderTotal}}/{{scope.row.settleTotal}}
+            {{scope.row.orderTotal}}/{{scope.row.commissionTotal}}
           </template>
         </el-table-column>
         <el-table-column label="微信交易金额/佣金总额" min-width="100" v-if="payConfig.indexOf('官方') > -1">
           <template slot-scope="scope">
-            {{scope.row.wxOrderTotal}}/{{scope.row.wxSettleTotal}}
+            {{scope.row.wxOrderTotal}}/{{scope.row.wxCommissionTotal}}
           </template>
         </el-table-column>
         <el-table-column label="支付宝交易金额/佣金总额" min-width="100" v-if="payConfig.indexOf('官方') > -1">
           <template slot-scope="scope">
-            {{scope.row.zfbOrderTotal}}/{{scope.row.zfbSettleTotal}}
+            {{scope.row.zfbOrderTotal}}/{{scope.row.zfbCommissionTotal}}
           </template>
         </el-table-column>
         <el-table-column label="随行付交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('随行付') > -1">
           <template slot-scope="scope">
-            {{scope.row.sxfOrderTotal}}/{{scope.row.sxfSettleTotal}}
+            {{scope.row.sxfOrderTotal}}/{{scope.row.sxfCommissionTotal}}
           </template>
         </el-table-column>
         <el-table-column label="富友交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('富友') > -1">
           <template slot-scope="scope">
-            {{scope.row.fyOrderTotal}}/{{scope.row.fySettleTotal}}
+            {{scope.row.fyOrderTotal}}/{{scope.row.fyCommissionTotal}}
           </template>
         </el-table-column>
         <!--威富通-->
         <el-table-column label="威富通交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('威富通') > -1">
           <template slot-scope="scope">
-            {{scope.row.ysOrderTotal}}/{{scope.row.ysSettleTotal}}
+            {{scope.row.ysOrderTotal}}/{{scope.row.ysCommissionTotal}}
           </template>
         </el-table-column>
         <!--传化-->
         <el-table-column label="传化交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('传化') > -1">
           <template slot-scope="scope">
-            {{scope.row.chOrderTotal}}/{{scope.row.chSettleTotal}}
+            {{scope.row.chOrderTotal}}/{{scope.row.chCommissionTotal}}
           </template>
         </el-table-column>
         <!--乐刷-->
         <el-table-column label="乐刷交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('乐刷') > -1">
           <template slot-scope="scope">
-            {{scope.row.lsOrderTotal}}/{{scope.row.lsSettleTotal}}
+            {{scope.row.lsOrderTotal}}/{{scope.row.lsCommissionTotal}}
           </template>
         </el-table-column>
         <!--天阙随行付-->
         <el-table-column label="天阙随行付交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('天阙随行付') > -1">
           <template slot-scope="scope">
-            {{scope.row.tqOrderTotal}}/{{scope.row.tqSettleTotal}}
+            {{scope.row.tqOrderTotal}}/{{scope.row.tqCommissionTotal}}
           </template>
         </el-table-column>
+
+
+        <el-table-column label="易生交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('易生') > -1">
+          <template slot-scope="scope">
+            {{scope.row.yiShengOrderTotal}}/{{scope.row.yiShengCommissionTotal}}
+          </template>
+        </el-table-column>
+        <el-table-column label="开店宝交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('开店宝') > -1">
+          <template slot-scope="scope">
+            {{scope.row.kdbOrderTotal}}/{{scope.row.kdbCommissionTotal}}
+          </template>
+        </el-table-column>
+        <el-table-column label="畅捷交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('畅捷') > -1">
+          <template slot-scope="scope">
+            {{scope.row.chanpayOrderTotal}}/{{scope.row.chanpayCommissionTotal}}
+          </template>
+        </el-table-column>
+        <el-table-column label="手机pos交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('手机pos') > -1">
+          <template slot-scope="scope">
+            {{scope.row.posOrderTotal}}/{{scope.row.posCommissionTotal}}
+          </template>
+        </el-table-column>
+        <el-table-column label="快捷支付交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('网联') > -1">
+          <template slot-scope="scope">
+            {{scope.row.quickOrderTotal}}/{{scope.row.quickCommissionTotal}}
+          </template>
+        </el-table-column>
+
+
+
+
+
+
+
+
+
         <el-table-column label="结算状态">
           <template slot-scope="scope">
             {{scope.row.status === 1 ? '结算' : '未结算'}}
