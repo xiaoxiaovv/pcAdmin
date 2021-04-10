@@ -3,7 +3,7 @@ import qs from 'qs'
 
 // 数据概览
 export function getDataView (companyId) {
-  console.log('this.companyId', companyId)
+  // console.log('this.companyId', companyId)
   return request({
     url: '/auth/running_account_new/date_view',
     method: 'get',

@@ -234,3 +234,13 @@ export function openAliApply (params) {
     params: params
   })
 }
+// 获取高德秘钥
+export function getGaoDeKey (serviceId) {
+  return request({
+    url: '/auth/gaode_map_config',
+    method: 'get',
+    params: {
+      companyId:serviceId
+    }
+  })
+}

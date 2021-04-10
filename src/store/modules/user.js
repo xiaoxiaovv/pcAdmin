@@ -15,6 +15,7 @@ const user = {
     login ({commit}, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo.username, userInfo.password).then(response => {
+          // console.log('用户信息=======',response)
           sessionStorage.username = userInfo.username
           sessionStorage.token = response.obj.token
           sessionStorage.companyId = response.obj.companyId
@@ -22,6 +23,7 @@ const user = {
           sessionStorage.userType = response.obj.userType
           sessionStorage.name = response.obj.name
           sessionStorage.level = response.obj.level
+          sessionStorage.serviceId = response.obj.serviceId
           if (response.obj.logo) {
             sessionStorage.loginLogo = response.obj.logo
           } else {

@@ -439,7 +439,7 @@
 </template>
 
 <script>
-import { getAppletConfig, getMerchantList, cancle, saveAppletConfig, resetPwd, updateStatus, deployWechatApi, addMerchant, editMerchant } from '../api/merchant'
+import { getAppletConfig, getMerchantList, cancle, saveAppletConfig, resetPwd, updateStatus, deployWechatApi, addMerchant, editMerchant, getGaoDeKey } from '../api/merchant'
 import pagination from '@/components/pagination/index'
 import { turnToWechatConfig, auditstatuseWechatApi, experienceWechatApi, releaseWechatApi } from '../api/merchantWechat'
 import * as commonApi from '@/api/common'
@@ -465,6 +465,7 @@ export default {
       callback(errors)
     }
     return {
+      serviceId:'', //服务商id
       locationAddress:'', //定位地址
       geocoder: null,
       geolocation:null,
@@ -633,32 +634,10 @@ export default {
     }
   },
   created() {
-    AMapLoader.load({
-      "key": "ec2655d926a9b2662c416608d087fff6",              // 申请好的Web端开发者Key，首次调用 load 时必填
-      "version": "1.4.15",   // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-      "plugins": ['AMap.Geocoder', 'AMap.Geolocation'],           // 需要使用的的插件列表，如比例尺'AMap.Scale'等
-      "AMapUI": {             // 是否加载 AMapUI，缺省不加载
-        "version": '1.1',   // AMapUI 缺省 1.1
-        "plugins":[],       // 需要加载的 AMapUI ui插件
-      },
-      "Loca":{                // 是否加载 Loca， 缺省不加载
-        "version": '1.3.2'  // Loca 版本，缺省 1.3.2
-      },
-    }).then((AMap)=>{
-      // map = new AMap.Map('container');
-      this.geocoder = new AMap.Geocoder({
-        city: "", //城市设为北京，默认：“全国”
-      });
-      this.geolocation = new AMap.Geolocation({
-        enableHighAccuracy: true, //是否使用高精度定位，默认:true
-        timeout: 10000, //超过10秒后停止定位，默认：5s
-        // position: 'RB', //定位按钮的停靠位置
-        // buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-        // zoomToAccuracy: true //定位成功后是否自动调整地图视野到定位点
-      })
-    }).catch(e => {
-      console.log(e);
-    })
+    this.serviceId = sessionStorage.serviceId
+    this.getGaoDeKey();
+    // console.log('serviceId22222222',this.serviceId)
+
 
 
     this.userType = sessionStorage.getItem('userType')
@@ -688,6 +667,44 @@ export default {
     }
   },
   methods: {
+    getGaoDeKey(){
+      getGaoDeKey(this.serviceId).then(res => {
+        this.gdWebKey = res.obj.gdWebSideKey;
+        this.AMapLoader();
+      })
+    },
+    AMapLoader(){
+      AMapLoader.load({
+        // "key": "ec2655d926a9b2662c416608d087fff6",              // 申请好的Web端开发者Key，首次调用 load 时必填
+        "key": this.serviceId,
+        "version": "1.4.15",   // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+        "plugins": ['AMap.Geocoder', 'AMap.Geolocation'],           // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        "AMapUI": {             // 是否加载 AMapUI，缺省不加载
+          "version": '1.1',   // AMapUI 缺省 1.1
+          "plugins":[],       // 需要加载的 AMapUI ui插件
+        },
+        "Loca":{                // 是否加载 Loca， 缺省不加载
+          "version": '1.3.2'  // Loca 版本，缺省 1.3.2
+        },
+      }).then((AMap)=>{
+        // map = new AMap.Map('container');
+        this.geocoder = new AMap.Geocoder({
+          city: "", //城市设为北京，默认：“全国”
+        });
+        this.geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true, //是否使用高精度定位，默认:true
+          timeout: 10000, //超过10秒后停止定位，默认：5s
+          // position: 'RB', //定位按钮的停靠位置
+          // buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          // zoomToAccuracy: true //定位成功后是否自动调整地图视野到定位点
+        })
+      }).catch(e => {
+        console.log(e);
+      })
+    },
+
+
+
     provInfoChange(e){
       // // console.log('省市change====',e)
       // console.log('aaaaaaaaaaaaa=========', this.$refs['editMerchantForm'].getCheckedNodes())
