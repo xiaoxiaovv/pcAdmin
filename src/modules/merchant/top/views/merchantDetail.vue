@@ -32,6 +32,12 @@
             <td class="tb_text">{{operaDetail.businessLevOne}}→{{operaDetail.businessLevTwo}}→{{operaDetail.businessLevThree}}</td>  <!--内容-->
             <td class="tb_title">联系地址</td>   <!--标题-->
             <td class="tb_text">{{operaDetail.provinceName}}→{{operaDetail.cityName}}→{{operaDetail.address}}</td>  <!--内容-->
+            <td class="tb_title">定位开关</td>   <!--标题-->
+            <td class="tb_text">{{operaDetail.isOpen===1?'已开启':operaDetail.isOpen===-1?'已关闭':'未知'}}</td>  <!--内容-->
+          </tr>
+          <tr>
+            <td class="tb_title">定位地址</td>   <!--标题-->
+            <td class="tb_text">{{operaDetail.latitude?'已设置':'未设置'}}</td>  <!--内容-->
           </tr>
           </tbody>
         </table>

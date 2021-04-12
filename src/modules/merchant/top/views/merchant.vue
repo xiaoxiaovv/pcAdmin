@@ -246,6 +246,7 @@
           </el-switch>
         </el-form-item>
         <el-form-item label="定位地址："
+                      v-show="newMerchantForm.isOpen===1"
                       >
           <el-input v-model="locationAddress"
                     placement="请输入商铺地址"
@@ -364,8 +365,7 @@
           </el-switch>
         </el-form-item>
         <el-form-item label="定位地址："
-                      show-message
-                      prop="address">
+                      v-show="editMerchantForm.isOpen===1">
           <el-input v-model="locationAddress"
                     class="formItem"></el-input>
 <!--          <el-button type="primary" size="small" @click="geoCode">定位</el-button>-->
@@ -676,7 +676,7 @@ export default {
     AMapLoader(){
       AMapLoader.load({
         // "key": "ec2655d926a9b2662c416608d087fff6",              // 申请好的Web端开发者Key，首次调用 load 时必填
-        "key": this.serviceId,
+        "key": this.gdWebKey,
         "version": "1.4.15",   // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
         "plugins": ['AMap.Geocoder', 'AMap.Geolocation'],           // 需要使用的的插件列表，如比例尺'AMap.Scale'等
         "AMapUI": {             // 是否加载 AMapUI，缺省不加载
@@ -709,7 +709,7 @@ export default {
       // // console.log('省市change====',e)
       // console.log('aaaaaaaaaaaaa=========', this.$refs['editMerchantForm'].getCheckedNodes())
     },
-    //获取坐标转为中文地址
+    /*//获取坐标转为中文地址
     geolocationFn(){
       // var  that = this;
       this.geolocation.getCurrentPosition((status, result) => {
@@ -736,7 +736,7 @@ export default {
           this.$toast.error('定位失败', result.message)
         }
       })
-    },
+    },*/
     //根据中文地址转为坐标
     geoCode(mechantAddOrChange) {
       // console.log('省=========',this.editMerchantForm.province)
@@ -766,9 +766,33 @@ export default {
           // this.$message.success('点击确定提交')
           // document.getElementById('lnglat').value = lnglat;
         }else{
+          //没有填写定位地址会走这里
+          let longitude = ''
+          let latitude = ''
+          let submit = ()=>{};
+          if(mechantAddOrChange === 1){
+            longitude = this.newMerchantForm.longitude;
+            latitude = this.newMerchantForm.latitude
+            submit = this.sureAdd
+          }else if(mechantAddOrChange === 2){
+            longitude = this.editMerchantForm.longitude;
+            latitude = this.editMerchantForm.latitude
+            submit = this.sureModify
+          }
+
           this.btnLoading = false;
-          // log.error('根据地址查询位置失败');
-          this.$message.error('根据地址查询位置失败')
+          if(this.locationAddress){
+            this.$message.error('根据地址查询位置失败,'+result)
+          }else if(!longitude && !latitude && !this.locationAddress){
+            //  没有填地址，也没有历史定位记录则需要抛错
+            this.$message.error('根据地址查询位置失败,'+result)
+          }else if(longitude && latitude && !this.locationAddress){
+            //  有历史地址，但是没写中文地址，不抛错，直接提交
+            submit();
+          }else{
+            this.$message.error('定位功能异常，请联系管理员,'+result)
+          }
+
         }
       });
     },
@@ -1194,9 +1218,9 @@ export default {
       // this.loading = true
       this.$refs.newMerchantForm.validate((valid) => {
         if (valid) {
-          if(this.locationAddress){
+          if(this.newMerchantForm.isOpen === 1){
             this.geoCode(1)
-          }else {
+          }else if(this.newMerchantForm.isOpen === -1){
             this.sureAdd()
           }
           // this.sureAdd()
@@ -1306,9 +1330,9 @@ export default {
     changeMerchant() {
       this.$refs.editMerchantForm.validate((valid) => {
         if (valid) {
-          if(this.locationAddress){
+          if(this.editMerchantForm.isOpen === 1){
             this.geoCode(2)
-          }else{
+          }else if(this.editMerchantForm.isOpen === -1){
             this.sureModify()
           }
 
