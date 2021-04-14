@@ -241,6 +241,7 @@
         </el-form-item>
         <el-form-item label="定位开关">
           <el-switch v-model="newMerchantForm.isOpen"
+                     :disabled="true"
                      :active-value="1"
                      :inactive-value="-1">
           </el-switch>
@@ -518,7 +519,7 @@ export default {
 
         longitude:'',
         latitude:'',
-        isOpen:'' //开启定位 1 -1
+        isOpen:1 //开启定位 1 -1
       },
       // 编辑
       editMerchant: false, // 编辑修改模态框

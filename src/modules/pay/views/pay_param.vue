@@ -197,7 +197,45 @@
           </el-input-number>
           元
         </el-form-item>
+        <el-form-item label="提现时间">
 
+          <!--操作时段-->
+          <div >
+
+            <!--//时间选择-->
+            <template>
+              <el-form-item
+                style="margin-bottom: 3px">
+                <template>
+                  <el-form-item style="display: inline-block;width: 120px"
+                                :prop="commissionParam.cashOutStartTime"
+                                :rules="{required: true, message: '时间不能为空', trigger: 'blur'}">
+                    <el-time-select
+                      placeholder="起始时间"
+                      v-model="commissionParam.cashOutStartTime"
+                      :disabled="payDisable"
+                      :picker-options="{start: '08:00',step: '00:30',end: '11:00:'}"
+                      style="width: 120px">
+                    </el-time-select>
+                  </el-form-item>
+                  <el-form-item style="display: inline-block;width: 120px"
+                                :prop="commissionParam.cashOutEndTime"
+                                :rules="{required: true, message: '时间不能为空', trigger: 'blur'}">
+                    <el-time-select
+                      placeholder="结束时间"
+                      v-model="commissionParam.cashOutEndTime"
+                      :disabled="payDisable"
+                      :picker-options="{start: '14:00',step: '00:30',end: '18:00',minTime: commissionParam.startTime}"
+                      style="width: 120px">
+                    </el-time-select>
+                  </el-form-item>
+                </template>
+              </el-form-item>
+            </template>
+
+          </div>
+
+        </el-form-item>
         <el-form-item label="提现方式">
           <el-radio-group :disabled="payDisable"
                           @change="radioChange"
@@ -214,6 +252,7 @@
             <el-checkbox label="3" name="cashOutTypes">银行卡</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+
       </el-form>
       <div slot="footer"
            class="dialog-footer">
@@ -2309,6 +2348,8 @@ export default {
       commissionDialog: false,
       commissionDisable: true,
       commissionParam:{
+        cashOutStartTime: '',
+        cashOutEndTime: '',
         serviceFee:'',
         dayNums:'',
         minCashAmount: 0, // 最小提现金额
@@ -2988,11 +3029,15 @@ export default {
         let commissionParamData = res.obj
         this.commissionParam =  {...res.obj}
         this.commissionParam.rateCash = this.commissionParam.rateCash * 100;
-        this.commissionParam.cashOutWay = commissionParamData.cashOutWay //提现方式
-        this.commissionParam.minCashAmount = commissionParamData.minCashAmount
-        this.commissionParam.maxCashAmount = commissionParamData.maxCashAmount
-        this.commissionParam.cashOutTypes = commissionParamData.cashOutTypes
-        this.commissionParam.isAllow = Number(commissionParamData.isAllow)
+/*        this.commissionParam.cashOutWay = this.commissionParam.cashOutWay //提现方式
+        this.commissionParam.minCashAmount = this.commissionParam.minCashAmount
+        this.commissionParam.maxCashAmount = this.commissionParam.maxCashAmount
+        this.commissionParam.cashOutTypes = this.commissionParam.cashOutTypes*/
+        this.commissionParam.isAllow = Number(this.commissionParam.isAllow)
+        this.commissionParam.cashOutStartTime = this.commissionParam.cashOutStartTime.substring(0,5)
+        this.commissionParam.cashOutEndTime = this.commissionParam.cashOutEndTime.substring(0,5)
+
+
       }).catch(() => {
         this.loading = false
       })
@@ -3027,6 +3072,8 @@ export default {
       console.log(33333333,this.commissionParam.rateCash)
       // todo 不进行深拷贝，在浏览器看请求数据，费率会自动变为0
       let newData = JSON.parse(JSON.stringify(this.commissionParam))
+      newData.cashOutStartTime = newData.cashOutStartTime+':00'
+      newData.cashOutEndTime = newData.cashOutEndTime+':00'
       saveCommissionConfig(newData).then(response => {
         this.$message({
           message: response.msg,
