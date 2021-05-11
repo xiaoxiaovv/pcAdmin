@@ -1434,7 +1434,7 @@
           <table>
             <tr>
               <td>商户编号</td>
-              <td>{{yiSData.chanpayMchId || '暂无'}}</td>
+              <td>{{yiSData.ysMchId || '暂无'}}</td>
             </tr>
             <tr>
               <td>进件状态</td>
