@@ -361,6 +361,7 @@
         </el-form-item>
         <el-form-item label="定位开关">
           <el-switch v-model="editMerchantForm.isOpen"
+                     :disabled="locationDisabledFlag"
                      :active-value="1"
                      :inactive-value="-1">
           </el-switch>
@@ -466,6 +467,7 @@ export default {
       callback(errors)
     }
     return {
+      locationDisabledFlag:true, // 定位开关按钮
       serviceId:'', //服务商id
       locationAddress:'', //定位地址
       geocoder: null,
@@ -635,6 +637,12 @@ export default {
     }
   },
   created() {
+    this.userType = sessionStorage.getItem('userType')
+    if (this.userType == 1  || this.userType == 2 ) {
+      this.locationDisabledFlag = false
+    }  else {
+      this.locationDisabledFlag = true
+    }
     this.serviceId = sessionStorage.serviceId
     this.getGaoDeKey();
     // console.log('serviceId22222222',this.serviceId)
@@ -1199,7 +1207,8 @@ export default {
         // payProrata: 0, // 分佣比例【数值】
         companyId: '', // {{levelAlias.firstName}}或者{{levelAlias.secondName}}id
         managerId: '', // 业务员id
-        status: '1' // 正常状态
+        status: '1', // 正常状态
+        isOpen: 1,
       }
       this.categoryNewArr = []
       this.newMerchant = false
