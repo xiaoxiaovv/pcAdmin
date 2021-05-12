@@ -67,3 +67,24 @@ export function getGaoDeKey (companyId) {
   })
 }
 
+// 提交支付宝秘钥
+export function saveAliKey (params) {
+  return request({
+    url: '/auth/ali_open_config/setOpenConfig',
+    method: 'PUT',
+    data: params,
+    jsonHeader: true
+  })
+}
+
+// 获取支付宝钥
+export function getAliKey (companyId) {
+  return request({
+    url: '/auth/ali_open_config/getOpenConfig',
+    method: 'get',
+    params: {
+      companyId
+    }
+  })
+}
+
