@@ -29,6 +29,7 @@
     <!--表格-->
 <!--    <div><span>设备供应商ID：{{tableData[0].supplierId}}}</span></div>-->
     <el-table :data="tableData"
+              border
               style="width: 100%">
       <el-table-column prop="deviceSn"
                        label="设备SN">
@@ -65,7 +66,7 @@
         </template>
       </el-table-column>
       <el-table-column label="商户名"
-                       width="180">
+                       >
         <!--防止字符串过长，影响表格，加了一个鼠标经过文字提示-->
         <template slot-scope="scope">
           <el-tooltip effect="dark"
@@ -85,7 +86,7 @@
       <el-table-column prop="companyName"
                        label="归属上级">
       </el-table-column>
-      <el-table-column width="300"
+      <el-table-column
                        label="操作">
         <template slot-scope="scope">
           <!--//如果有方法，传入参数“scope.row”-->
