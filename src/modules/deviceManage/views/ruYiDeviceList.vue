@@ -31,13 +31,16 @@
     <el-table :data="tableData"
               style="width: 100%">
       <el-table-column prop="deviceSn"
-                       label="设备序列号">
+                       label="设备SN">
+      </el-table-column>
+      <el-table-column prop="supplierId"
+                       label="设备供应商ID">
       </el-table-column>
       <el-table-column prop="shopId"
                        label="门店ID">
       </el-table-column>
       <el-table-column prop="source"
-                       label="商户pid">
+                       label="受理商户的ISV在支付宝的pid">
       </el-table-column>
       <el-table-column label="直连/间联">
         <template slot-scope="scope">
@@ -45,10 +48,22 @@
         </template>
       </el-table-column>
 <!--  merchantId    商户角色id。对于直连开店场景，填写商户pid；对于间连开店场景，填写商户smid-->
-      <el-table-column  prop="merchantId"
+      <el-table-column  prop="merchantIdIndirect"
                        label="商户smid">
       </el-table-column>
+      <el-table-column  prop="merchantIdDirect"
+                        label="商户pid">
+      </el-table-column>
+      <el-table-column  prop="pid"
+                        label="smid关联的pid">
+      </el-table-column>
+      <el-table-column label="绑定状态">
+        <template slot-scope="scope">
 
+            <span>{{ scope.row.aliStatus==='1'?'未绑定':scope.row.aliStatus==='2'?'已绑定': scope.row.aliStatus==='3'?'已解绑':''}}</span>
+
+        </template>
+      </el-table-column>
       <el-table-column label="商户名"
                        width="180">
         <!--防止字符串过长，影响表格，加了一个鼠标经过文字提示-->
@@ -77,12 +92,12 @@
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
 
-          <el-button type="text"
+          <el-button type="text" v-if="scope.row.aliStatus!=='2'"
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
 
-          <template v-if="userType == '1'">
-            <el-button type="text"
-                       @click="openAppletConfigDialog(scope.row)">解绑</el-button>
+          <template  >
+            <el-button type="text" v-if="scope.row.aliStatus==='2'"
+                       @click="ruYiUnbind(scope.row)">解绑</el-button>
           </template>
         </template>
       </el-table-column>
@@ -106,10 +121,16 @@
                :label-width="formLabelWidth"
                size="mini">
 
-        <el-form-item label="设备序列号："
+        <el-form-item label="设备SN："
                       show-message
                       prop="deviceSn">
           <el-input v-model="ruYiDataForm.deviceSn"
+                    class="formItem"></el-input>
+        </el-form-item>
+        <el-form-item label="设备供应商ID："
+                      show-message
+                      prop="supplierId">
+          <el-input v-model="ruYiDataForm.supplierId"
                     class="formItem"></el-input>
         </el-form-item>
         <el-form-item label="门店ID："
@@ -118,12 +139,18 @@
           <el-input v-model="ruYiDataForm.shopId"
                     class="formItem"></el-input>
         </el-form-item>
-        <el-form-item label="商户pid："
+        <el-form-item label="受理商户的ISV在支付宝的pid："
                       show-message
                       prop="source">
           <el-input v-model="ruYiDataForm.source"
                     class="formItem"></el-input>
         </el-form-item>
+        <!--<el-form-item label="商户ID："
+                      show-message
+                      prop="source">
+          <el-input v-model="ruYiDataForm.externalId"
+                    class="formItem"></el-input>
+        </el-form-item>-->
         <el-form-item label="商户ID类型" prop="merchantIdType">
 
             <el-radio-group v-model="ruYiDataForm.merchantIdType" size="small" @change="changeIdType($event)">
@@ -132,13 +159,24 @@
             </el-radio-group>
 
         </el-form-item>
-        <el-form-item label="商户smid："
+        <el-form-item label="商户smid（间连）："
                       show-message
-                      prop="merchantId">
-          <el-input v-model="ruYiDataForm.merchantId"
+                      prop="merchantIdIndirect">
+          <el-input v-model="ruYiDataForm.merchantIdIndirect"
                     class="formItem"></el-input>
         </el-form-item>
-
+        <el-form-item label="商户pid（直连）："
+                      show-message
+                      prop="merchantIdDirect">
+          <el-input v-model="ruYiDataForm.merchantIdDirect"
+                    class="formItem"></el-input>
+        </el-form-item>
+        <el-form-item label="smid关联的pid（间连）："
+                      show-message
+                      prop="merchantIdDirect">
+          <el-input v-model="ruYiDataForm.pid"
+                    class="formItem"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -154,11 +192,16 @@
 </template>
 
 <script>
-import { getMerchantList, ruYiBind } from '../api/ruYiDevice'
+import {
+  Message,
+  MessageBox
+} from 'element-ui'
+import { getMerchantList, ruYiBind, ruYiUnbind } from '../api/ruYiDevice'
 import pagination from '@/components/pagination/index'
 // import FollowConfig from './components/followConfig.vue'
 // import AliLiftConfig from './components/aliLiftConfig.vue'
 import * as validatorRules from '@/utils/validator'
+import * as advertiseApi from '../../advertisement/api/advManage'
 
 export default {
   name: 'merchant',
@@ -189,9 +232,10 @@ export default {
         externalId:'',
         merchantIdType:'',
         merchantId:'',
+        merchantIdDirect:'',
+        merchantIdIndirect:'',
         shopId:'',
-        pid:'',
-
+        pid:''
       },
       loading: true,
       btnLoading: false,
@@ -272,23 +316,64 @@ export default {
 
   },
   methods: {
+    //绑定如意
     ruYiBind(){
+      this.loading = true
+      if(this.ruYiDataForm.merchantIdType === 'direct'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
+      }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
+      }
       this.ruYiDataForm.externalId = this.ruYiDataForm.id
-      this.ruYiDataForm.supplierId = '201901111100635561'
+      // this.ruYiDataForm.supplierId = '201901111100635561'
       // if(this.ruYiDataForm.merchantIdType === 'direct'){}else{}
-      this.ruYiDataForm.merchantId = '2088300771125282';
-      this.ruYiDataForm.pid = '2088002392388920';
-
-
-
+      // this.ruYiDataForm.merchantId = '2088300771125282';
+      // this.ruYiDataForm.pid = '2088002392388920';
       ruYiBind(this.ruYiDataForm).then(res => {
-        let data = res.obj
-        console.log(data)
-        this.tableData = data.content
-        this.totalElements = data.totalElements
-        setTimeout(() => {
-          this.loading = false
-        }, 500)
+
+
+        this.getMerchantList()
+        this.$message({
+          message: res.msg,
+          type: 'success',
+          duration: 3000
+        })
+        this.bindRuYiDialogFlag = false
+        this.loading = false
+
+      }).catch(e => {
+        this.loading = false
+      })
+    },
+    ruYiUnbindModal(data){
+      this.$confirm(msg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.ruYiUnbind(data)
+      }).catch(() => {
+      })
+    },
+    //解绑如意
+    ruYiUnbind(data){
+      /*if(this.ruYiDataForm.merchantIdType === 'direct'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
+      }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
+      }*/
+      this.loading = true
+      data.externalId = data.id
+      ruYiUnbind(data).then(res => {
+        this.getMerchantList()
+        this.$message({
+          message: res.msg,
+          type: 'success',
+          duration: 3000
+        })
+        this.loading = false
+        // this.bindRuYiDialogFlag = false
+
       }).catch(e => {
         this.loading = false
       })
@@ -297,9 +382,15 @@ export default {
      * 打开编辑模态框 获取数据、渲染经营类型、回显经营类型
      */
     openbindRuYiDialog: function (row) {
+
       console.log(row)
       // 打开模态框
      this.ruYiDataForm = {...row}
+      if(this.ruYiDataForm.merchantIdType === 'direct'){
+        this.ruYiDataForm.merchantIdDirect = this.ruYiDataForm.merchantId
+      }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
+        this.ruYiDataForm.merchantIdIndirect = this.ruYiDataForm.merchantId
+      }
       this.bindRuYiDialogFlag = true
     },
     /**
@@ -309,6 +400,11 @@ export default {
       this.bindRuYiDialogFlag = false
     },
     changeIdType(event){
+      /*if(event === 'direct'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
+      }else if(event === 'indirect'){
+        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
+      }*/
 
     },
     /**
@@ -323,6 +419,13 @@ export default {
         let data = res.obj
         console.log(data)
         this.tableData = data.content
+        this.tableData.forEach(item=>{
+          if(item.merchantIdType === 'direct'){
+            item.merchantIdDirect = item.merchantId
+          }else if(item.merchantIdType === 'indirect'){
+            item.merchantIdIndirect = item.merchantId
+          }
+        })
         this.totalElements = data.totalElements
         setTimeout(() => {
           this.loading = false

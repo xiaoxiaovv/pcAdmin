@@ -34,8 +34,8 @@ export function ruYiUnbind(data) {
   return request({
     url: '/zfb/unbind',
     method: 'post',
-    data
-    // data: qs.stringify(form)
+    // data
+    data: qs.stringify(data)
   })
 }
 
