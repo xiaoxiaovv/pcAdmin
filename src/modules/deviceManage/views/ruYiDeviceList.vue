@@ -1,67 +1,87 @@
 <template>
   <div class="app-container">
     <!--功能-->
-    <!--<div class="action-container">
-      &lt;!&ndash;商户名&ndash;&gt;
+    <div class="action-container">
+      <!--设备SN-->
+      <el-input v-model="searchForm.deviceSn"
+                @keyup.enter.native="search"
+                placeholder="商户名"
+                size="small"
+                class="formItem"></el-input>
+      <!--绑定状态-->
+      <el-select  placeholder="绑定状态"
+                  size="small"
+                  class="formItem"
+                  clearable
+                  v-model="searchForm.aliStatus"
+                  @change="search">
+        <el-option v-for="item in aliStatusOption"
+                   :key="item.value"
+                   :label="item.name"
+                   :value="item.value"></el-option>
+      </el-select>
+      <!--商户名-->
       <el-input v-model="searchForm.name"
                 @keyup.enter.native="search"
                 placeholder="商户名"
                 size="small"
                 class="formItem"></el-input>
-      &lt;!&ndash;联系人&ndash;&gt;
+      <!--联系人-->
       <el-input v-model="searchForm.contact"
                 @keyup.enter.native="search"
                 placeholder="联系人"
                 size="small"
                 class="formItem"></el-input>
-      &lt;!&ndash;按钮&ndash;&gt;
+      <!--按钮-->
       <el-button type="primary"
                  size="small"
                  @click="search">查询</el-button>
       <el-button type="primary"
                  size="small"
                  @click="reset">重置</el-button>
-      <el-button type="primary"
-                 size="small"
-                 @click="newMerchantOpen">新增</el-button>
-    </div>-->
+
+    </div>
 
     <!--表格-->
-<!--    <div><span>设备供应商ID：{{tableData[0].supplierId}}}</span></div>-->
+<!--    <div class="mb10 mt-20 vm-color-6 vm-font-16px"><span>设备供应商ID：{{tableData[0].supplierId}}</span></div>-->
     <el-table :data="tableData"
               border
               style="width: 100%">
       <el-table-column prop="deviceSn"
                        label="设备SN">
       </el-table-column>
-      <el-table-column prop="supplierId"
+      <el-table-column prop="alipayAccount"
+                       label="支付宝账号">
+      </el-table-column>
+      <!--<el-table-column prop="supplierId"
                        label="设备供应商ID">
+      </el-table-column>-->
+      <el-table-column  prop="merchantId"
+                        label="商家ID（直连）">
       </el-table-column>
       <el-table-column prop="shopId"
                        label="门店ID">
       </el-table-column>
-      <el-table-column prop="source"
+     <!-- <el-table-column prop="source"
                        label="受理商户的ISV在支付宝的pid">
-      </el-table-column>
-      <el-table-column label="直连/间联">
+      </el-table-column>-->
+      <!--<el-table-column label="直连/间联">
         <template slot-scope="scope">
           {{scope.row.merchantIdType === 'direct'?'直连':scope.row.merchantIdType === 'indirect'?'间连':''}}
         </template>
-      </el-table-column>
+      </el-table-column>-->
 <!--  merchantId    商户角色id。对于直连开店场景，填写商户pid；对于间连开店场景，填写商户smid-->
-      <el-table-column  prop="merchantIdIndirect"
+  <!--    <el-table-column  prop="merchantIdIndirect"
                        label="商户smid">
       </el-table-column>
-      <el-table-column  prop="merchantIdDirect"
-                        label="商户pid">
-      </el-table-column>
+
       <el-table-column  prop="pid"
                         label="smid关联的pid">
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column label="绑定状态">
         <template slot-scope="scope">
 
-            <span>{{ scope.row.aliStatus==='1'?'未绑定':scope.row.aliStatus==='2'?'已绑定': scope.row.aliStatus==='3'?'已解绑':''}}</span>
+            <span :class="{warning: scope.row.aliStatus==='1', success: scope.row.aliStatus==='2',  danger: scope.row.aliStatus==='3', }">{{ scope.row.aliStatus==='1'?'未绑定':scope.row.aliStatus==='2'?'已绑定': scope.row.aliStatus==='3'?'已解绑':''}}</span>
 
         </template>
       </el-table-column>
@@ -97,8 +117,9 @@
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
 
           <template  >
+<!--            v-if="scope.row.aliStatus==='2'"-->
             <el-button type="text" v-if="scope.row.aliStatus==='2'"
-                       @click="ruYiUnbind(scope.row)">解绑</el-button>
+                       @click="ruYiUnbindModal(scope.row)">解绑</el-button>
           </template>
         </template>
       </el-table-column>
@@ -128,10 +149,16 @@
           <el-input v-model="ruYiDataForm.deviceSn"
                     class="formItem"></el-input>
         </el-form-item>
-        <el-form-item label="设备供应商ID："
+        <!--<el-form-item label="设备供应商ID："
                       show-message
                       prop="supplierId">
           <el-input v-model="ruYiDataForm.supplierId"
+                    class="formItem"></el-input>
+        </el-form-item>-->
+        <el-form-item label="商家ID（直连）："
+                      show-message
+                      prop="merchantId">
+          <el-input v-model="ruYiDataForm.merchantId"
                     class="formItem"></el-input>
         </el-form-item>
         <el-form-item label="门店ID："
@@ -140,44 +167,39 @@
           <el-input v-model="ruYiDataForm.shopId"
                     class="formItem"></el-input>
         </el-form-item>
-        <el-form-item label="受理商户的ISV在支付宝的pid："
+        <!--<el-form-item label="受理商户的ISV在支付宝的pid："
                       show-message
                       prop="source">
           <el-input v-model="ruYiDataForm.source"
                     class="formItem"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <!--<el-form-item label="商户ID："
                       show-message
                       prop="source">
           <el-input v-model="ruYiDataForm.externalId"
                     class="formItem"></el-input>
         </el-form-item>-->
-        <el-form-item label="商户ID类型" prop="merchantIdType">
+        <!--<el-form-item label="商户ID类型" prop="merchantIdType">
 
             <el-radio-group v-model="ruYiDataForm.merchantIdType" size="small" @change="changeIdType($event)">
               <el-radio-button label="direct">直连</el-radio-button>
               <el-radio-button label="indirect">间联</el-radio-button>
             </el-radio-group>
 
-        </el-form-item>
-        <el-form-item label="商户smid（间连）："
+        </el-form-item>-->
+        <!--<el-form-item label="商户smid（间连）："
                       show-message
                       prop="merchantIdIndirect">
           <el-input v-model="ruYiDataForm.merchantIdIndirect"
                     class="formItem"></el-input>
-        </el-form-item>
-        <el-form-item label="商户pid（直连）："
-                      show-message
-                      prop="merchantIdDirect">
-          <el-input v-model="ruYiDataForm.merchantIdDirect"
-                    class="formItem"></el-input>
-        </el-form-item>
-        <el-form-item label="smid关联的pid（间连）："
+        </el-form-item>-->
+
+        <!--<el-form-item label="smid关联的pid（间连）："
                       show-message
                       prop="merchantIdDirect">
           <el-input v-model="ruYiDataForm.pid"
                     class="formItem"></el-input>
-        </el-form-item>
+        </el-form-item>-->
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -219,10 +241,19 @@ export default {
       callback(errors)
     }
     return {
-      searchForm: {
+      searchForm : {
         name: '', // 公司名
-        contact: '' // 联系人，
+        contact: '', // 联系人，
+        deviceSn: '', // 设备SN，
+        aliStatus: '' // 绑定状态，
       },
+      aliStatusOption:[
+        {value:1, name: '未绑定'},
+        {value:2, name: '已绑定'},
+        {value:3, name: '已解绑'},
+      ],
+      comCurrentPage:null, //当前页码
+      pageSize:null, //请求条数
       bindRuYiDialogFlag:false,
       formLabelWidth: '130px',
       serviceId:'', //服务商id
@@ -233,8 +264,8 @@ export default {
         externalId:'',
         merchantIdType:'',
         merchantId:'',
-        merchantIdDirect:'',
-        merchantIdIndirect:'',
+       /* merchantIdDirect:'',
+        merchantIdIndirect:'',*/
         shopId:'',
         pid:''
       },
@@ -320,19 +351,26 @@ export default {
     //绑定如意
     ruYiBind(){
       this.loading = true
-      if(this.ruYiDataForm.merchantIdType === 'direct'){
+      /*if(this.ruYiDataForm.merchantIdType === 'direct'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
       }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
-      }
+      }*/
+      this.ruYiDataForm.supplierId = '201901111100635561'  //设备供应商id 死值不会变
       this.ruYiDataForm.externalId = this.ruYiDataForm.id
+      this.ruYiDataForm.source = this.ruYiDataForm.merchantId
+      this.ruYiDataForm.merchantIdType = 'direct'
+
       // this.ruYiDataForm.supplierId = '201901111100635561'
       // if(this.ruYiDataForm.merchantIdType === 'direct'){}else{}
       // this.ruYiDataForm.merchantId = '2088300771125282';
       // this.ruYiDataForm.pid = '2088002392388920';
       ruYiBind(this.ruYiDataForm).then(res => {
-
-
+        if(this.comCurrentPage && this.pageSize){
+          this.getMerchantList(this.comCurrentPage, this.pageSize)
+        }else{
+          this.getMerchantList()
+        }
         this.getMerchantList()
         this.$message({
           message: res.msg,
@@ -346,16 +384,7 @@ export default {
         this.loading = false
       })
     },
-    ruYiUnbindModal(data){
-      this.$confirm(msg, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.ruYiUnbind(data)
-      }).catch(() => {
-      })
-    },
+
     //解绑如意
     ruYiUnbind(data){
       /*if(this.ruYiDataForm.merchantIdType === 'direct'){
@@ -366,7 +395,12 @@ export default {
       this.loading = true
       data.externalId = data.id
       ruYiUnbind(data).then(res => {
-        this.getMerchantList()
+        if(this.comCurrentPage && this.pageSize){
+          this.getMerchantList(this.comCurrentPage, this.pageSize)
+        }else{
+          this.getMerchantList()
+        }
+
         this.$message({
           message: res.msg,
           type: 'success',
@@ -379,6 +413,16 @@ export default {
         this.loading = false
       })
     },
+    ruYiUnbindModal(data){
+      this.$confirm(`确定要解绑 ${data.deviceSn} 设备吗`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.ruYiUnbind(data)
+      }).catch(() => {
+      })
+    },
     /**
      * 打开编辑模态框 获取数据、渲染经营类型、回显经营类型
      */
@@ -387,11 +431,11 @@ export default {
       console.log(row)
       // 打开模态框
      this.ruYiDataForm = {...row}
-      if(this.ruYiDataForm.merchantIdType === 'direct'){
+      /*if(this.ruYiDataForm.merchantIdType === 'direct'){
         this.ruYiDataForm.merchantIdDirect = this.ruYiDataForm.merchantId
       }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
         this.ruYiDataForm.merchantIdIndirect = this.ruYiDataForm.merchantId
-      }
+      }*/
       this.bindRuYiDialogFlag = true
     },
     /**
@@ -414,19 +458,27 @@ export default {
      * @param pageSize
      */
     getMerchantList(number, pageSize) {
+      if(number && pageSize){
+        this.comCurrentPage = number;
+        this.pageSize = pageSize
+      }else {
+        this.comCurrentPage = null;
+        this.pageSize = null
+      }
+
       this.loading = true
       let companyId = sessionStorage.getItem('companyId')
       getMerchantList(number, pageSize, this.searchForm, companyId).then(res => {
         let data = res.obj
         console.log(data)
         this.tableData = data.content
-        this.tableData.forEach(item=>{
+        /*this.tableData.forEach(item=>{
           if(item.merchantIdType === 'direct'){
             item.merchantIdDirect = item.merchantId
           }else if(item.merchantIdType === 'indirect'){
             item.merchantIdIndirect = item.merchantId
           }
-        })
+        })*/
         this.totalElements = data.totalElements
         setTimeout(() => {
           this.loading = false
@@ -434,12 +486,38 @@ export default {
       }).catch(e => {
         this.loading = false
       })
+    },
+    /**
+     * 搜索与重置
+     */
+    search() {
+      this.$refs.page.search()
+    },
+    reset() {
+      // channel 设置为“本商户”
+      this.searchForm = {
+        name: '', // 公司名
+        contact: '', // 联系人，
+        deviceSn: '', // 设备SN，
+        aliStatus: '' // 绑定状态，
+      }// 搜索用的表单
+      this.$refs.page.search()
     }
+
   }
 }
 </script>
 
 <style scoped>
+.danger{
+  color:#F56C6C ;
+}
+.warning{
+  color: #E6A23C;
+}
+.success{
+  color:#67C23A ;
+}
 .formItem {
   display: inline-block;
   width: 240px;

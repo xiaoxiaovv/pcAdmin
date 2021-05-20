@@ -49,12 +49,9 @@ export function getMerchantList (pageNumber, pageSize, searchData, companyId) {
       pageSize: pageSize,
       name: searchData.name,
       contact: searchData.contact,
-      companyName: searchData.companyName,
       companyId: companyId,
-      isFindPayChanel: searchData.isFindPayChanel,
-      isFindPayConfig: searchData.isFindPayConfig,
-      deviceSn: '',
-      aliStatus: ''
+      deviceSn: searchData.deviceSn,
+      aliStatus: searchData.aliStatus
 
     }
   })
