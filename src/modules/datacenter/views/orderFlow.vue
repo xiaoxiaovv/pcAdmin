@@ -227,20 +227,21 @@ export default {
       this.searchForm.type = 1
     }*/
     // 默认查询
-    this.defaultSearch()
-    // this.getPayWay();
+
+    this.getPayWay();
   },
   methods: {
 
     /**
      * 获取支付渠道
      */
-    getPayWay: function () {
+    getPayWay() {
       getPayWayOption().then(res => {
         let data = res.obj
         // 获取支付渠道
         this.payWays = data
-        this.getOrderFlowList(1,10)
+        this.defaultSearch()
+        // this.getOrderFlowList(1,10)
       }).catch(e => {
 
       })
