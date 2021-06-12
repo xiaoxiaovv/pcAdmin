@@ -306,6 +306,8 @@
                       v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
             <el-radio label="20"
                       v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
+            <el-radio label="21"
+                      v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
 
           </el-radio-group>
         </el-form-item>
@@ -1070,6 +1072,31 @@
                         placeholder="算法类型"></el-input>
             </el-form-item>
           </div>
+          <!--敏付-->
+          <div v-show="payParam.payWay==21">
+            <el-form-item label="敏付渠道号">
+              <el-input type="text"
+                        v-model.trim="topParam.mfMerchantNo"
+                        :disabled="payDisable"
+                        placeholder="敏付渠道号"></el-input>
+            </el-form-item>
+            <el-form-item label="敏付版本号">
+              <el-input type="text"
+                        v-model.trim="topParam.mfApiVersion"
+                        :disabled="payDisable"
+                        placeholder="敏付版本号"></el-input>
+            </el-form-item>
+            <el-form-item label="费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.mfTradeRate">
+              </el-input-number>
+              %
+            </el-form-item>
+          </div>
         </div>
 
 
@@ -1133,6 +1160,9 @@
             <el-radio label="20"
                       class="mt10"
                       v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
+            <el-radio label="21"
+                      class="mt10"
+                      v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
 
 
             <!--<el-radio label="15"
@@ -1957,6 +1987,51 @@
                       placeholder="商户号"></el-input>
           </el-form-item>
         </div>
+        <!--敏付配置-->
+        <div v-show="payParam.payWay==21">
+          <el-form-item label="支付宝费率">
+            <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
+                      placeholder="例如：0.002"></el-input> -->
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.mf.aliInterestRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="微信费率">
+            <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
+                      placeholder="例如：0.002"></el-input> -->
+            <el-input-number :disabled="payDisable"
+                             :precision="2"
+                             :min="0"
+                             :max="100"
+                             :step="0.01"
+                             v-model="payParam.mf.wxInterestRate">
+            </el-input-number>
+            %
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        placement="top-start">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-form-item>
+          <!-- subMchId -->
+          <el-form-item label="商户号">
+            <el-input v-model.trim="payParam.mf.mchId"
+                      :disabled="payDisable"
+                      placeholder="商户号"></el-input>
+          </el-form-item>
+        </div>
         <!--=秒到配置-->
         <!-- <div v-show="payParam.payWay==4">
           <el-form-item label="微信利率">
@@ -2221,7 +2296,13 @@ export default {
         acqSpId:'', //渠道编号
         merchantPrivateKey:'', //私钥
         chanpayPublicKey:'', //公钥
-        chanpayTradeRate:'' //费率
+        chanpayTradeRate:'', //费率
+      //  敏付
+        mfMerchantNo:'', //渠道编号
+        mfApiVersion:'',  //接口版本号
+        mfTradeRate:'' // 交易费率
+
+
       },
       // 商户支付参数
       payDialog: false,
@@ -2340,6 +2421,12 @@ export default {
         cj: {
           merCode:'', //通道商户编号
           chanpayWxTradeRate:'' //费率
+        },
+        //  敏付
+        mf: {
+          mchId:'', //通道商户编号
+          aliInterestRate:'', //支付宝费率
+          wxInterestRate:'' //微信费率
         }
 
 
@@ -2556,6 +2643,10 @@ export default {
       this.topParam.chanpayPublicKey = '' // 公钥
       this.topParam.chanpayTradeRate = ''   //费率
 
+      this.topParam.mfMerchantNo = '' //渠道编号
+      this.topParam.mfApiVersion = ''  //接口版本号
+      this.topParam.mfTradeRate = '' // 交易费率
+
 
 
 
@@ -2678,6 +2769,11 @@ export default {
         this.topParam.chanpayPublicKey = data.chanpayPublicKey // 公钥
         this.topParam.chanpayTradeRate = Number(data.chanpayTradeRate) ? Number(data.chanpayTradeRate) * 100 : 0    //费率
 
+        //敏付
+        this.topParam.mfMerchantNo = data.mfMerchantNo //渠道编号
+        this.topParam.mfApiVersion = data.mfApiVersion  //接口版本号
+        this.topParam.mfTradeRate = Number(data.mfTradeRate) ? Number(data.mfTradeRate) * 100 : 0    //费率
+
         // console.log(response)
       }).catch(() => {
         this.loading = false
@@ -2728,6 +2824,11 @@ export default {
       // params.kdbServiceRate = (Number(params.kdbServiceRate) / 100).toFixed(4)    //D0费率
       //畅捷
       params.chanpayTradeRate = (Number(params.chanpayTradeRate) / 100).toFixed(4)    //费率
+      //敏付
+      params.mfTradeRate = (Number(params.mfTradeRate) / 100).toFixed(4)    //费率
+
+
+
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -2852,6 +2953,10 @@ export default {
       //  畅捷
       this.payParam.cj.merCode = '' // 通道商户编号
       this.payParam.cj.chanpayWxTradeRate = '' // 费率
+    //  敏付
+      this.payParam.mf.mchId = '' // 通道商户编号
+      this.payParam.mf.aliInterestRate = '' // 费率
+      this.payParam.mf.wxInterestRate = '' // 费率
     },
     findPayConfig(merchantId) {
       findPayConfig(merchantId).then(response => {
@@ -3011,6 +3116,13 @@ export default {
         if (cjData) {
           this.payParam.cj.chanpayWxTradeRate = cjData.chanpayWxTradeRate * 100
           this.payParam.cj.merCode = cjData.merCode //商户编号
+        }
+        // 敏付
+        let mfData = data.mf
+        if (cjData) {
+          this.payParam.mf.aliInterestRate = mfData.aliInterestRate * 100
+          this.payParam.mf.wxInterestRate = mfData.wxInterestRate * 100
+          this.payParam.mf.mchId = cjData.mchId //商户编号
         }
 
       }).catch(() => {
@@ -3380,6 +3492,18 @@ export default {
         let params = {
           merchantId: this.merchantId,
           payWay: 20,
+          payConfig: JSON.stringify(config)
+        }
+        arr.push(params)
+      }
+      // 敏付
+      if (this.payParam.mf && (this.payParam.mf.wxInterestRate || this.payParam.mf.mchId)) {
+        config = JSON.parse(JSON.stringify(this.payParam.mf))
+        config.aliInterestRate = Number((this.payParam.mf.aliInterestRate / 100).toFixed(4))
+        config.wxInterestRate = Number((this.payParam.mf.wxInterestRate / 100).toFixed(4))
+        let params = {
+          merchantId: this.merchantId,
+          payWay: 21,
           payConfig: JSON.stringify(config)
         }
         arr.push(params)
