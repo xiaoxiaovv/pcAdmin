@@ -204,10 +204,10 @@
             this.verifyCodeLoading = true;
             //调用确认解约接口
             verifyCode(this.verifyCodeForm).then(res => {
-              // this.$message({
-              //   message: response.msg,
-              //   type: 'success'
-              // })
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
               this.verifyCode = false //关闭发货模态框
               this.verifyCodeForm = {} //表单置空
               this.getList();//刷新列表
@@ -235,10 +235,10 @@
         }).then(() => {
           sendSms().then(res => {
             console.log("发送验证码成功")
-            // this.$message({
-            //   message: response.msg,
-            //   type: 'success'
-            // })
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
             console.log("展示模态框")
             //发送成功展示模态框
             this.verifyCode = true //展示解约确认模态框
@@ -258,10 +258,10 @@
             this.updateAliWithholdLoading = true;
             //调用发货接口
             updateAliWithhold(this.updateAliWithholdForm).then(res => {
-              // this.$message({
-              //   message: response.msg,
-              //   type: 'success'
-              // })
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
               this.updateAliWithhold = false //关闭发货模态框
               this.updateAliWithholdForm = {} //表单置空
               this.getList(); //刷新列表
