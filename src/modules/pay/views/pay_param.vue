@@ -3119,10 +3119,10 @@ export default {
         }
         // 敏付
         let mfData = data.mf
-        if (cjData) {
+        if (mfData) {
           this.payParam.mf.aliInterestRate = mfData.aliInterestRate * 100
           this.payParam.mf.wxInterestRate = mfData.wxInterestRate * 100
-          this.payParam.mf.mchId = cjData.mchId //商户编号
+          this.payParam.mf.mchId = mfData.mchId //商户编号
         }
 
       }).catch(() => {
