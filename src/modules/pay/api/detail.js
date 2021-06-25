@@ -119,6 +119,18 @@ export function getYiSCode(params) {
     params
   })
 }
+
+/**
+ * 敏付-查询进件状态
+ * @param {*} params
+ */
+export function getMFCode(params) {
+  return request({
+    url: '/batchFeed/mf/getMfFeedStatus',
+    method: 'get',
+    params
+  })
+}
 // 设置费率
 export function setRate (params) {
   return request({
