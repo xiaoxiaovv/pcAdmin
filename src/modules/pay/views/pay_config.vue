@@ -219,6 +219,7 @@
               <el-radio v-model="form.yl.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
               <el-radio v-model="form.yl.scanPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
+
               <!--<el-radio v-model="form.yl.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.yl.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
 
