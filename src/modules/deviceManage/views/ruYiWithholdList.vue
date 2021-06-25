@@ -27,7 +27,7 @@
           <span v-if="scope.row.status=='APPLY_UNSIGN'">申请解约</span>
         </template>
       </el-table-column>
-      <el-table-column label="收货地址">
+      <el-table-column label="收货地址" width="200">
         <!--防止字符串过长，影响表格，加了一个鼠标经过文字提示-->
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.address" placement="top">
@@ -35,7 +35,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column prop="subPeriod" label="已扣款周期数" width="120"></el-table-column>
+      <el-table-column prop="subPeriod" label="已扣周期" width="80"></el-table-column>
       <el-table-column prop="createTime" label="申请日期"></el-table-column>
       <el-table-column prop="updateTime" label="更新日期"></el-table-column>
       <el-table-column prop="logisticsNum" label="物流单号"></el-table-column>
@@ -234,12 +234,12 @@
           type: 'warning'
         }).then(() => {
           sendSms().then(res => {
-            console.log("发送验证码成功")
+            // console.log("发送验证码成功")
             this.$message({
               message: res.msg,
               type: 'success'
             })
-            console.log("展示模态框")
+            // console.log("展示模态框")
             //发送成功展示模态框
             this.verifyCode = true //展示解约确认模态框
             this.verifyCodeForm.agreementNo = row.agreementNo //协议编号赋值
