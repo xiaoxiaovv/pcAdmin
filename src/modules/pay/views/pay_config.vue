@@ -222,7 +222,6 @@
 
               <!--<el-radio v-model="form.yl.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.yl.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
-
             </div>
           </div>
           <!--

@@ -1806,6 +1806,7 @@ export default {
     /**
      *显示不同售卖场景下的表单
      */
+
     showSell: function () {
       let select = this.sellCheck
       let offlice = false
