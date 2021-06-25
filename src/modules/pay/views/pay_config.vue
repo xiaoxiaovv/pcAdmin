@@ -101,6 +101,7 @@
               <el-radio v-model="form.wx.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.wx.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.wx.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.wx.scanPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
 <!--			        <el-radio v-model="form.wx.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>-->
 <!--              <el-radio v-model="form.wx.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -128,6 +129,7 @@
               <el-radio v-model="form.wx.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.wx.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.wx.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.wx.wapPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
 			        <!--<el-radio v-model="form.wx.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.wx.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -156,6 +158,7 @@
               <el-radio v-model="form.ali.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.ali.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.ali.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.ali.scanPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
               <!--<el-radio v-model="form.ali.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.ali.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -183,6 +186,7 @@
               <el-radio v-model="form.ali.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.ali.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.ali.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.ali.wapPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
 			        <!--<el-radio v-model="form.ali.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.ali.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -213,6 +217,7 @@
               <el-radio v-model="form.yl.scanPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.yl.scanPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.yl.scanPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
               <!--<el-radio v-model="form.yl.scanPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.yl.scanPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
@@ -240,6 +245,7 @@
               <el-radio v-model="form.yl.wapPay" label="14" v-if="payConfig.indexOf('新大陆') > -1" border>新大陆</el-radio>
               <el-radio v-model="form.yl.wapPay" label="19" v-if="payConfig.indexOf('开店宝') > -1" border>开店宝</el-radio>
               <el-radio v-model="form.yl.wapPay" label="20" v-if="payConfig.indexOf('畅捷') > -1" border>畅捷</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="21" v-if="payConfig.indexOf('敏付') > -1" border>敏付</el-radio>
 
               <!--<el-radio v-model="form.yl.wapPay" label="15" v-if="payConfig.indexOf('银联') > -1" border>中国银联</el-radio>
               <el-radio v-model="form.yl.wapPay" label="16" v-if="payConfig.indexOf('拉卡拉') > -1" border>拉卡拉</el-radio>-->
