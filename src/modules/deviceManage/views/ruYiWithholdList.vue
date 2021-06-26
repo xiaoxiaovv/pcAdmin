@@ -210,6 +210,7 @@
               })
               this.verifyCode = false //关闭发货模态框
               this.verifyCodeForm = {} //表单置空
+              this.verifyCodeLoading = false
               this.getList();//刷新列表
             }).catch(e => {
               this.verifyCodeLoading = false
@@ -264,7 +265,9 @@
               })
               this.updateAliWithhold = false //关闭发货模态框
               this.updateAliWithholdForm = {} //表单置空
+              this.updateAliWithholdLoading = false//
               this.getList(); //刷新列表
+
             }).catch(e => {
               this.updateAliWithholdLoading = false
             })
