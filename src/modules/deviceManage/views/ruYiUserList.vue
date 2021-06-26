@@ -21,11 +21,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="userId" label="ali用户id" ></el-table-column>
-      <el-table-column prop="nickName" label="昵称" ></el-table-column>
+      <el-table-column prop="nickName" label="昵称" >
+        <template slot-scope="scope">
+          <span >{{scope.row.nickName || '--'}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="gender" label="性别" >
         <template slot-scope="scope">
           <span v-if="scope.row.gender=='F' || scope.row.gender=='f'">女</span>
           <span v-if="scope.row.gender=='M' || scope.row.gender=='m'">男</span>
+          <span v-if="!scope.row.gender">--</span>
         </template>
       </el-table-column>
       <el-table-column label="授权状态">
