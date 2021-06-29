@@ -49,8 +49,10 @@
           <table>
             <tr>
               <td>银行卡照片</td>
-              <td v-for="(item, index) in userInfo.bank">
-                <ImgShow :url="item.substring(item.length-19,item.length)" v-if="item"></ImgShow>
+              <td >
+                <span v-for="(item, index) in userInfo.bank">
+                  <ImgShow :url="item.substring(item.length-19,item.length)" v-if="item"></ImgShow>
+                </span>
               </td>
             </tr>
           </table>
@@ -81,8 +83,10 @@
             </tr>
             <tr>
               <td>店铺照片</td>
-              <td v-for="(item, index) in userInfo.shopInfo.shopImg">
-                <ImgShow :url="item.substring(item.length-19,item.length)" v-if="item"></ImgShow>
+              <td >
+                <span v-for="(item, index) in userInfo.shopInfo.shopImg">
+                  <ImgShow :url="item.substring(item.length-19,item.length)" v-if="item"></ImgShow>
+                </span>
               </td>
             </tr>
           </table>

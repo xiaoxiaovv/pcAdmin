@@ -45,6 +45,7 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="rooterDeatil(scope.row)">资料详情</el-button>
+          <el-button type="text" v-if="scope.row.userInfoDto && scope.row.userInfo">已上传</el-button>
         </template>
       </el-table-column>
     </el-table>
