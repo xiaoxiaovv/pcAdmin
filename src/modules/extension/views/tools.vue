@@ -51,7 +51,7 @@
               <p></p>
             </div>
           </div>
-          <div class="tools-item" @click="configGaoDeKey">
+          <div class="tools-item" @click="aliConfig">
             <div class="tools-item-img">
               <img src="../../../assets/images/extension/wechat.png" alt="">
             </div>
@@ -177,9 +177,9 @@
     <el-dialog class="vm-dialog"
                title="配置支付宝秘钥"
                width="400px"
-               v-if="gaoDe.show"
-               :visible.sync="gaoDe.show">
-      <ali :propsInfo="gaoDe"></ali>
+               v-if="ali.show"
+               :visible.sync="ali.show">
+      <Ali :propsInfo="ali"></Ali>
     </el-dialog>
   </div>
 </template>
@@ -190,14 +190,17 @@ import { levelAliasMixin } from '@/mixins'
 import ToolWechatConfig from './components/toolWechatConfig.vue'
 import DynamicPsw from './components/dynamicPsw.vue'
 import GaoDe from './components/gaoDe.vue'
-import ali from './components/ali.vue'
+import Ali from './components/ali.vue'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
-  components: {ToolWechatConfig, DynamicPsw, GaoDe, ali},
+  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali},
   data () {
     return {
       gaoDe: {
+        show: false
+      },
+      ali: {
         show: false
       },
       wechatInfo: {
@@ -241,6 +244,9 @@ export default {
     }
   },
   methods: {
+    aliConfig(){
+      this.ali.show = true
+    },
     configGaoDeKey(){
       this.gaoDe.show = true
     },
