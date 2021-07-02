@@ -51,6 +51,9 @@
       <el-tab-pane label="易生"
                    name="14"
                    v-if="payConfig.indexOf('易生') > -1"></el-tab-pane>
+      <el-tab-pane label="敏付"
+                   name="15"
+                   v-if="payConfig.indexOf('敏付') > -1"></el-tab-pane>
     </el-tabs>
     <div v-show="activeName === '1'">
       <el-card class="box-card">
@@ -1453,6 +1456,66 @@
       </el-card>
     </div>
 
+    <div v-show="activeName === '15'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>敏付通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>费率</td>
+              <td>{{(detail.mfTradeRate === null || detail.mfTradeRate === undefined) ? '暂无' : detail.mfTradeRate+'%'}}</td>
+            </tr>
+            <!--<tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>-->
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{mfData.mfMerchantNo || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件状态</td>
+              <td>{{entryStatus[mfData.entryStatus] || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件结果</td>
+              <td>{{mfData.mfMsg || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{mfData.commitTime || '暂无'}}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
+    </div>
+
+
     <!--修改结算费率-->
     <el-dialog class="vm-dialog vm-dialog-body-top-10px"
                title="费率修改"
@@ -1494,6 +1557,7 @@ export default {
       kdbData: '',
       cjData:'',
       yiSData:'',
+      mfData:'',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1682,9 +1746,14 @@ export default {
           // console.log('开店宝进件info==================',res)
         })
       }
-      else if (item.channel === 13) { // 畅捷
+      else if (item.channel === 13) { // 易生
         detailApi.getYiSCode({ id: item.id }).then(res => {
           this.yiSData = res.obj
+        })
+      }
+      else if (item.channel === 14) { // 敏付
+        detailApi.getMFCode({ id: item.id }).then(res => {
+          this.mfData = res.obj
         })
       }
     },
@@ -1737,6 +1806,7 @@ export default {
     /**
      *显示不同售卖场景下的表单
      */
+
     showSell: function () {
       let select = this.sellCheck
       let offlice = false
