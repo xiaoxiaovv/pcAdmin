@@ -141,3 +141,34 @@ export function commissionListExportExcel (params) {
     params: params
   })
 }
+
+
+
+export function commissioncommCash (pageNumber, pageSize,params) {
+  return request({
+    url: '/order/cash/out/commission_cash_list_pc',
+    method: 'get',
+    params: {
+      pageNumber:pageNumber,
+      pageSize: pageSize,
+      companyName: params.companyName,
+      status: params.status,//结算状态
+      begin: params.begin,
+    }
+
+    // url: '/order/cash/out/commission_cash_list_pc',
+    // method: 'get',
+    // jsonHeader: true,
+    // apiType: 'downFile',
+    // responseType: 'blob',
+    // params: params
+  })
+}
+
+
+
+
+
+
+
+
