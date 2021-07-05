@@ -5,6 +5,9 @@
         <el-form-item label="插件秘钥" prop="cmfKey">
           <el-input v-model.trim="params.cmfKey" placeholder="请输入插件秘钥"></el-input>
         </el-form-item>
+        <el-form-item label="插件合作商id" prop="cmfAgentId">
+          <el-input v-model.trim="params.cmfAgentId" placeholder="请输入插件合作商id"></el-input>
+        </el-form-item>
       </div>
       <div class="vm-text-right" style="padding-top: 20px;">
         <el-button size="medium" @click="propsInfo.show = false">取 消</el-button>
@@ -35,11 +38,15 @@ export default {
 
       tableData: [],
       params: {
-        cmfKey: ''
+        cmfKey: '',
+        cmfAgentId:''
       },
       rules: {
         cmfKey: [
           { required: true, message: '请输入插件秘钥' }
+        ],
+        cmfAgentId: [
+          { required: true, message: '请输入插件合作商id' }
         ],
 
       }
@@ -58,6 +65,7 @@ export default {
       toolApi.getAliKey(companyId).then(res => {
         // this.$message.success(res.msg)
         this.params.cmfKey = res.obj.cmfKey;
+        this.params.cmfAgentId = res.obj.cmfAgentId;
       }).catch(() => {
         this.$message.error(res.msg)
       })
