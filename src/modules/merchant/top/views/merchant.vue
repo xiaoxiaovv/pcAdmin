@@ -69,7 +69,7 @@
             <!--<el-button type="text"
                        @click="aliLiftNumConfig(scope.row)">电子围栏配置</el-button>-->
             <!-- <el-button type="text" @click="cancle(scope.row)">注销</el-button> -->
-            <el-button type="text" @click="createMerchant(scope.row)">插件开户</el-button>
+            <el-button type="text" @click="createMerchant(scope.row)" v-if="!scope.row.cmfShopId">插件开户</el-button>
           </template>
         </template>
       </el-table-column>
