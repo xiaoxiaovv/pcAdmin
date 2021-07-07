@@ -244,3 +244,13 @@ export function getGaoDeKey (serviceId) {
     }
   })
 }
+
+// 聪明付插件开户
+export function createMerchant (merchantId) {
+  return request({
+    url: '/cmf/ignore/createMerchant/'+merchantId,
+    method: 'post',
+    params: {
+    }
+  })
+}

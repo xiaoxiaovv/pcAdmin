@@ -56,10 +56,31 @@
               <img src="../../../assets/images/extension/wechat.png" alt="">
             </div>
             <div class="tools-item-content">
-              <p>配置支付宝秘钥</p>
+              <p>配置如意秘钥</p>
               <p></p>
             </div>
           </div>
+
+          <div class="tools-item" @click="aliCycleConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置周期扣款秘钥</p>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="tools-item" @click="cmfConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置插件秘钥</p>
+              <p></p>
+            </div>
+          </div>
+
         </div>
       </div>
       <div>
@@ -173,13 +194,29 @@
                :visible.sync="gaoDe.show">
       <GaoDe :propsInfo="gaoDe"></GaoDe>
     </el-dialog>
-    <!--支付宝-->
+    <!--支付宝如意-->
     <el-dialog class="vm-dialog"
-               title="配置支付宝秘钥"
+               title="配置支付宝如意秘钥"
                width="400px"
                v-if="ali.show"
                :visible.sync="ali.show">
       <Ali :propsInfo="ali"></Ali>
+    </el-dialog>
+    <!--支付宝周期扣款-->
+    <el-dialog class="vm-dialog"
+               title="配置周期扣款秘钥"
+               width="400px"
+               v-if="aliCycle.show"
+               :visible.sync="aliCycle.show">
+      <AliCycle :propsInfo="aliCycle"></AliCycle>
+    </el-dialog>
+    <!--聪明付插件-->
+    <el-dialog class="vm-dialog"
+               title="配置插件秘钥"
+               width="400px"
+               v-if="cmf.show"
+               :visible.sync="cmf.show">
+      <Cmf :propsInfo="cmf"></Cmf>
     </el-dialog>
   </div>
 </template>
@@ -191,12 +228,20 @@ import ToolWechatConfig from './components/toolWechatConfig.vue'
 import DynamicPsw from './components/dynamicPsw.vue'
 import GaoDe from './components/gaoDe.vue'
 import Ali from './components/ali.vue'
+import AliCycle from './components/aliCycle.vue'
+import Cmf from './components/cmf.vue'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
-  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali},
+  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali,AliCycle,Cmf},
   data () {
     return {
+      cmf: {
+        show: false
+      },
+      aliCycle: {
+        show: false
+      },
       gaoDe: {
         show: false
       },
@@ -244,6 +289,12 @@ export default {
     }
   },
   methods: {
+    cmfConfig(){
+      this.cmf.show = true
+    },
+    aliCycleConfig(){
+      this.aliCycle.show = true
+    },
     aliConfig(){
       this.ali.show = true
     },

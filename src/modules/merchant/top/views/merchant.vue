@@ -69,6 +69,7 @@
             <!--<el-button type="text"
                        @click="aliLiftNumConfig(scope.row)">电子围栏配置</el-button>-->
             <!-- <el-button type="text" @click="cancle(scope.row)">注销</el-button> -->
+            <el-button type="text" @click="createMerchant(scope.row)" v-if="!scope.row.cmfShopId">插件开户</el-button>
           </template>
         </template>
       </el-table-column>
@@ -296,7 +297,8 @@
     deployWechatApi,
     addMerchant,
     editMerchant,
-    getGaoDeKey
+    getGaoDeKey,
+    createMerchant
   } from '../api/merchant'
   import pagination from '@/components/pagination/index'
   import {
@@ -586,6 +588,18 @@
       }
     },
     methods: {
+      //聪明付插件开户
+      createMerchant(row){
+        // alert("商户id："+row.id)
+        createMerchant(row.id).then(res => {
+          this.$message({
+            message: res.msg,
+            type: 'success'
+          })
+          this.$refs.page.refresh()
+        }).catch(() => {
+        })
+      },
       getGaoDeKey() {
         getGaoDeKey(this.serviceId).then(res => {
           this.gdWebKey = res.obj.gdWebSideKey;
