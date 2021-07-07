@@ -142,7 +142,9 @@ export function commissionListExportExcel (params) {
   })
 }
 
-
+/**
+ * 佣金结余
+ */
 
 export function commissioncommCash (pageNumber, pageSize,params) {
   return request({
@@ -164,6 +166,21 @@ export function commissioncommCash (pageNumber, pageSize,params) {
     // params: params
   })
 }
+
+
+export function openMinFu (params) {
+  return request({
+    url: '/batchFeed/mf/setMfprdVers',
+    method: 'get',
+    jsonHeader: true,
+    apiType: 'downFile',
+    responseType: 'blob',
+    params: params
+  })
+}
+
+
+
 
 
 

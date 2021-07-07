@@ -155,3 +155,30 @@ export function getCommissionConfig () {
     // params: params
   })
 }
+
+
+
+
+
+// 敏付产品参数查询
+export function getMfprdVers () {
+  return request({
+    url: '/batchFeed/mf/getMfprdVers',
+    method: 'get'
+    // params: params
+  })
+}
+
+
+// 敏付产品参数保存
+
+export function setMfprdVers (data) {
+  return request({
+    url: '/batchFeed/mf/setMfprdVers',
+    method: 'post',
+    jsonHeader: true,
+    data: data
+  })
+}
+
+
