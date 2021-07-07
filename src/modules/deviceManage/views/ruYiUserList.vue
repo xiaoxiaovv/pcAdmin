@@ -3,11 +3,15 @@
     <!--功能-->
     <div class="action-container">
       <el-input v-model="searchForm.nickName" @keyup.enter.native="search" placeholder="昵称" size="small" class="formItem"></el-input>
-      <el-select placeholder="状态" size="small" class="formItem" clearable v-model="searchForm.authStatus" @change="search">
+      <el-select placeholder="授权状态" size="small" class="formItem" clearable v-model="searchForm.authStatus" @change="search">
         <el-option key="1" label="已授权" value="1"></el-option>
         <el-option key="0" label="未授权" value="0"></el-option>
       </el-select>
       <el-input v-model="searchForm.userId" @keyup.enter.native="search" placeholder="支付宝user_id" size="small" class="formItem"></el-input>
+      <el-select placeholder="上传状态" size="small" class="formItem" clearable v-model="searchForm.userInfo" @change="search">
+        <el-option key="1" label="已上传" value="1"></el-option>
+        <el-option key="2" label="未上传" value="2"></el-option>
+      </el-select>
       <!--按钮-->
       <el-button type="primary" size="small" @click="search">查询</el-button>
       <el-button type="primary" size="small" @click="reset">重置</el-button>

@@ -15,44 +15,47 @@ import qs from 'qs'
 // }
 
 /**
- * 绑定
+ * 绑定2.0
  * @param data
  */
 export function ruYiBind(data) {
   return request({
-    url: '/zfb/bind',
+    url: '/zfb/bind2',
     method: 'post',
     // data
     data: qs.stringify(data)
   })
 }
 /**
- * 解绑
+ * 解绑2.0
  * @param data
  */
 export function ruYiUnbind(data) {
   return request({
-    url: '/zfb/unbind',
+    url: '/zfb/unbind2',
     method: 'post',
     // data
     data: qs.stringify(data)
   })
 }
 
-// 获取商户列表
-export function getMerchantList (pageNumber, pageSize, searchData, companyId) {
+/**
+ * 获取商户列表
+ * @param {Object} pageNumber 页码
+ * @param {Object} pageSize 每页条数
+ * @param {Object} searchData
+ */
+export function getMerQrCodeList (pageNumber, pageSize, searchData) {
   return request({
-    url: '/merchant/merchant/re_list_ali',
+    url: '/merchant/mch_qr_code/getMerQrCodeList',
     method: 'get',
     params: {
       pageNumber: pageNumber,
       pageSize: pageSize,
-      name: searchData.name,
-      contact: searchData.contact,
-      companyId: companyId,
-      deviceSn: searchData.deviceSn,
-      aliStatus: searchData.aliStatus
-
+      merchantName: searchData.merchantName,//商户名称
+      name: searchData.name,//二维码名称
+      aliDeviceSn: searchData.aliDeviceSn,//如意设备SN
+      aliStatus: searchData.aliStatus//绑定状态 1未绑定 2已绑定 3已解绑
     }
   })
 }
