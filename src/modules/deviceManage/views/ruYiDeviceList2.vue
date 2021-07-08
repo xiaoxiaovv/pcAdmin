@@ -48,8 +48,8 @@
               border
               style="width: 100%">
       <el-table-column prop="aliDeviceSn" label="设备SN"> </el-table-column>
-      <el-table-column  prop="merchantId" label="商家ID（直连）"> </el-table-column>
-      <el-table-column prop="shopId" label="门店ID"> </el-table-column>
+      <el-table-column  prop="aliMerchantId" label="商家ID（直连）"> </el-table-column>
+      <el-table-column prop="aliShopId" label="门店ID"> </el-table-column>
 
       <el-table-column label="绑定状态">
         <template slot-scope="scope">
@@ -282,7 +282,7 @@ export default {
 
     //解绑按钮
     ruYiUnbindModal(data){
-      this.$confirm(`确定要解绑 ${data.deviceSn} 设备吗`, '提示', {
+      this.$confirm(`确定要解绑 ${data.aliDeviceSn} 设备吗`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
