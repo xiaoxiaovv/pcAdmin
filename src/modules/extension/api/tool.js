@@ -88,3 +88,12 @@ export function getAliKey (companyId) {
   })
 }
 
+// 提交支付宝秘钥
+export function saveEmails (params) {
+  return request({
+    url: '/auth/ali_open_config/setEmails',
+    method: 'PUT',
+    data: params,
+    jsonHeader: true
+  })
+}

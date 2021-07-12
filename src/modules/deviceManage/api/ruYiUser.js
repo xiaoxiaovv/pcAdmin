@@ -14,6 +14,7 @@ export function getList (pageNumber, pageSize, searchData) {
       userId: searchData.userId,//ali用户id
       authStatus: searchData.authStatus,//状态1已授权0未授权
       nickName: searchData.nickName,//昵称
+      userInfo: searchData.userInfo,//上传状态1已上传 2未上传
     }
   })
 }

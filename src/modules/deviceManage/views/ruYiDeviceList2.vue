@@ -3,7 +3,7 @@
     <!--功能-->
     <div class="action-container">
       <!--设备SN-->
-      <el-input v-model="searchForm.deviceSn"
+      <el-input v-model="searchForm.aliDeviceSn"
                 @keyup.enter.native="search"
                 placeholder="设备SN"
                 size="small"
@@ -21,15 +21,15 @@
                    :value="item.value"></el-option>
       </el-select>
       <!--商户名-->
-      <el-input v-model="searchForm.name"
+      <el-input v-model="searchForm.merchantName"
                 @keyup.enter.native="search"
                 placeholder="商户名"
                 size="small"
                 class="formItem"></el-input>
-      <!--联系人-->
-      <el-input v-model="searchForm.contact"
+      <!--二维码名称-->
+      <el-input v-model="searchForm.name"
                 @keyup.enter.native="search"
-                placeholder="联系人"
+                placeholder="二维码名称"
                 size="small"
                 class="formItem"></el-input>
       <!--按钮-->
@@ -47,75 +47,36 @@
     <el-table :data="tableData"
               border
               style="width: 100%">
-      <el-table-column prop="deviceSn"
-                       label="设备SN">
-      </el-table-column>
-      <el-table-column prop="alipayAccount"
-                       label="支付宝账号">
-      </el-table-column>
-      <!--<el-table-column prop="supplierId"
-                       label="设备供应商ID">
-      </el-table-column>-->
-      <el-table-column  prop="merchantId"
-                        label="商家ID（直连）">
-      </el-table-column>
-      <el-table-column prop="shopId"
-                       label="门店ID">
-      </el-table-column>
-     <!-- <el-table-column prop="source"
-                       label="受理商户的ISV在支付宝的pid">
-      </el-table-column>-->
-      <!--<el-table-column label="直连/间联">
-        <template slot-scope="scope">
-          {{scope.row.merchantIdType === 'direct'?'直连':scope.row.merchantIdType === 'indirect'?'间连':''}}
-        </template>
-      </el-table-column>-->
-<!--  merchantId    商户角色id。对于直连开店场景，填写商户pid；对于间连开店场景，填写商户smid-->
-  <!--    <el-table-column  prop="merchantIdIndirect"
-                       label="商户smid">
-      </el-table-column>
+      <el-table-column prop="aliDeviceSn" label="设备SN"> </el-table-column>
+      <el-table-column  prop="aliMerchantId" label="商家ID（直连）"> </el-table-column>
+      <el-table-column prop="aliShopId" label="门店ID"> </el-table-column>
 
-      <el-table-column  prop="pid"
-                        label="smid关联的pid">
-      </el-table-column>-->
       <el-table-column label="绑定状态">
         <template slot-scope="scope">
-
             <span :class="{warning: scope.row.aliStatus==='1', success: scope.row.aliStatus==='2',  danger: scope.row.aliStatus==='3', }">{{ scope.row.aliStatus==='1'?'未绑定':scope.row.aliStatus==='2'?'已绑定': scope.row.aliStatus==='3'?'已解绑':''}}</span>
-
         </template>
       </el-table-column>
-      <el-table-column label="商户名"
-                       >
+      <el-table-column label="商户名">
         <!--防止字符串过长，影响表格，加了一个鼠标经过文字提示-->
         <template slot-scope="scope">
           <el-tooltip effect="dark"
-                      :content="scope.row.name"
+                      :content="scope.row.merchantName"
                       placement="top">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.merchantName }}</span>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column prop="contact"
-                       label="联系人">
-      </el-table-column>
-      <el-table-column prop="phone"
-                       width="140"
-                       label="联系电话">
-      </el-table-column>
-      <el-table-column prop="companyName"
-                       label="归属上级">
-      </el-table-column>
+
+      <el-table-column prop="name" label="二维码名称"></el-table-column>
+
       <el-table-column
                        label="操作">
         <template slot-scope="scope">
           <!--//如果有方法，传入参数“scope.row”-->
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
-
           <el-button type="text" v-if="scope.row.aliStatus!=='2'"
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
-
           <template  >
 <!--            v-if="scope.row.aliStatus==='2'"-->
             <el-button type="text" v-if="scope.row.aliStatus==='2'"
@@ -127,11 +88,11 @@
 
     <!--翻页-->
     <pagination :total-elements="totalElements"
-                :change-callback="getMerchantList"
+                :change-callback="getMerQrCodeList"
                 ref="page"></pagination>
 
 
-    <!--修改模态框-->
+    <!--绑定设备模态框-->
     <el-dialog title="绑定如意设备"
                width="500px"
                :visible.sync="bindRuYiDialogFlag"
@@ -146,60 +107,21 @@
         <el-form-item label="设备SN："
                       show-message
                       prop="deviceSn">
-          <el-input v-model="ruYiDataForm.deviceSn"
+          <el-input v-model="ruYiDataForm.aliDeviceSn"
                     class="formItem"></el-input>
         </el-form-item>
-        <!--<el-form-item label="设备供应商ID："
-                      show-message
-                      prop="supplierId">
-          <el-input v-model="ruYiDataForm.supplierId"
-                    class="formItem"></el-input>
-        </el-form-item>-->
         <el-form-item label="商家ID（直连）："
                       show-message
                       prop="merchantId">
-          <el-input v-model="ruYiDataForm.merchantId"
+          <el-input v-model="ruYiDataForm.aliMerchantId"
                     class="formItem"></el-input>
         </el-form-item>
         <el-form-item label="门店ID："
                       show-message
                       prop="shopId">
-          <el-input v-model="ruYiDataForm.shopId"
+          <el-input v-model="ruYiDataForm.aliShopId"
                     class="formItem"></el-input>
         </el-form-item>
-        <!--<el-form-item label="受理商户的ISV在支付宝的pid："
-                      show-message
-                      prop="source">
-          <el-input v-model="ruYiDataForm.source"
-                    class="formItem"></el-input>
-        </el-form-item>-->
-        <!--<el-form-item label="商户ID："
-                      show-message
-                      prop="source">
-          <el-input v-model="ruYiDataForm.externalId"
-                    class="formItem"></el-input>
-        </el-form-item>-->
-        <!--<el-form-item label="商户ID类型" prop="merchantIdType">
-
-            <el-radio-group v-model="ruYiDataForm.merchantIdType" size="small" @change="changeIdType($event)">
-              <el-radio-button label="direct">直连</el-radio-button>
-              <el-radio-button label="indirect">间联</el-radio-button>
-            </el-radio-group>
-
-        </el-form-item>-->
-        <!--<el-form-item label="商户smid（间连）："
-                      show-message
-                      prop="merchantIdIndirect">
-          <el-input v-model="ruYiDataForm.merchantIdIndirect"
-                    class="formItem"></el-input>
-        </el-form-item>-->
-
-        <!--<el-form-item label="smid关联的pid（间连）："
-                      show-message
-                      prop="merchantIdDirect">
-          <el-input v-model="ruYiDataForm.pid"
-                    class="formItem"></el-input>
-        </el-form-item>-->
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -219,7 +141,7 @@ import {
   Message,
   MessageBox
 } from 'element-ui'
-import { getMerchantList, ruYiBind, ruYiUnbind } from '../api/ruYiDevice'
+import { getMerQrCodeList, ruYiBind, ruYiUnbind } from '../api/ruYiDevice2'
 import pagination from '@/components/pagination/index'
 // import FollowConfig from './components/followConfig.vue'
 // import AliLiftConfig from './components/aliLiftConfig.vue'
@@ -229,23 +151,14 @@ import * as advertiseApi from '../../advertisement/api/advManage'
 export default {
   name: 'merchant',
   mixins: [],
-  components: { pagination },
+  components: { pagination },//分页
   data() {
-    const validPhone = (rule, value, callback, source, options) => {
-      let errors = []
-      let regRule = /^1\d{10}$/
-      let valid = regRule.test(value)
-      if (!valid) {
-        errors.push('请输入11位有效手机号')
-      }
-      callback(errors)
-    }
     return {
       searchForm : {
-        name: '', // 公司名
-        contact: '', // 联系人，
-        deviceSn: '', // 设备SN，
-        aliStatus: '' // 绑定状态，
+        merchantName: '', //商户名称
+        name: '', //二维码名称
+        aliDeviceSn: '', // 如意设备SN
+        aliStatus: '', // 绑定状态 1未绑定 2已绑定 3已解绑
       },
       aliStatusOption:[
         {value:1, name: '未绑定'},
@@ -258,16 +171,14 @@ export default {
       formLabelWidth: '130px',
       serviceId:'', //服务商id
       ruYiDataForm:{
-        supplierId:'',
-        deviceSn:'',
-        source:'',
-        externalId:'',
-        merchantIdType:'',
-        merchantId:'',
-       /* merchantIdDirect:'',
-        merchantIdIndirect:'',*/
-        shopId:'',
-        pid:''
+        aliSupplierId:'',
+        aliDeviceSn:'',
+        aliSource:'',
+        aliExternalId:'',
+        aliMerchantIdType:'',
+        aliMerchantId:'',
+        aliShopId:'',
+        aliPid:''
       },
       loading: true,
       btnLoading: false,
@@ -281,55 +192,10 @@ export default {
         /*name: [
           { required: true, message: '请输入商户名', trigger: 'blur' },
           { min: 2, max: 50, message: '长度在 3 到 50 个字符', trigger: 'blur' }
-        ],
-        contact: [
-          { required: true, message: '请输入联系人名字', trigger: 'blur' },
-          { min: 2, max: 12, message: '长度在 2 到 12 个字符', trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, message: '请输入联系人手机号', trigger: 'blur' },
-          { required: true, validator: validPhone }
-          // {min: 11, max: 11, message: '请输入11位手机号码', trigger: 'blur'}
-        ],
-        email: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' }
-        ],
-        provInfo: [
-          { required: true, message: '请选择省份城市/县' }
-        ],
-        province: [
-          { required: true, message: '请选择省份', trigger: 'blur' }
-        ],
-        city: [
-          { required: true, message: '请选择城市/县', trigger: 'blur' }
-        ],
-        address: [
-          { required: true, message: '请输入具体的地址', trigger: 'blur' },
-          { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
-        ],
-        type1: [
-          { required: true, message: '请选择经营类别', trigger: 'blur' }
-        ],
-        businessLevOne: [
-          { required: true, message: '请选择一级经营类别' }
-        ],
-        businessLevTwo: [
-          { required: true, message: '请选择二级经营类别' }
-        ],
-        businessLevThree: [
-          { required: true, message: '请选择三级经营类别' }
-        ]*/
+        ],*/
       },
-      /**
-       * 公众号关注配置
-       * */
-      fallowObj: {
-        open: false
-      },
-      // 支付宝生活号配置
-      dialogAliListNumConfig: {
-        open: false
-      }
+
+
     }
   },
   created() {
@@ -342,7 +208,7 @@ export default {
     this.serviceId = sessionStorage.serviceId
   },
   mounted() {
-    this.getMerchantList()
+    this.getMerQrCodeList(1,10)//获取服务商下所有商户的二维码
   },
   watch: {
 
@@ -356,10 +222,10 @@ export default {
       }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
       }*/
-      this.ruYiDataForm.supplierId = '201901111100635561'  //设备供应商id 死值不会变
-      this.ruYiDataForm.externalId = this.ruYiDataForm.id
-      this.ruYiDataForm.source = this.ruYiDataForm.merchantId
-      this.ruYiDataForm.merchantIdType = 'direct'
+      this.ruYiDataForm.aliSupplierId = '201901111100635561'  //设备供应商id 死值不会变
+      // this.ruYiDataForm.externalId = this.ruYiDataForm.id
+      this.ruYiDataForm.aliSource = this.ruYiDataForm.aliMerchantId
+      this.ruYiDataForm.aliMerchantIdType = 'direct'
 
       // this.ruYiDataForm.supplierId = '201901111100635561'
       // if(this.ruYiDataForm.merchantIdType === 'direct'){}else{}
@@ -367,11 +233,11 @@ export default {
       // this.ruYiDataForm.pid = '2088002392388920';
       ruYiBind(this.ruYiDataForm).then(res => {
         if(this.comCurrentPage && this.pageSize){
-          this.getMerchantList(this.comCurrentPage, this.pageSize)
+          this.getMerQrCodeList(this.comCurrentPage, this.pageSize)
         }else{
-          this.getMerchantList()
+          this.getMerQrCodeList()
         }
-        this.getMerchantList()
+        this.getMerQrCodeList()
         this.$message({
           message: res.msg,
           type: 'success',
@@ -385,7 +251,7 @@ export default {
       })
     },
 
-    //解绑如意
+    //确认解绑如意
     ruYiUnbind(data){
       /*if(this.ruYiDataForm.merchantIdType === 'direct'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
@@ -393,12 +259,12 @@ export default {
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
       }*/
       this.loading = true
-      data.externalId = data.id
+      // data.externalId = data.id
       ruYiUnbind(data).then(res => {
         if(this.comCurrentPage && this.pageSize){
-          this.getMerchantList(this.comCurrentPage, this.pageSize)
+          this.getMerQrCodeList(this.comCurrentPage, this.pageSize)
         }else{
-          this.getMerchantList()
+          this.getMerQrCodeList()
         }
 
         this.$message({
@@ -413,8 +279,10 @@ export default {
         this.loading = false
       })
     },
+
+    //解绑按钮
     ruYiUnbindModal(data){
-      this.$confirm(`确定要解绑 ${data.deviceSn} 设备吗`, '提示', {
+      this.$confirm(`确定要解绑 ${data.aliDeviceSn} 设备吗`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -424,18 +292,11 @@ export default {
       })
     },
     /**
-     * 打开编辑模态框 获取数据、渲染经营类型、回显经营类型
+     * 打开编辑模态框
      */
     openbindRuYiDialog: function (row) {
-
-      console.log(row)
       // 打开模态框
-     this.ruYiDataForm = {...row}
-      /*if(this.ruYiDataForm.merchantIdType === 'direct'){
-        this.ruYiDataForm.merchantIdDirect = this.ruYiDataForm.merchantId
-      }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
-        this.ruYiDataForm.merchantIdIndirect = this.ruYiDataForm.merchantId
-      }*/
+      this.ruYiDataForm = {...row}
       this.bindRuYiDialogFlag = true
     },
     /**
@@ -444,20 +305,12 @@ export default {
     bindRuYiDialogClose() {
       this.bindRuYiDialogFlag = false
     },
-    changeIdType(event){
-      /*if(event === 'direct'){
-        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdDirect
-      }else if(event === 'indirect'){
-        this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
-      }*/
-
-    },
     /**
      * 获取商户列表
      * @param number
      * @param pageSize
      */
-    getMerchantList(number, pageSize) {
+    getMerQrCodeList(number, pageSize) {
       if(number && pageSize){
         this.comCurrentPage = number;
         this.pageSize = pageSize
@@ -468,18 +321,11 @@ export default {
 
       this.loading = true
       let companyId = sessionStorage.getItem('companyId')
-      getMerchantList(number, pageSize, this.searchForm, companyId).then(res => {
+      getMerQrCodeList(number, pageSize, this.searchForm).then(res => {
         let data = res.obj
         console.log(data)
-        this.tableData = data.content
-        /*this.tableData.forEach(item=>{
-          if(item.merchantIdType === 'direct'){
-            item.merchantIdDirect = item.merchantId
-          }else if(item.merchantIdType === 'indirect'){
-            item.merchantIdIndirect = item.merchantId
-          }
-        })*/
-        this.totalElements = data.totalElements
+        this.tableData = data.list//数据集合
+        this.totalElements = data.total//总数据条数
         setTimeout(() => {
           this.loading = false
         }, 500)
@@ -493,13 +339,14 @@ export default {
     search() {
       this.$refs.page.search()
     },
+    //重置
     reset() {
       // channel 设置为“本商户”
       this.searchForm = {
-        name: '', // 公司名
-        contact: '', // 联系人，
-        deviceSn: '', // 设备SN，
-        aliStatus: '' // 绑定状态，
+        merchantName: '', //商户名称
+        name: '', //二维码名称
+        aliDeviceSn: '', // 如意设备SN
+        aliStatus: '', // 绑定状态 1未绑定 2已绑定 3已解绑
       }// 搜索用的表单
       this.$refs.page.search()
     }

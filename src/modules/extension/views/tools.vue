@@ -81,6 +81,16 @@
             </div>
           </div>
 
+          <div class="tools-item" @click="emailConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置进件邮箱通知</p>
+              <p></p>
+            </div>
+          </div>
+
         </div>
       </div>
       <div>
@@ -218,6 +228,15 @@
                :visible.sync="cmf.show">
       <Cmf :propsInfo="cmf"></Cmf>
     </el-dialog>
+    <!--进件邮箱通知-->
+    <el-dialog class="vm-dialog"
+               title="配置邮箱"
+               width="400px"
+               v-if="email.show"
+               :visible.sync="email.show">
+      <Email :propsInfo="email"></Email>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -230,12 +249,16 @@ import GaoDe from './components/gaoDe.vue'
 import Ali from './components/ali.vue'
 import AliCycle from './components/aliCycle.vue'
 import Cmf from './components/cmf.vue'
+import Email from './components/email.vue'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
-  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali,AliCycle,Cmf},
+  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali,AliCycle,Cmf,Email},
   data () {
     return {
+      email: {
+        show: false
+      },
       cmf: {
         show: false
       },
@@ -289,6 +312,9 @@ export default {
     }
   },
   methods: {
+    emailConfig(){
+      this.email.show = true
+    },
     cmfConfig(){
       this.cmf.show = true
     },
