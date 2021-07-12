@@ -280,7 +280,7 @@
       <el-form :model="mfprdVers"
                label-width="auto" >
 
-      <span v-for="item in mfprdVersParam">
+     <span v-for="item in mfprdVersParam">
 
         <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
           <el-input :disabled="payDisable"
@@ -318,7 +318,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.opnPrdVers">
+                           v-model="mfprdVersParam1.opnPrdVers">
           </el-input-number>
         </el-form-item>
 
@@ -328,7 +328,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.wxRate">
+                           v-model="mfprdVersParam1.wxRate">
           </el-input-number>
         </el-form-item>
 
@@ -338,7 +338,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.zfbRate">
+                           v-model="mfprdVersParam1.zfbRate">
           </el-input-number>
         </el-form-item>
 
@@ -348,7 +348,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.opnPrdVers">
+                           v-model="mfprdVersParam2.opnPrdVers">
           </el-input-number>
         </el-form-item>
 
@@ -358,7 +358,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.wxRate">
+                           v-model="mfprdVersParam2.wxRate">
           </el-input-number>
         </el-form-item>
 
@@ -368,7 +368,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.zfbRate">
+                           v-model="mfprdVersParam2.zfbRate">
           </el-input-number>
         </el-form-item>
 
@@ -378,7 +378,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.opnPrdVers">
+                           v-model="mfprdVersParam3.opnPrdVers">
           </el-input-number>
         </el-form-item>
 
@@ -388,7 +388,7 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.wxRate">
+                           v-model="mfprdVersParam3.wxRate">
           </el-input-number>
         </el-form-item>
 
@@ -398,10 +398,11 @@
                            :min="0"
                            :max="1000000000"
                            :step="10"
-                           v-model="mfprdVersParam.zfbRate">
+                           v-model="mfprdVersParam3.zfbRate">
           </el-input-number>
         </el-form-item>
 -->
+
 
 
 
@@ -2641,7 +2642,7 @@ export default {
         wxRate:'',
         zfbRate:''
         },
-      headers: {
+           headers: {
         authorized: sessionStorage.token
       },
       uploadUrl: url + '/fms/upload/file_upload', // 上传接口
@@ -3377,12 +3378,30 @@ export default {
     },
     getMfprdVers(){
 
+
       getMfprdVers().then(res=>{
         this.mfprdVersParam =  res.obj
+
+
 
       }).catch(() => {
         this.loading = false
       })
+    },
+
+
+
+
+
+
+
+
+
+
+    showMfprdVers(){
+
+
+
     },
 
     openMfprdVers(){

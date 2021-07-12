@@ -8,7 +8,7 @@
     <el-table
       :data="tableData"
       style="width: 100%"
-      @selection-change="handleSelectionChange">
+      @selection-change="">
       <el-table-column
         type="selection"
         width="55">

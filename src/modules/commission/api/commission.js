@@ -156,6 +156,7 @@ export function commissioncommCash (pageNumber, pageSize,params) {
       companyName: params.companyName,
       status: params.status,//结算状态
       begin: params.begin,
+      end: params.end,
     }
 
     // url: '/order/cash/out/commission_cash_list_pc',
@@ -181,7 +182,48 @@ export function openMinFu (params) {
 
 
 
+/**
+ * 佣金明细
+ */
 
+export function commDetail (pageNumber, pageSize,params) {
+
+  return request({
+    url: '/order/cash/out/commission_detail_pc',
+    method: 'get',
+
+    params: {
+      ...params,
+      pageNumber:pageNumber,
+      pageSize: pageSize,
+    }
+
+
+
+    // url: '/order/cash/out/commission_cash_list_pc',
+    // method: 'get',
+    // jsonHeader: true,
+    // apiType: 'downFile',
+    // responseType: 'blob',
+    // params: params
+  })
+}
+
+
+
+/**
+ * 佣金明细--导出报表
+ */
+export function commissionDetailExportExcel (params) {
+  return request({
+    url: '/order/cash/out/export',
+    method: 'get',
+    jsonHeader: true,
+    apiType: 'downFile',
+    responseType: 'blob',
+    params: params
+  })
+}
 
 
 
