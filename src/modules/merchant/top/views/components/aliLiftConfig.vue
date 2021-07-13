@@ -16,7 +16,7 @@ import AliLifeApply from './aliLiftNumApply.vue'
 import AliLifeConfig from './aliLiftNumConfig.vue'
 
 export default {
-  components: {
+  detailExportExcels: {
     AliLifeApply,
     AliLifeConfig
   },

@@ -33,9 +33,10 @@
                 class="commission-t-table"
                 row-key="id"
                 ref="multipleTable"
+                border
                 @selection-change="handleSelectionChange">
 
-        <el-table-column label="商户名称" prop="merchantName"></el-table-column>
+        <el-table-column label="商户名称" prop="merchantName" class="formItem"></el-table-column>
 
         <el-table-column label="通道商编/名称" min-width="100" prop="channelMerNo"></el-table-column>
 
@@ -43,7 +44,7 @@
 
         <el-table-column label="交易时间" min-width="100" prop="createTime"></el-table-column>
 
-        <el-table-column label="交易通道" min-width="100" prop="payChannel"></el-table-column>
+        <el-table-column label="交易通道" min-width="100" prop="payChannelName"></el-table-column>
 
         <el-table-column label="交易方式" min-width="100" prop="payWay"></el-table-column>
 
@@ -265,6 +266,7 @@ export default {
 .table-tipss span{
   margin-left: 20px;
 }
+
 </style>
 
 

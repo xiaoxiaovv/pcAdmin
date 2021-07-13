@@ -2642,6 +2642,21 @@ export default {
         wxRate:'',
         zfbRate:''
         },
+     /* mfprdVersParam1:{
+        opnPrdVers:'',
+        wxRate:'',
+        zfbRate:''
+      },
+      mfprdVersParam2:{
+        opnPrdVers:'',
+        wxRate:'',
+        zfbRate:''
+      },
+      mfprdVersParam3:{
+        opnPrdVers:'',
+        wxRate:'',
+        zfbRate:''
+      },*/
            headers: {
         authorized: sessionStorage.token
       },
@@ -3408,6 +3423,9 @@ export default {
       this.mfprdVers = true;
       this.getMfprdVers()
     },
+
+
+
 
 
     setMfprdVers(){
