@@ -46,7 +46,7 @@
 
         <el-table-column label="交易通道" min-width="100" prop="payChannelName"></el-table-column>
 
-        <el-table-column label="交易方式" min-width="100" prop="payWay"></el-table-column>
+        <el-table-column label="交易方式" min-width="100" prop="payWayName"></el-table-column>
 
         <el-table-column label="实际支付金额" min-width="100" prop="orderPrice" ></el-table-column>
 
