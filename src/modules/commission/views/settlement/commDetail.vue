@@ -149,9 +149,10 @@ export default {
       // ],
 
 
-      params: {//筛选参数
+      params: {//参数
         orderPrice: '',
         payChannel: '',
+        createTime: '',
         begin: '',
         end: '',
         payWay:'',
