@@ -11,6 +11,9 @@
         <el-form-item label="appId" prop="cycleAppId">
           <el-input v-model.trim="params.cycleAppId" placeholder="请输入支付宝appId"></el-input>
         </el-form-item>
+        <el-form-item label="如意全款金额" prop="cycleFullAmount">
+          <el-input v-model.trim="params.cycleFullAmount" placeholder="请输入全款金额"></el-input>
+        </el-form-item>
       </div>
       <div class="vm-text-right" style="padding-top: 20px;">
         <el-button size="medium" @click="propsInfo.show = false">取 消</el-button>
@@ -43,7 +46,8 @@ export default {
       params: {
         cycleAliPublicKey: '',
         cyclePrivateKey: '',
-        cycleAppId: ''
+        cycleAppId: '',
+        cycleFullAmount: ''
       },
       rules: {
         cycleAliPublicKey: [
@@ -54,6 +58,9 @@ export default {
         ],
         cycleAppId: [
           { required: true, message: '请输入支付宝appId' }
+        ],
+        cycleFullAmount: [
+          { required: true, message: '请输入全款金额' }
         ]
 
       }
@@ -74,6 +81,7 @@ export default {
         this.params.cycleAliPublicKey = res.obj.cycleAliPublicKey;
         this.params.cyclePrivateKey = res.obj.cyclePrivateKey;
         this.params.cycleAppId = res.obj.cycleAppId;
+        this.params.cycleFullAmount = res.obj.cycleFullAmount;
 
       }).catch(() => {
         this.$message.error(res.msg)

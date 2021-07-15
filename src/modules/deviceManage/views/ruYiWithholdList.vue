@@ -49,6 +49,13 @@
           <span v-if="scope.row.logisticsStatus=='5'">已评论</span>
         </template>
       </el-table-column>
+      <el-table-column label="支付模式">
+        <template slot-scope="scope">
+          <!-- 状态 0未支付 1 已支付 2待发货 3已发货 4待评论 5已评论 -->
+          <span v-if="scope.row.payMode=='1'">分期</span>
+          <span v-if="scope.row.payMode=='2'">全款</span>
+        </template>
+      </el-table-column>
       <!--操作-->
       <el-table-column fixed="right" width="150" label="操作">
         <template slot-scope="scope">
