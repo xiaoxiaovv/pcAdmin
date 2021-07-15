@@ -62,9 +62,9 @@
       <!-- <el-button type="primary"
                   size="small"
                   @click="findCommissionCurrentMonth">获取当月佣金</el-button>-->
-      <el-button type="primary"
+      <!--<el-button type="primary"
                  size="small"
-                 @click="openMfprdVers">敏付产品参数</el-button>
+                 @click="openMfprdVers">敏付产品参数</el-button>-->
       <el-button type="primary"
                  size="small"
                  @click="openTopCommissionDialog">佣金生成</el-button>
@@ -273,7 +273,7 @@
     <!--//敏付产品参数-->
 
 
-    <el-dialog :title="`敏付产品参数配置`"
+    <!--<el-dialog :title="`敏付产品参数配置`"
                :visible.sync="mfprdVers"
                :before-close="closeMfprdVers"
                width="900px">
@@ -312,7 +312,7 @@
         </span>
 
 
-        <!--  <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
+        &lt;!&ndash;  <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
             <el-input-number :disabled="payDisable"
                              :precision="2"
                              :min="0"
@@ -400,7 +400,7 @@
                              :step="10"
                              v-model="mfprdVersParam3.zfbRate">
             </el-input-number>
-          </el-form-item>-->
+          </el-form-item>&ndash;&gt;
 
 
 
@@ -409,7 +409,7 @@
 
 
 
-        <!--操作时段-->
+        &lt;!&ndash;操作时段&ndash;&gt;
 
 
       </el-form>
@@ -423,7 +423,7 @@
                    v-loading="btnLoading"
                    :disabled="payDisable">提 交</el-button>
       </div>
-    </el-dialog>
+    </el-dialog>-->
     <!--服务商支付参数配置-->
     <el-dialog :title="`${levelAlias.oemName}支付参数配置`"
                :visible.sync="topPayDialog"
@@ -1281,6 +1281,48 @@
                            :disabled="payDisable">点击上传</el-button>
               </el-upload>
             </el-form-item>
+
+
+            <span v-for="item in mfprdVersParamTo">
+
+        <el-form-item label="产品版本号"  style="width: 600px; float: left; ">
+          <el-input :disabled="payDisable"
+                    :precision="2"
+
+                    v-model="item.opnPrdVers">
+          </el-input>
+        </el-form-item>
+
+
+               <el-form-item label="支付宝费率" style="width: 250px;float: left; ">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="item.zfbRate">
+              </el-input-number>
+            </el-form-item>
+
+
+              <el-form-item label="微信费率" style="width: 250px; float: right; margin-right: 100px; ">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="item.wxRate">
+              </el-input-number>
+            </el-form-item>
+
+
+        </span>
+
+
+
+
+
+
           </div>
         </div>
 
@@ -2738,6 +2780,8 @@ export default {
     openTopConfigDialog() {
       this.topPayDialog = true
       this.findTopPayConfig()
+      this.mfprdVers = true;
+      this.getMfprdVers()
     },
     closeTopPayDialog() {
       this.topPayDialog = false
@@ -3038,7 +3082,7 @@ export default {
       //敏付
       params.mfTradeRate = (Number(params.mfTradeRate) / 100).toFixed(4)    //费率
 
-
+      this.setMfprdVers();
 
 
       params.payWay = parseInt(this.payParam.payWay)
@@ -3458,7 +3502,7 @@ export default {
         this.clearMfprdVersParam()
         this.closeMfprdVers()
 
-        this.$message.success('敏付产品版本配置成功')
+        // this.$message.success('敏付产品版本配置成功')
       }).catch(() => {  //
         this.loading = false
       })
