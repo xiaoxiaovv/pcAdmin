@@ -17,6 +17,7 @@
           <el-radio class="mb10" :label="18" v-if="payConfig.indexOf('网联') > -1">快捷支付</el-radio>
           <el-radio class="mb10" :label="19" v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
+          <el-radio class="mb10" :label="21" v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
         </el-radio-group>
       </el-form-item>
       <!--<el-form-item label="抽佣比例:" show-message prop="payProrata">
@@ -81,6 +82,8 @@
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.kdbPayRate" v-if="payWay === 19">
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
         </el-input-number>
         %
 

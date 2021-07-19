@@ -20,7 +20,7 @@
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="抽佣比例:" show-message prop="payProrata">
+<!--      <el-form-item label="抽佣比例:" show-message prop="payProrata">
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayProrata" v-if="payWay === 1">
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayProrata" v-if="payWay === 2">
@@ -50,6 +50,49 @@
         <el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>
+      </el-form-item> -->
+      <el-form-item label="抽佣费率:" show-message prop="payProrata">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.wxPayRate" v-if="payWay === 1">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.zfbPayRate" v-if="payWay === 2">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.fyPayRate" v-if="payWay === 6">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.sxfPayRate" v-if="payWay === 7">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.ysPayRate" v-if="payWay === 9">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lsPayRate" v-if="payWay === 10">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chPayRate" v-if="payWay === 11">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.tqSxfPayRate" v-if="payWay === 12">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.yiShengPayRate" v-if="payWay === 13">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.newLandPayRate" v-if="payWay === 14">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.posPayRate" v-if="payWay === 17">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.quickPayRate" v-if="payWay === 18">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.kdbPayRate" v-if="payWay === 19">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
+        </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
+        </el-input-number>
+        %
+      
+        <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
+          <i class="el-icon-question"></i>
+        </el-tooltip>-->
+        <!--<el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
+          <i class="el-icon-question"></i>
+        </el-tooltip>-->
+      
+       <!-- <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
+        </el-input-number>-->
       </el-form-item>
       <el-form-item>
         <div class="vm-text-right">
