@@ -19,6 +19,7 @@
           <el-radio class="mb10" :label="19" v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
           <el-radio class="mb10" :label="20" v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
           <el-radio class="mb10" :label="21" v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
+          <el-radio class="mb10" :label="16" v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
         </el-radio-group>
       </el-form-item>
 <!--      <el-form-item label="抽佣比例:" show-message prop="payProrata">
@@ -88,15 +89,17 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
         </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lklPayRate" v-if="payWay === 16">
+        </el-input-number>
         %
-      
+
         <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>-->
         <!--<el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>-->
-      
+
        <!-- <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
         </el-input-number>-->
       </el-form-item>
@@ -153,6 +156,8 @@ export default {
         quickPayProrata:null,
         kdbPayProrata:null,
         chanpayPayProrata:null,
+        mfPayProrata:null,
+        lklPayProrata:null,
         id: null
       },
       rules: {

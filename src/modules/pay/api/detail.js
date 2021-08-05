@@ -132,6 +132,19 @@ export function getMFCode(params) {
   })
 }
 
+/**
+ * 拉卡拉-查询进件状态
+ * @param {*} params
+ */
+
+export function getLKLCode(params) {
+  return request({
+    url: '/batchFeed/lakala/get_lkl_feedstatus',
+    method: 'get',
+    params
+  })
+}
+
 // 设置费率
 export function setRate (params) {
   return request({

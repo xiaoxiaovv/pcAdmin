@@ -36,9 +36,9 @@
       <!--<el-tab-pane label="中国银联"
 	               name="9"
 	               v-if="payConfig.indexOf('银联') > -1"></el-tab-pane>-->
-      <!--<el-tab-pane label="拉卡拉"
+      <el-tab-pane label="拉卡拉"
                    name="10"
-                   v-if="payConfig.indexOf('拉卡拉') > -1"></el-tab-pane>-->
+                   v-if="payConfig.indexOf('拉卡拉') > -1"></el-tab-pane>
       <el-tab-pane label="手机pos"
                    name="11"
                    v-if="payConfig.indexOf('手机pos') > -1"></el-tab-pane>
@@ -1061,7 +1061,7 @@
 	  </el-card>
 	</div>
 <!--拉卡拉    todo 用的富友的参数-->
-    <div v-show="activeName === '10'">
+   <!-- <div v-show="activeName === '10'">
       <el-card class="box-card">
         <div slot="header"
              class="clearfix">
@@ -1146,8 +1146,65 @@
           </table>
         </div>
       </el-card>
+    </div>-->
+    <div v-show="activeName === '10'">
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>拉卡拉通道</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>费率</td>
+              <td>{{(detail.lakalaWxRate === null || detail.lakalaWxRate === undefined) ? '暂无' : detail.lakalaWxRate+'%'}}</td>
+            </tr>
+            <!--<tr>
+              <td>商户手持证件照</td>
+              <td>
+                <ImgShow :url="detail.holdingCardId"
+                         v-if="detail.holdingCardId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>
+            <tr>
+              <td>结算卡背面</td>
+              <td>
+                <ImgShow :url="detail.bankPhotoId"
+                         v-if="detail.bankPhotoId"></ImgShow>
+                <span v-else>暂无</span>
+              </td>
+            </tr>-->
+          </table>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <div slot="header"
+             class="clearfix">
+          <span>进件状态</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td>商户编号</td>
+              <td>{{lklData.lklMerchantNo || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件状态</td>
+              <td>{{entryStatus[lklData.entryStatus] || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>进件结果</td>
+              <td>{{lklData.lklMsg || '暂无'}}</td>
+            </tr>
+            <tr>
+              <td>提交时间</td>
+              <td>{{lklData.commitTime || '暂无'}}</td>
+            </tr>
+          </table>
+        </div>
+      </el-card>
     </div>
-
     <!--手机pos-->
     <div v-show="activeName === '11'">
       <el-card class="box-card">
@@ -1558,6 +1615,7 @@ export default {
       cjData:'',
       yiSData:'',
       mfData:'',
+      lklData:'',
       data: '',
       sellCheck: [],
       sellScene_offline: false,
@@ -1754,6 +1812,11 @@ export default {
       else if (item.channel === 14) { // 敏付
         detailApi.getMFCode({ id: item.id }).then(res => {
           this.mfData = res.obj
+        })
+      }
+      else if (item.channel === 9) { // 拉卡拉
+        detailApi.getLKLCode({ id: item.id }).then(res => {
+          this.lklData = res.obj
         })
       }
     },

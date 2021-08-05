@@ -10,6 +10,7 @@
           <el-radio class="mb10" :label="9" v-if="payConfig.indexOf('威富通') > -1">威富通</el-radio>
           <el-radio class="mb10" :label="10" v-if="payConfig.indexOf('乐刷') > -1">乐刷</el-radio>
           <el-radio class="mb10" :label="11" v-if="payConfig.indexOf('传化') > -1">传化</el-radio>
+          <el-radio class="mb10" :label="16" v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
           <el-radio class="mb10" :label="12" v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付</el-radio>
           <el-radio class="mb10" :label="13" v-if="payConfig.indexOf('易生') > -1">易生</el-radio>
           <el-radio class="mb10" :label="14" v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
@@ -85,6 +86,8 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
         </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lklPayRate" v-if="payWay === 16">
+        </el-input-number>
         %
 
         <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
@@ -152,6 +155,7 @@ export default {
         quickPayProrata:null,
         kdbPayProrata:null,
         chanpayPayProrata:null,
+        mfPayProrata:null,
         // 费率分佣
         zfbPayRate: null,
         wxPayRate: null,
@@ -167,6 +171,8 @@ export default {
         quickPayRate:null,
         kdbPayRate:null,
         chanpayPayRate:null,
+        mfPayRate:null,
+        lklPayRate:null,
         id: null
       },
       rules: {
@@ -218,6 +224,8 @@ export default {
         newRes.sxfPayProrata = Number(newRes.sxfPayProrata) ? Number(newRes.sxfPayProrata) * 100 : 0
         newRes.wxPayProrata = Number(newRes.wxPayProrata) ? Number(newRes.wxPayProrata) * 100 : 0
         newRes.zfbPayProrata = Number(newRes.zfbPayProrata) ? Number(newRes.zfbPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
 
         newRes.ysPayProrata = Number(newRes.ysPayProrata) ? Number(newRes.ysPayProrata) * 100 : 0
         newRes.lsPayProrata = Number(newRes.lsPayProrata) ? Number(newRes.lsPayProrata) * 100 : 0
@@ -232,12 +240,14 @@ export default {
         newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
         newRes.kdbPayProrata = Number(newRes.kdbPayProrata) ? Number(newRes.kdbPayProrata) * 100 : 0
         newRes.chanpayPayProrata = Number(newRes.chanpayPayProrata) ? Number(newRes.chanpayPayProrata) * 100 : 0
-        newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
+        // newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
         //费率分佣
         newRes.fyPayRate = Number(newRes.fyPayRate) ? Number(newRes.fyPayRate) * 100 : 0
         newRes.sxfPayRate = Number(newRes.sxfPayRate) ? Number(newRes.sxfPayRate) * 100 : 0
         newRes.wxPayRate = Number(newRes.wxPayRate) ? Number(newRes.wxPayRate) * 100 : 0
         newRes.zfbPayRate = Number(newRes.zfbPayRate) ? Number(newRes.zfbPayRate) * 100 : 0
+        newRes.mfPayRate = Number(newRes.mfPayRate) ? Number(newRes.mfPayRate) * 100 : 0
+        newRes.lklPayRate = Number(newRes.lklPayRate) ? Number(newRes.lklPayRate) * 100 : 0
 
         newRes.ysPayRate = Number(newRes.ysPayRate) ? Number(newRes.ysPayRate) * 100 : 0
         newRes.lsPayRate = Number(newRes.lsPayRate) ? Number(newRes.lsPayRate) * 100 : 0
@@ -253,7 +263,7 @@ export default {
         newRes.quickPayRate = Number(newRes.quickPayRate) ? Number(newRes.quickPayRate) * 100 : 0
         newRes.kdbPayRate = Number(newRes.kdbPayRate) ? Number(newRes.kdbPayRate) * 100 : 0
         newRes.chanpayPayRate = Number(newRes.chanpayPayRate) ? Number(newRes.chanpayPayRate) * 100 : 0
-        newRes.lakalaPayRate = Number(newRes.lakalaPayRate) ? Number(newRes.lakalaPayRate) * 100 : 0
+        // newRes.lakalaPayRate = Number(newRes.lakalaPayRate) ? Number(newRes.lakalaPayRate) * 100 : 0
         that.params = newRes
       };
 
@@ -286,6 +296,8 @@ export default {
       params.sxfPayProrata = Number(params.sxfPayProrata) ? Number((params.sxfPayProrata / 100).toFixed(4)) : 0
       params.wxPayProrata = Number(params.wxPayProrata) ? Number((params.wxPayProrata / 100).toFixed(4)) : 0
       params.zfbPayProrata = Number(params.zfbPayProrata) ? Number((params.zfbPayProrata / 100).toFixed(4)) : 0
+      params.mfPayProrata = Number(params.mfPayProrata) ? Number((params.mfPayProrata / 100).toFixed(4)) : 0
+      params.lklPayProrata = Number(params.lklPayProrata) ? Number((params.lklPayProrata / 100).toFixed(4)) : 0
 
       params.ysPayProrata = Number(params.ysPayProrata) ? Number((params.ysPayProrata / 100).toFixed(4)) : 0
       params.lsPayProrata = Number(params.lsPayProrata) ? Number((params.lsPayProrata / 100).toFixed(4)) : 0
@@ -307,6 +319,8 @@ export default {
       params.sxfPayRate = Number(params.sxfPayRate) ? Number((params.sxfPayRate / 100).toFixed(4)) : 0
       params.wxPayRate = Number(params.wxPayRate) ? Number((params.wxPayRate / 100).toFixed(4)) : 0
       params.zfbPayRate = Number(params.zfbPayRate) ? Number((params.zfbPayRate / 100).toFixed(4)) : 0
+      params.mfPayRate = Number(params.mfPayRate) ? Number((params.mfPayRate / 100).toFixed(4)) : 0
+      params.lklPayRate = Number(params.lklPayRate) ? Number((params.lklPayRate / 100).toFixed(4)) : 0
 
       params.ysPayRate = Number(params.ysPayRate) ? Number((params.ysPayRate / 100).toFixed(4)) : 0
       params.lsPayRate = Number(params.lsPayRate) ? Number((params.lsPayRate / 100).toFixed(4)) : 0
@@ -320,7 +334,7 @@ export default {
       params.quickPayRate = Number(params.quickPayRate) ? Number((params.quickPayRate / 100).toFixed(4)) : 0
       params.kdbPayRate = Number(params.kdbPayRate) ? Number((params.kdbPayRate / 100).toFixed(4)) : 0
       params.chanpayPayRate = Number(params.chanpayPayRate) ? Number((params.chanpayPayRate / 100).toFixed(4)) : 0
-      params.lakalaPayRate = Number(params.lakalaPayRate) ? Number((params.lakalaPayRate / 100).toFixed(4)) : 0
+      // params.lakalaPayRate = Number(params.lakalaPayRate) ? Number((params.lakalaPayRate / 100).toFixed(4)) : 0
       if(this.typeVal === 1){
         listApi.rateSet(params).then(res => {
           this.$message.success(res.msg)

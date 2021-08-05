@@ -182,3 +182,21 @@ export function setMfprdVers (data) {
 }
 
 
+// 拉卡拉版本参数查询
+export function getlklProdRate () {
+  return request({
+    url: '/batchFeed/lklProdRate/findProdRateArray',
+    method: 'get',
+   // params: params
+  })
+}
+
+
+export function savelklProdRate (data) {
+  return request({
+    url: '/batchFeed/lklProdRate',
+    method: 'post',
+    jsonHeader: true,
+    data: data
+  })
+}
