@@ -2496,7 +2496,7 @@
           </el-form-item>
           <!-- subMchId -->
           <el-form-item label="商户编码">
-            <el-input v-model.trim="payParam.lakala.mchId"
+            <el-input v-model.trim="payParam.lakala.lklMercId"
                       :disabled="payDisable"
                       placeholder="商户编码"></el-input>
           </el-form-item>
