@@ -86,7 +86,7 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
         </el-input-number>
-        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lklPayRate" v-if="payWay === 16">
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lakalaPayRate" v-if="payWay === 16">
         </el-input-number>
         %
 
@@ -156,6 +156,7 @@ export default {
         kdbPayProrata:null,
         chanpayPayProrata:null,
         mfPayProrata:null,
+        lakalaPayProrata:null,
         // 费率分佣
         zfbPayRate: null,
         wxPayRate: null,
@@ -172,7 +173,7 @@ export default {
         kdbPayRate:null,
         chanpayPayRate:null,
         mfPayRate:null,
-        lklPayRate:null,
+        lakalaPayRate:null,
         id: null
       },
       rules: {
@@ -225,45 +226,56 @@ export default {
         newRes.wxPayProrata = Number(newRes.wxPayProrata) ? Number(newRes.wxPayProrata) * 100 : 0
         newRes.zfbPayProrata = Number(newRes.zfbPayProrata) ? Number(newRes.zfbPayProrata) * 100 : 0
         newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
-        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
+        newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
 
         newRes.ysPayProrata = Number(newRes.ysPayProrata) ? Number(newRes.ysPayProrata) * 100 : 0
         newRes.lsPayProrata = Number(newRes.lsPayProrata) ? Number(newRes.lsPayProrata) * 100 : 0
         newRes.chPayProrata = Number(newRes.chPayProrata) ? Number(newRes.chPayProrata) * 100 : 0
         newRes.tqSxfPayProrata = Number(newRes.tqSxfPayProrata) ? Number(newRes.tqSxfPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
+
 
         newRes.yiShengPayProrata = Number(newRes.yiShengPayProrata) ? Number(newRes.yiShengPayProrata) * 100 : 0
         newRes.newLandPayProrata = Number(newRes.newLandPayProrata) ? Number(newRes.newLandPayProrata) * 100 : 0
         newRes.unionPayProrata = Number(newRes.unionPayProrata) ? Number(newRes.unionPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
         //手机pos和网联
         newRes.posPayProrata = Number(newRes.posPayProrata) ? Number(newRes.posPayProrata) * 100 : 0
         newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
         newRes.kdbPayProrata = Number(newRes.kdbPayProrata) ? Number(newRes.kdbPayProrata) * 100 : 0
         newRes.chanpayPayProrata = Number(newRes.chanpayPayProrata) ? Number(newRes.chanpayPayProrata) * 100 : 0
-        // newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
+
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lakalaPayProrata = Number(newRes.lakalaPayProrata) ? Number(newRes.lakalaPayProrata) * 100 : 0
         //费率分佣
         newRes.fyPayRate = Number(newRes.fyPayRate) ? Number(newRes.fyPayRate) * 100 : 0
         newRes.sxfPayRate = Number(newRes.sxfPayRate) ? Number(newRes.sxfPayRate) * 100 : 0
         newRes.wxPayRate = Number(newRes.wxPayRate) ? Number(newRes.wxPayRate) * 100 : 0
         newRes.zfbPayRate = Number(newRes.zfbPayRate) ? Number(newRes.zfbPayRate) * 100 : 0
         newRes.mfPayRate = Number(newRes.mfPayRate) ? Number(newRes.mfPayRate) * 100 : 0
-        newRes.lklPayRate = Number(newRes.lklPayRate) ? Number(newRes.lklPayRate) * 100 : 0
+        newRes.lakalaPayRate = Number(newRes.lakalaPayRate) ? Number(newRes.lakalaPayRate) * 100 : 0
 
         newRes.ysPayRate = Number(newRes.ysPayRate) ? Number(newRes.ysPayRate) * 100 : 0
         newRes.lsPayRate = Number(newRes.lsPayRate) ? Number(newRes.lsPayRate) * 100 : 0
         newRes.chPayRate = Number(newRes.chPayRate) ? Number(newRes.chPayRate) * 100 : 0
         newRes.tqSxfPayRate = Number(newRes.tqSxfPayRate) ? Number(newRes.tqSxfPayRate) * 100 : 0
 
+
+
         newRes.yiShengPayRate = Number(newRes.yiShengPayRate) ? Number(newRes.yiShengPayRate) * 100 : 0
         newRes.newLandPayRate = Number(newRes.newLandPayRate) ? Number(newRes.newLandPayRate) * 100 : 0
         newRes.unionPayRate = Number(newRes.unionPayRate) ? Number(newRes.unionPayRate) * 100 : 0
+
 
         //手机pos和网联
         newRes.posPayRate = Number(newRes.posPayRate) ? Number(newRes.posPayRate) * 100 : 0
         newRes.quickPayRate = Number(newRes.quickPayRate) ? Number(newRes.quickPayRate) * 100 : 0
         newRes.kdbPayRate = Number(newRes.kdbPayRate) ? Number(newRes.kdbPayRate) * 100 : 0
         newRes.chanpayPayRate = Number(newRes.chanpayPayRate) ? Number(newRes.chanpayPayRate) * 100 : 0
-        // newRes.lakalaPayRate = Number(newRes.lakalaPayRate) ? Number(newRes.lakalaPayRate) * 100 : 0
+
+
         that.params = newRes
       };
 
@@ -297,22 +309,26 @@ export default {
       params.wxPayProrata = Number(params.wxPayProrata) ? Number((params.wxPayProrata / 100).toFixed(4)) : 0
       params.zfbPayProrata = Number(params.zfbPayProrata) ? Number((params.zfbPayProrata / 100).toFixed(4)) : 0
       params.mfPayProrata = Number(params.mfPayProrata) ? Number((params.mfPayProrata / 100).toFixed(4)) : 0
-      params.lklPayProrata = Number(params.lklPayProrata) ? Number((params.lklPayProrata / 100).toFixed(4)) : 0
+      params.lakalaPayProrata = Number(params.lakalaPayProrata) ? Number((params.lakalaPayProrata / 100).toFixed(4)) : 0
 
       params.ysPayProrata = Number(params.ysPayProrata) ? Number((params.ysPayProrata / 100).toFixed(4)) : 0
       params.lsPayProrata = Number(params.lsPayProrata) ? Number((params.lsPayProrata / 100).toFixed(4)) : 0
       params.chPayProrata = Number(params.chPayProrata) ? Number((params.chPayProrata / 100).toFixed(4)) : 0
       params.tqSxfPayProrata = Number(params.tqSxfPayProrata) ? Number((params.tqSxfPayProrata / 100).toFixed(4)) : 0
 
+
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
       params.unionPayProrata = Number(params.unionPayProrata) ? Number((params.unionPayProrata / 100).toFixed(4)) : 0
+
 
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
       params.kdbPayProrata = Number(params.kdbPayProrata) ? Number((params.kdbPayProrata / 100).toFixed(4)) : 0
       params.chanpayPayProrata = Number(params.chanpayPayProrata) ? Number((params.chanpayPayProrata / 100).toFixed(4)) : 0
+      params.mfPayProrata = Number(params.mfPayProrata) ? Number((params.mfPayProrata / 100).toFixed(4)) : 0
+      params.lakalaPayProrata = Number(params.lakalaPayProrata) ? Number((params.lakalaPayProrata / 100).toFixed(4)) : 0
       //费率分佣
       params.unionPayRate = Number(params.unionPayRate) ? Number((params.unionPayRate / 100).toFixed(4)) : 0
       params.fyPayRate = Number(params.fyPayRate) ? Number((params.fyPayRate / 100).toFixed(4)) : 0
@@ -320,21 +336,23 @@ export default {
       params.wxPayRate = Number(params.wxPayRate) ? Number((params.wxPayRate / 100).toFixed(4)) : 0
       params.zfbPayRate = Number(params.zfbPayRate) ? Number((params.zfbPayRate / 100).toFixed(4)) : 0
       params.mfPayRate = Number(params.mfPayRate) ? Number((params.mfPayRate / 100).toFixed(4)) : 0
-      params.lklPayRate = Number(params.lklPayRate) ? Number((params.lklPayRate / 100).toFixed(4)) : 0
+      params.lakalaPayRate = Number(params.lakalaPayRate) ? Number((params.lakalaPayRate / 100).toFixed(4)) : 0
 
       params.ysPayRate = Number(params.ysPayRate) ? Number((params.ysPayRate / 100).toFixed(4)) : 0
       params.lsPayRate = Number(params.lsPayRate) ? Number((params.lsPayRate / 100).toFixed(4)) : 0
       params.chPayRate = Number(params.chPayRate) ? Number((params.chPayRate / 100).toFixed(4)) : 0
       params.tqSxfPayRate = Number(params.tqSxfPayRate) ? Number((params.tqSxfPayRate / 100).toFixed(4)) : 0
 
+
       params.yiShengPayRate = Number(params.yiShengPayRate) ? Number((params.yiShengPayRate / 100).toFixed(4)) : 0
       params.newLandPayRate = Number(params.newLandPayRate) ? Number((params.newLandPayRate / 100).toFixed(4)) : 0
+
       //手机pos和网联
       params.posPayRate = Number(params.posPayRate) ? Number((params.posPayRate / 100).toFixed(4)) : 0
       params.quickPayRate = Number(params.quickPayRate) ? Number((params.quickPayRate / 100).toFixed(4)) : 0
       params.kdbPayRate = Number(params.kdbPayRate) ? Number((params.kdbPayRate / 100).toFixed(4)) : 0
       params.chanpayPayRate = Number(params.chanpayPayRate) ? Number((params.chanpayPayRate / 100).toFixed(4)) : 0
-      // params.lakalaPayRate = Number(params.lakalaPayRate) ? Number((params.lakalaPayRate / 100).toFixed(4)) : 0
+
       if(this.typeVal === 1){
         listApi.rateSet(params).then(res => {
           this.$message.success(res.msg)

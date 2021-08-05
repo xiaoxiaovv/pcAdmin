@@ -91,6 +91,7 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lklPayRate" v-if="payWay === 16">
         </el-input-number>
+
         %
 
         <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
@@ -194,19 +195,27 @@ export default {
         newRes.sxfPayProrata = Number(newRes.sxfPayProrata) ? Number(newRes.sxfPayProrata) * 100 : 0
         newRes.wxPayProrata = Number(newRes.wxPayProrata) ? Number(newRes.wxPayProrata) * 100 : 0
         newRes.zfbPayProrata = Number(newRes.zfbPayProrata) ? Number(newRes.zfbPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
 
         newRes.ysPayProrata = Number(newRes.ysPayProrata) ? Number(newRes.ysPayProrata) * 100 : 0
         newRes.lsPayProrata = Number(newRes.lsPayProrata) ? Number(newRes.lsPayProrata) * 100 : 0
         newRes.chPayProrata = Number(newRes.chPayProrata) ? Number(newRes.chPayProrata) * 100 : 0
         newRes.tqSxfPayProrata = Number(newRes.tqSxfPayProrata) ? Number(newRes.tqSxfPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
 
         newRes.yiShengPayProrata = Number(newRes.yiShengPayProrata) ? Number(newRes.yiShengPayProrata) * 100 : 0
         newRes.newLandPayProrata = Number(newRes.newLandPayProrata) ? Number(newRes.newLandPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
         //手机pos和网联
         newRes.posPayProrata = Number(newRes.posPayProrata) ? Number(newRes.posPayProrata) * 100 : 0
         newRes.quickPayProrata = Number(newRes.quickPayProrata) ? Number(newRes.quickPayProrata) * 100 : 0
         newRes.kdbPayProrata = Number(newRes.kdbPayProrata) ? Number(newRes.kdbPayProrata) * 100 : 0
         newRes.chanpayPayProrata = Number(newRes.chanpayPayProrata) ? Number(newRes.chanpayPayProrata) * 100 : 0
+        newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+        newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
         this.params = newRes
       })
     },
@@ -225,19 +234,27 @@ export default {
       params.sxfPayProrata = Number(params.sxfPayProrata) ? Number((params.sxfPayProrata / 100).toFixed(4)) : 0
       params.wxPayProrata = Number(params.wxPayProrata) ? Number((params.wxPayProrata / 100).toFixed(4)) : 0
       params.zfbPayProrata = Number(params.zfbPayProrata) ? Number((params.zfbPayProrata / 100).toFixed(4)) : 0
+      newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+      newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
 
       params.ysPayProrata = Number(params.ysPayProrata) ? Number((params.ysPayProrata / 100).toFixed(4)) : 0
       params.lsPayProrata = Number(params.lsPayProrata) ? Number((params.lsPayProrata / 100).toFixed(4)) : 0
       params.chPayProrata = Number(params.chPayProrata) ? Number((params.chPayProrata / 100).toFixed(4)) : 0
       params.tqSxfPayProrata = Number(params.tqSxfPayProrata) ? Number((params.tqSxfPayProrata / 100).toFixed(4)) : 0
+      newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+      newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
 
       params.yiShengPayProrata = Number(params.yiShengPayProrata) ? Number((params.yiShengPayProrata / 100).toFixed(4)) : 0
       params.newLandPayProrata = Number(params.newLandPayProrata) ? Number((params.newLandPayProrata / 100).toFixed(4)) : 0
+      newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+      newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
       //手机pos和网联
       params.posPayProrata = Number(params.posPayProrata) ? Number((params.posPayProrata / 100).toFixed(4)) : 0
       params.quickPayProrata = Number(params.quickPayProrata) ? Number((params.quickPayProrata / 100).toFixed(4)) : 0
       params.kdbPayProrata = Number(params.kdbPayProrata) ? Number((params.kdbPayProrata / 100).toFixed(4)) : 0
       params.chanpayPayProrata = Number(params.chanpayPayProrata) ? Number((params.chanpayPayProrata / 100).toFixed(4)) : 0
+      newRes.mfPayProrata = Number(newRes.mfPayProrata) ? Number(newRes.mfPayProrata) * 100 : 0
+      newRes.lklPayProrata = Number(newRes.lklPayProrata) ? Number(newRes.lklPayProrata) * 100 : 0
       listApi.rateSetTwo(params).then(res => {
         this.$message.success(res.msg)
         this.propsInfo.show = false

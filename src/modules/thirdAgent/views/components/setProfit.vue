@@ -82,15 +82,17 @@
         </el-input-number>
         <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.mfPayRate" v-if="payWay === 21">
         </el-input-number>
+        <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.lklPayRate" v-if="payWay === 16">
+        </el-input-number>
         %
-      
+
         <!--<el-tooltip class="item" effect="dark" :content="tipText" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>-->
         <!--<el-tooltip class="item" effect="dark" :content="typeVal===1?tipTextA:tipTextB" placement="top-start">
           <i class="el-icon-question"></i>
         </el-tooltip>-->
-      
+
        <!-- <el-input-number :precision="2" :step="0.01" :min="0" :max="100" v-model="params.chanpayPayRate" v-if="payWay === 20">
         </el-input-number>-->
       </el-form-item>

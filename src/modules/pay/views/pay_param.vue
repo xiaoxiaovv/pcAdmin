@@ -3801,7 +3801,7 @@ export default {
 */
 
 
-    /*getlklProdRate(){
+    getlklProdRate(){
       getlklProdRate().then(res=>{
         let a = res.obj;
          // console.log(JSON.stringify(a));
@@ -3833,7 +3833,7 @@ export default {
       }).catch(() => {
         this.loading = false
       })
-    },*/
+    },
 
     change(index){
 
@@ -3848,7 +3848,7 @@ export default {
 
 
 
-    getlklProdRate(){
+  /*  getlklProdRate(){
       getlklProdRate().then(res=>{
         let a = res.obj;
         // console.log(JSON.stringify(a));
@@ -3890,7 +3890,7 @@ export default {
       }).catch(() => {
         this.loading = false
       })
-    },
+    },*/
 
    /* data: function() {
       return {
