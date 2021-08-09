@@ -17,6 +17,7 @@
     <!--表格-->
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column prop="agreementNo" label="协议编号" width="180"></el-table-column>
+      <el-table-column prop="alipayUserId" label="ali用户id" width="150"></el-table-column>
       <el-table-column prop="username" label="真实姓名" width="120"></el-table-column>
       <el-table-column prop="alipayLogonId" label="脱敏账号"></el-table-column>
       <el-table-column prop="aliAccount" label="支付宝账号"></el-table-column>
