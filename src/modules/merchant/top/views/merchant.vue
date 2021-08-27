@@ -231,6 +231,9 @@
         <el-form-item label="插件商户号："  rop="cmfShopId">
           <el-input v-model="editMerchantForm.cmfShopId" class="formItem"></el-input>
         </el-form-item>
+        <el-form-item label="现金付款码："  rop="cashCode">
+          <el-input v-model="editMerchantForm.cashCode" class="formItem"></el-input>
+        </el-form-item>
         <!--
         <el-form-item label="经营类别：" prop="businessLevOne">
           <el-cascader v-model="categoryArr"
@@ -1236,7 +1239,8 @@
           longitude:row.longitude,
           latitude:row.latitude,
           isOpen:row.isOpen,
-          cmfShopId:row.cmfShopId
+          cmfShopId:row.cmfShopId,
+          cashCode:row.cashCode
         }
         this.editMerchantForm = newsData;
 

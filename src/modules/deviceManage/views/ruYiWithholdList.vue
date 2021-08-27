@@ -97,7 +97,7 @@
     </el-dialog>
 
     <!-- 确认解约模态框 -->
-    <el-dialog title="发货" width="500px" :visible.sync="verifyCode" :before-close="verifyCodeClose">
+    <el-dialog title="解约" width="500px" :visible.sync="verifyCode" :before-close="verifyCodeClose">
       <el-form :model="verifyCodeForm" :rules="verifyCodeRules" ref="verifyCodeForm" label-width="130px" size="mini">
         <el-form-item label="短信验证码：" show-message prop="code">
           <el-input v-model="verifyCodeForm.code" class="formItem"></el-input>
