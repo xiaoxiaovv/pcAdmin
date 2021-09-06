@@ -46,16 +46,20 @@
       <!--按钮-->
       <el-button type="primary"
                  size="small"
-                 @click="search">查询</el-button>
+                 @click="search">查询
+      </el-button>
       <el-button type="primary"
                  size="small"
-                 @click="reset">重置</el-button>
+                 @click="reset">重置
+      </el-button>
       <el-button type="primary"
                  size="small"
-                 @click="openTopConfigDialog">{{levelAlias.oemName}}支付参数</el-button>
+                 @click="openTopConfigDialog">{{ levelAlias.oemName }}支付参数
+      </el-button>
       <el-button type="primary"
                  size="small"
-                 @click="openCommissionConfigDialog">佣金提现参数</el-button>
+                 @click="openCommissionConfigDialog">佣金提现参数
+      </el-button>
       <!--<el-button type="primary"
                  size="small"
                  @click="getCommissionConfig">获取佣金生成参数</el-button>-->
@@ -67,7 +71,8 @@
                  @click="openMfprdVers">敏付产品参数</el-button>-->
       <el-button type="primary"
                  size="small"
-                 @click="openTopCommissionDialog">佣金生成</el-button>
+                 @click="openTopCommissionDialog">佣金生成
+      </el-button>
     </div>
 
     <!--表格-->
@@ -118,7 +123,7 @@
         <template slot-scope="scope">
           <div>
             已配置参数通道列表：
-            <span class="color-orange">{{showChannelList(scope.row.mchPayChanelInfo) || '--'}}</span>
+            <span class="color-orange">{{ showChannelList(scope.row.mchPayChanelInfo) || '--' }}</span>
           </div>
         </template>
       </el-table-column>
@@ -130,7 +135,8 @@
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
           <el-button type="text"
-                     @click="openConfigDialog(scope.row)">支付配置</el-button>
+                     @click="openConfigDialog(scope.row)">支付配置
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -146,7 +152,7 @@
                width="700px">
       <el-form :model="commissionParam"
                label-width="auto">
-        <el-form-item label="是否开启提现" >
+        <el-form-item label="是否开启提现">
           <el-switch v-model="commissionParam.isAllow"
                      :disabled="payDisable"
                      :active-value="1"
@@ -203,7 +209,7 @@
         <el-form-item label="提现时间">
 
           <!--操作时段-->
-          <div >
+          <div>
 
             <!--//时间选择-->
             <template>
@@ -261,11 +267,13 @@
            class="dialog-footer">
         <el-button @click="closeCommissionDialog">取 消</el-button>
         <el-button type="warning"
-                   @click="canConfig">配 置</el-button>
+                   @click="canConfig">配 置
+        </el-button>
         <el-button type="primary"
                    @click="saveCommissionConfig"
                    v-loading="btnLoading"
-                   :disabled="payDisable">提 交</el-button>
+                   :disabled="payDisable">提 交
+        </el-button>
       </div>
     </el-dialog>
 
@@ -435,40 +443,55 @@
           <el-radio-group v-model="payParam.payWay"
                           class="radio-bottom-params">
             <el-radio label="1"
-                      v-if="payConfig.indexOf('官方') > -1">微信</el-radio>
+                      v-if="payConfig.indexOf('官方') > -1">微信
+            </el-radio>
             <el-radio label="2"
-                      v-if="payConfig.indexOf('官方') > -1">支付宝</el-radio>
+                      v-if="payConfig.indexOf('官方') > -1">支付宝
+            </el-radio>
             <el-radio label="6"
-                      v-if="payConfig.indexOf('富友') > -1">富友</el-radio>
+                      v-if="payConfig.indexOf('富友') > -1">富友
+            </el-radio>
             <el-radio label="7"
-                      v-if="payConfig.indexOf('随行付') > -1">随行付</el-radio>
+                      v-if="payConfig.indexOf('随行付') > -1">随行付
+            </el-radio>
             <el-radio label="9"
-                      v-if="payConfig.indexOf('威富通') > -1">威富通</el-radio>
+                      v-if="payConfig.indexOf('威富通') > -1">威富通
+            </el-radio>
             <el-radio label="10"
-                      v-if="payConfig.indexOf('乐刷') > -1">乐刷</el-radio>
+                      v-if="payConfig.indexOf('乐刷') > -1">乐刷
+            </el-radio>
             <el-radio label="11"
-                      v-if="payConfig.indexOf('传化') > -1">传化</el-radio>
+                      v-if="payConfig.indexOf('传化') > -1">传化
+            </el-radio>
             <el-radio label="12"
-                      v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付</el-radio>
+                      v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付
+            </el-radio>
             <el-radio label="13"
-                      v-if="payConfig.indexOf('易生') > -1">易生</el-radio>
+                      v-if="payConfig.indexOf('易生') > -1">易生
+            </el-radio>
             <el-radio label="14"
-                      v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
+                      v-if="payConfig.indexOf('新大陆') > -1">新大陆
+            </el-radio>
 
             <!-- <el-radio label="15"
                  v-if="payConfig.indexOf('银联') > -1">中国银联</el-radio>-->
             <!-- <el-radio label="16"
                        v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>-->
             <el-radio label="17"
-                      v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
+                      v-if="payConfig.indexOf('手机pos') > -1">手机pos
+            </el-radio>
             <el-radio label="19"
-                      v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
+                      v-if="payConfig.indexOf('开店宝') > -1">开店宝
+            </el-radio>
             <el-radio label="20"
-                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
+                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷
+            </el-radio>
             <el-radio label="21"
-                      v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
+                      v-if="payConfig.indexOf('敏付') > -1">敏付
+            </el-radio>
             <el-radio label="16"
-                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
+                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉
+            </el-radio>
 
           </el-radio-group>
         </el-form-item>
@@ -521,7 +544,8 @@
                          :show-file-list="false">
                 <el-button size="small"
                            type="primary"
-                           :disabled="payDisable">点击上传</el-button>
+                           :disabled="payDisable">点击上传
+                </el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label="利率">
@@ -949,7 +973,8 @@
                            @click="getYspayPrivateSignKey"
                            size="small"
                            v-loading="btnLoading"
-                           :disabled="payDisable">获取签名密钥</el-button>
+                           :disabled="payDisable">获取签名密钥
+                </el-button>
               </div>
             </el-form-item>
             <el-form-item label="易生协议系统签名秘钥">
@@ -963,7 +988,8 @@
                            @click="getYsAgreementPrivateSignKeyVal"
                            size="small"
                            v-loading="btnLoading"
-                           :disabled="payDisable">获取签名密钥</el-button>
+                           :disabled="payDisable">获取签名密钥
+                </el-button>
               </div>
             </el-form-item>
           </div>
@@ -1032,46 +1058,46 @@
             </el-form-item>
           </div>-->
           <!--拉卡拉-->
-         <!-- <div v-show="payParam.payWay==16">
-            <el-form-item label="微信利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.lakalaWxRate">
-              </el-input-number>
-              %
-            </el-form-item>
-            <el-form-item label="支付宝利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.lakalaAliRate">
-              </el-input-number>
-              %
-            </el-form-item>
-            <el-form-item label="拉卡拉APPID">
-              <el-input type="text"
-                        v-model.trim="topParam.lklShopNo"
-                        :disabled="payDisable"
-                        placeholder="拉卡拉APPID"></el-input>
-            </el-form-item>
-            <el-form-item label="拉卡拉TOKEN">
-              <el-input type="text"
-                        v-model.trim="topParam.lklToken"
-                        :disabled="payDisable"
-                        placeholder="拉卡拉TOKEN"></el-input>
-            </el-form-item>
-            <el-form-item label="拉卡拉秘钥">
-              <el-input type="text"
-                        v-model.trim="topParam.lakalaRSAKey"
-                        :disabled="payDisable"
-                        placeholder="拉卡拉秘钥"></el-input>
-            </el-form-item>
-          </div>-->
+          <!-- <div v-show="payParam.payWay==16">
+             <el-form-item label="微信利率">
+               <el-input-number :disabled="payDisable"
+                                :precision="2"
+                                :min="0"
+                                :max="100"
+                                :step="0.01"
+                                v-model="topParam.lakalaWxRate">
+               </el-input-number>
+               %
+             </el-form-item>
+             <el-form-item label="支付宝利率">
+               <el-input-number :disabled="payDisable"
+                                :precision="2"
+                                :min="0"
+                                :max="100"
+                                :step="0.01"
+                                v-model="topParam.lakalaAliRate">
+               </el-input-number>
+               %
+             </el-form-item>
+             <el-form-item label="拉卡拉APPID">
+               <el-input type="text"
+                         v-model.trim="topParam.lklShopNo"
+                         :disabled="payDisable"
+                         placeholder="拉卡拉APPID"></el-input>
+             </el-form-item>
+             <el-form-item label="拉卡拉TOKEN">
+               <el-input type="text"
+                         v-model.trim="topParam.lklToken"
+                         :disabled="payDisable"
+                         placeholder="拉卡拉TOKEN"></el-input>
+             </el-form-item>
+             <el-form-item label="拉卡拉秘钥">
+               <el-input type="text"
+                         v-model.trim="topParam.lakalaRSAKey"
+                         :disabled="payDisable"
+                         placeholder="拉卡拉秘钥"></el-input>
+             </el-form-item>
+           </div>-->
 
           <!--手机pos-->
           <div v-show="payParam.payWay==17">
@@ -1280,14 +1306,15 @@
                          :show-file-list="false">
                 <el-button size="small"
                            type="primary"
-                           :disabled="payDisable">点击上传</el-button>
+                           :disabled="payDisable">点击上传
+                </el-button>
               </el-upload>
             </el-form-item>
 
 
             <span v-for="item in mfprdVersParamTo">
 
-        <el-form-item label="产品版本号"  style="width: 600px; float: left; ">
+        <el-form-item label="产品版本号" style="width: 600px; float: left; ">
           <el-input :disabled="payDisable"
                     :precision="2"
 
@@ -1319,10 +1346,6 @@
 
 
         </span>
-
-
-
-
 
 
           </div>
@@ -1392,7 +1415,8 @@
                          :show-file-list="false">
                 <el-button size="small"
                            type="primary"
-                           :disabled="payDisable">点击上传</el-button>
+                           :disabled="payDisable">点击上传
+                </el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label="公钥名称">
@@ -1413,18 +1437,17 @@
                          :show-file-list="false">
                 <el-button size="small"
                            type="primary"
-                           :disabled="payDisable">点击上传</el-button>
+                           :disabled="payDisable">点击上传
+                </el-button>
               </el-upload>
             </el-form-item>
-
-
-
 
 
             <el-button type="primary"
                        size="big"
                        style="margin-left: 270px;"
-                       @click="openlklProdRateDialog">拉卡拉费率版本</el-button>
+                       @click="openlklProdRateDialog">拉卡拉费率版本
+            </el-button>
 
 
             <!--<el-dialog :title="`拉卡拉版本费率`"
@@ -1440,79 +1463,75 @@
             <el-dialog :title="`拉卡拉版本费率`"
                        :visible.sync="lklProdRateDialog"
                        :before-close="closelklProdRateDialog"
-                       width="700px">
-            <!--  <div   v-for="(item,index) in payParam.lklProdRateParamTo" :key="item"     @click="toggle(item)">-->
-
-              <div   v-for="(item,index) in payParam.lklProdRateParamTo" :key="index"     @click="toggle(item)">
-
-                <span v-if='item.show'>{{item.content}}</span>
-
-                <el-form-item  label="版本编号" style="width: 320px;float: left;">
-                  <el-input type="text"
-                            v-model.trim="item.verCode"
-                            :disabled="payDisable"
-                            ></el-input>
-                </el-form-item>
-                <el-form-item  label="版本费率" style="width: 320px;float: left;">
-                  <el-input type="text"
-                            v-model.trim="item.verRate"
-                            :disabled="payDisable"
-                            ></el-input>
-
-
-                </el-form-item>
-
-
-                <div v-for="s in item.lklRateTypeList" :key="s">
-
-                  <!--<div>{{s.rateTypeCode}}:{{s.rateTypeName}}:{{s.lklRate}}</div>-->
-
-                  <el-form-item  label="费率类型编码" style="width: 200px;float: left;">
+                       width="900px;" height="900px;">
+              <div v-for="(item,index) in payParam.lklProdRateParamTo" :key="index">
+                <div class="lklProdRateParamToList">
+                  <el-form-item label="版本编号" style="width: 460px;float: left;">
+                    <el-input type="text"
+                              v-model.trim="item.verCode"
+                              :disabled="payDisable"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="版本费率" style="width: 300px;float: left;">
+                    <el-input type="text"
+                              v-model.trim="item.verRate"
+                              :disabled="payDisable"
+                    ></el-input>
+                  </el-form-item>
+                  <div class="setDom">
+                    <div class="lklRateTypeListInfoList"
+                         @click="lklRateTypeListShow(index)">&nbsp;
+                    </div>
+                    <div class="delData-list" @click="lklProdRateDialogDelData(1,index)"
+                         :data-index="index">
+                    </div>
+                  </div>
+                </div>
+                <div v-for="s in item.lklRateTypeList" :key="s" style="width: 900px; float: left;" v-show="item.isOpen">
+                  <el-form-item label="费率类型编码" style="width: 230px;float: left;">
                     <el-input type="text"
                               v-model.trim="s.rateTypeCode"
                               :disabled="payDisable"
-                              ></el-input>
+                    ></el-input>
                   </el-form-item>
-                  <el-form-item  label="费率类型名称" style="width: 240px;float: left;">
+                  <el-form-item label="费率类型名称" style="width: 300px;float: left;">
                     <el-input type="text"
                               v-model.trim="s.rateTypeName"
                               :disabled="payDisable"
-                              ></el-input>
+                    ></el-input>
 
                   </el-form-item>
-                  <el-form-item  label="拉卡拉费率" style="width: 200px;float: left;">
-                    <el-input type="text"
-                              v-model.trim="s.lklRate"
-                              :disabled="payDisable"
-                              ></el-input>
-
+                  <el-form-item label="拉卡拉费率" style="width:280px;float: left; ">
+                    <el-input-number :disabled="payDisable"
+                                     :precision="2"
+                                     :min="0"
+                                     :max="100"
+                                     :step="0.01"
+                                     v-model.trim="s.lklRate">
+                    </el-input-number>
                   </el-form-item>
-
-
                 </div>
 
               </div>
 
 
-
               <div slot="footer"
                    class="dialog-footer">
-                <el-button @click="closelklProdRateDialog">取 消</el-button>
-                <el-button type="warning"
-                           @click="lklcanConfig">配 置</el-button>
-                <el-button type="primary"
-                           @click="savelklProdRate"
-                           v-loading="btnLoading"
-                           :disabled="payDisable">提 交</el-button>
+                <div>
+                  <div class="el-button el-button--warning" @click="lklProdRateDialogDelData(0)">新增</div>
+
+                  <el-button type="warning"
+                             @click="lklcanConfig">配 置
+                  </el-button>
+                  <el-button type="primary"
+                             @click="savelklProdRate"
+                             v-loading="btnLoading"
+                             :disabled="payDisable">提 交
+                  </el-button>
+                  <el-button @click="closelklProdRateDialog">取 消</el-button>
+                </div>
               </div>
             </el-dialog>
-
-
-
-
-
-
-
 
 
           </div>
@@ -1524,11 +1543,13 @@
            class="dialog-footer">
         <el-button @click="closeTopPayDialog">取 消</el-button>
         <el-button type="warning"
-                   @click="canConfig">配 置</el-button>
+                   @click="canConfig">配 置
+        </el-button>
         <el-button type="primary"
                    @click="saveTopPayConfig"
                    v-loading="btnLoading"
-                   :disabled="payDisable">提 交</el-button>
+                   :disabled="payDisable">提 交
+        </el-button>
       </div>
     </el-dialog>
     <el-dialog title="商户支付参数配置"
@@ -1541,50 +1562,65 @@
           <el-radio-group v-model="payParam.payWay">
             <el-radio label="1"
                       class="mt10"
-                      v-if="payConfig.indexOf('官方') > -1">微信</el-radio>
+                      v-if="payConfig.indexOf('官方') > -1">微信
+            </el-radio>
             <el-radio label="2"
                       class="mt10"
-                      v-if="payConfig.indexOf('官方') > -1">支付宝</el-radio>
+                      v-if="payConfig.indexOf('官方') > -1">支付宝
+            </el-radio>
             <el-radio label="6"
                       class="mt10"
-                      v-if="payConfig.indexOf('富友') > -1">富友</el-radio>
+                      v-if="payConfig.indexOf('富友') > -1">富友
+            </el-radio>
             <el-radio label="7"
                       class="mt10"
-                      v-if="payConfig.indexOf('随行付') > -1">随行付</el-radio>
+                      v-if="payConfig.indexOf('随行付') > -1">随行付
+            </el-radio>
             <el-radio label="9"
                       class="mt10"
-                      v-if="payConfig.indexOf('威富通') > -1">威富通</el-radio>
+                      v-if="payConfig.indexOf('威富通') > -1">威富通
+            </el-radio>
             <el-radio label="10"
                       class="mt10"
-                      v-if="payConfig.indexOf('乐刷') > -1">乐刷</el-radio>
+                      v-if="payConfig.indexOf('乐刷') > -1">乐刷
+            </el-radio>
             <el-radio label="11"
                       class="mt10"
-                      v-if="payConfig.indexOf('传化') > -1">传化</el-radio>
+                      v-if="payConfig.indexOf('传化') > -1">传化
+            </el-radio>
             <el-radio label="12"
                       class="mt10"
-                      v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付</el-radio>
+                      v-if="payConfig.indexOf('天阙随行付') > -1">天阙随行付
+            </el-radio>
             <el-radio label="13"
                       class="mt10"
-                      v-if="payConfig.indexOf('易生') > -1">易生</el-radio>
+                      v-if="payConfig.indexOf('易生') > -1">易生
+            </el-radio>
             <el-radio label="14"
                       class="mt10"
-                      v-if="payConfig.indexOf('新大陆') > -1">新大陆</el-radio>
+                      v-if="payConfig.indexOf('新大陆') > -1">新大陆
+            </el-radio>
             <!--            15银联   16拉卡拉-->
             <el-radio label="17"
                       class="mt10"
-                      v-if="payConfig.indexOf('手机pos') > -1">手机pos</el-radio>
+                      v-if="payConfig.indexOf('手机pos') > -1">手机pos
+            </el-radio>
             <el-radio label="19"
                       class="mt10"
-                      v-if="payConfig.indexOf('开店宝') > -1">开店宝</el-radio>
+                      v-if="payConfig.indexOf('开店宝') > -1">开店宝
+            </el-radio>
             <el-radio label="20"
                       class="mt10"
-                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷</el-radio>
+                      v-if="payConfig.indexOf('畅捷支付') > -1">畅捷
+            </el-radio>
             <el-radio label="21"
                       class="mt10"
-                      v-if="payConfig.indexOf('敏付') > -1">敏付</el-radio>
+                      v-if="payConfig.indexOf('敏付') > -1">敏付
+            </el-radio>
             <el-radio label="16"
                       class="mt10"
-                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉</el-radio>
+                      v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉
+            </el-radio>
 
             <!--<el-radio label="15"
                   class="mt10"
@@ -1897,13 +1933,15 @@
               <el-button style="margin-left: 10px;"
                          :disabled="payDisable"
                          type="primary"
-                         @click="getSxfSubmchidByTaskCode">获取子商户号</el-button>
+                         @click="getSxfSubmchidByTaskCode">获取子商户号
+              </el-button>
             </div>
             <div v-if="sxFrepoInfoArr.length > 1">
               <el-radio-group v-model="payParam.sxf.subMchId">
                 <el-radio :key="item.childNo"
                           :label="item.childNo"
-                          v-for="item in sxFrepoInfoArr">{{item.childNo}}</el-radio>
+                          v-for="item in sxFrepoInfoArr">{{ item.childNo }}
+                </el-radio>
               </el-radio-group>
             </div>
           </el-form-item>
@@ -2041,7 +2079,8 @@
             <el-button type="primary"
                        size="small"
                        :disabled="payDisable"
-                       @click="bindChAppId(merchantId, 11)">绑定APPID</el-button>
+                       @click="bindChAppId(merchantId, 11)">绑定APPID
+            </el-button>
           </el-form-item>
         </div>
         <!--=天阙随行付配置-->
@@ -2095,7 +2134,8 @@
               <el-button style="margin-left: 10px;"
                          :disabled="payDisable"
                          type="primary"
-                         @click="getTqSxfSubmchidByTaskCode">获取子商户号</el-button>
+                         @click="getTqSxfSubmchidByTaskCode">获取子商户号
+              </el-button>
             </div>
 
           </el-form-item>
@@ -2455,8 +2495,6 @@
         </div>
 
 
-
-
         <div v-show="payParam.payWay==16">
           <el-form-item label="支付宝费率">
             <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
@@ -2506,8 +2544,6 @@
                       placeholder="商户终端号"></el-input>
           </el-form-item>
         </div>
-
-
 
 
         <!--=秒到配置-->
@@ -2616,11 +2652,13 @@
            class="dialog-footer">
         <el-button @click="closePayDialog">取 消</el-button>
         <el-button type="warning"
-                   @click="canConfig">配 置</el-button>
+                   @click="canConfig">配 置
+        </el-button>
         <el-button type="primary"
                    @click="savePayConfig"
                    v-loading="btnLoading"
-                   :disabled="payDisable">提 交</el-button>
+                   :disabled="payDisable">提 交
+        </el-button>
       </div>
     </el-dialog>
     <!--域名校验-->
@@ -2642,19 +2680,39 @@
 </template>
 
 <script>
-import { getMerchantList } from '@/modules/merchant/top/api/merchant'
-import { findCommissionCurrentMonth } from '@/modules/index/api'
+import {getMerchantList} from '@/modules/merchant/top/api/merchant'
+import {findCommissionCurrentMonth} from '@/modules/index/api'
 import pagination from '@/components/pagination/index'
-import { url } from '@/utils/request'
-import { findTopPayConfig, saveTopPayConfig, findPayConfig, savePayConfig, updateAppid, getSystemCOnfig, getYspayPrivateSignKeyVal, getYsAgreementPrivateSignKeyVal,getSxfMerchantQuery, saveCommissionConfig, getCommissionConfig,getMfprdVers,setMfprdVers,getlklProdRate,savelklProdRate} from '@/modules/pay/api/pay_config'
+import {url} from '@/utils/request'
+import {
+  findTopPayConfig,
+  saveTopPayConfig,
+  findPayConfig,
+  savePayConfig,
+  updateAppid,
+  getSystemCOnfig,
+  getYspayPrivateSignKeyVal,
+  getYsAgreementPrivateSignKeyVal,
+  getSxfMerchantQuery,
+  saveCommissionConfig,
+  getCommissionConfig,
+  getMfprdVers,
+  setMfprdVers,
+  getlklRateTypeArray,
+  getlklProdRate,
+  savelklProdRate,
+  clearlklProdRateParam,
+  closelklProdRateDialog
+} from '@/modules/pay/api/pay_config'
 // import {fileUpload} from '@/modules/file/api/upload'
-import { levelAliasMixin } from '@/mixins'
+import {levelAliasMixin} from '@/mixins'
 import CreateCommission from './components/createCommission.vue'
+
 export default {
   name: 'merchant',
-  components: { pagination, CreateCommission },
+  components: {pagination, CreateCommission},
   mixins: [levelAliasMixin],
-  data() {
+  data () {
     return {
       taskCode: '', // 随行付任务编码
       sxFrepoInfoArr: [],
@@ -2739,14 +2797,14 @@ export default {
         ysMainKey: '', // 易生主密钥
         ysPaySignKey: '', // 易生签名私钥
         //新增
-        ysPayServiceRate:  '',  //易生D0服务费率
-        ysImportOrgId:  '',  //易生进件系统机构号
-        ysImportKey :  '',  //易生进件系统秘钥
-        ysAgreementMerId:  '',  //易生协议系统商户编号
-        ysAgreementTermId:  '',  //易生协议系统终端编号
-        ysAgreementKey :  '',  //易生协议系统秘钥
-        ysAgreementTemplateId:  '',  //易生协议系统模板编号
-        ysAgreementSignKey :  '',  //易生协议系统签名秘钥
+        ysPayServiceRate: '',  //易生D0服务费率
+        ysImportOrgId: '',  //易生进件系统机构号
+        ysImportKey: '',  //易生进件系统秘钥
+        ysAgreementMerId: '',  //易生协议系统商户编号
+        ysAgreementTermId: '',  //易生协议系统终端编号
+        ysAgreementKey: '',  //易生协议系统秘钥
+        ysAgreementTemplateId: '',  //易生协议系统模板编号
+        ysAgreementSignKey: '',  //易生协议系统签名秘钥
         // 新大陆
         newLandWxRate: '', // 新大陆微信利率
         newLandAliRate: '', // 新大陆支付宝利率
@@ -2757,25 +2815,17 @@ export default {
         lakalaWxRate: '', // 拉卡拉微信利率
         lakalaAliRate: '', // 拉卡拉支付宝利率
         lakalaChannelId: '', // 拉卡拉渠道号
-       // lklShopNo: '',           //拉卡拉appid
+        // lklShopNo: '',           //拉卡拉appid
         lklToken: '',        //拉卡拉token
-        lakalaRSAKey:'',  //拉卡拉秘钥
+        lakalaRSAKey: '',  //拉卡拉秘钥
         lklAppId: '',     //拉卡拉appid
-        lklVer:'',        //拉卡拉接口版本号
-        lklPrivateKeyName:'',         //拉卡拉私钥全名
-        lklPublicKeyName:'',         //拉卡拉公钥全名
-        lklSerialNo:'',             //拉卡拉公钥全名
-        lklOrgCode:'',             //"拉卡拉机构代码
-        itemcount:1,
-        myValue:[],
-
-
-
-
-
-
-
-
+        lklVer: '',        //拉卡拉接口版本号
+        lklPrivateKeyName: '',         //拉卡拉私钥全名
+        lklPublicKeyName: '',         //拉卡拉公钥全名
+        lklSerialNo: '',             //拉卡拉公钥全名
+        lklOrgCode: '',             //"拉卡拉机构代码
+        itemcount: 1,
+        myValue: [],
 
         //  手机pos
         posDrawFee: '', // 手机pos提现费
@@ -2786,28 +2836,26 @@ export default {
         posMd5Key: '',           //手机posMd5Key
         posAesKey: '',        //手机posAesKey
         //  开店宝
-        kdbAppId:'',
-        kdbAppsecret:'', //md5key
-        kdbChannelCode:'', //渠道编号
-        kdbMercPrivateKey:'', //私钥
-        kdbMercPublicKey:'', //公钥
-        kdbWxTradeRate:'', //费率
+        kdbAppId: '',
+        kdbAppsecret: '', //md5key
+        kdbChannelCode: '', //渠道编号
+        kdbMercPrivateKey: '', //私钥
+        kdbMercPublicKey: '', //公钥
+        kdbWxTradeRate: '', //费率
         kdbServiceRate: '', // D0费率
 
         //  畅捷
-        signType:'', //畅捷支付算法类型
-        acqSpId:'', //渠道编号
-        merchantPrivateKey:'', //私钥
-        chanpayPublicKey:'', //公钥
-        chanpayTradeRate:'', //费率
+        signType: '', //畅捷支付算法类型
+        acqSpId: '', //渠道编号
+        merchantPrivateKey: '', //私钥
+        chanpayPublicKey: '', //公钥
+        chanpayTradeRate: '', //费率
         //  敏付
-        mfMerchantNo:'', //渠道编号
-        mfApiVersion:'',  //接口版本号
-        mfTradeRate:'', // 交易费率
-        mfPrivateKeyName:'',//敏付私钥全名
-        mfPrivateKeyPassword:'',//敏付私钥密码
-
-
+        mfMerchantNo: '', //渠道编号
+        mfApiVersion: '',  //接口版本号
+        mfTradeRate: '', // 交易费率
+        mfPrivateKeyName: '',//敏付私钥全名
+        mfPrivateKeyPassword: '',//敏付私钥密码
 
       },
       // 商户支付参数
@@ -2909,21 +2957,37 @@ export default {
           wxInterestRate: '',
           aliInterestRate: '',
           lklMercId: '',  //拉卡拉 商户编码
-          termId: '' , //拉卡拉终端号
+          termId: '', //拉卡拉终端号
         },
         lklProdRateDialog: false,
         lklProdRateDisable: true,
         lklProdRate: false,
-        lklProdRateParamTo:[],
-       // lklRateTypeList:[],
+        lklProdRateParamTo: [],
+        lklRateTypeList: [],
 
-        lklProdRateparam :{
-          verRate:'',
-          verCode:'',
-          rateTypeCode:'',
-          rateTypeName:'',
-          lklRate:''
+        lklProdRateparam: {
+          verRate: '',
+          verCode: '',
+          rateTypeCode: '',
+          rateTypeName: '',
+          lklRate: ''
         },
+        /*items:[{
+          content:'1 item',
+          show:true
+        },
+          {
+            content:'2 item',
+            show:true
+          },
+          {
+            content:'3 item',
+            show:true
+          },
+        ],*/
+
+
+        ActicleIndex: -1,
 
         sjPos: {
           posTradeRate: '', //手机pos交易费率
@@ -2934,47 +2998,46 @@ export default {
         },
         //  开店宝
         kdb: {
-          merCode:'', //通道商户编号
-          kdbWxTradeRate:'' //费率
+          merCode: '', //通道商户编号
+          kdbWxTradeRate: '' //费率
         },
         //  畅捷
         cj: {
-          merCode:'', //通道商户编号
-          chanpayWxTradeRate:'' //费率
+          merCode: '', //通道商户编号
+          chanpayWxTradeRate: '' //费率
         },
         //  敏付
         mf: {
-          mchId:'', //通道商户编号
-          aliInterestRate:'', //支付宝费率
-          wxInterestRate:'' //微信费率
+          mchId: '', //通道商户编号
+          aliInterestRate: '', //支付宝费率
+          wxInterestRate: '' //微信费率
         }
-
 
       },
       //佣金提现参数
       commissionDialog: false,
       commissionDisable: true,
-      commissionParam:{
+      commissionParam: {
         cashOutStartTime: '',
         cashOutEndTime: '',
-        serviceFee:'',
-        dayNums:'',
+        serviceFee: '',
+        dayNums: '',
         minCashAmount: 0, // 最小提现金额
         maxCashAmount: 0, // 最大提现金额
         rateCash: 0,  // 佣金提现费率
         cashOutWay: '', // 提现方式:1手动2自动
         cashOutTypes: [], // 支持账号类型:1微信2支付宝3银行卡
-        isAllow:1 //是否开启提现
+        isAllow: 1 //是否开启提现
       },
 
       //敏付产品参数
       mfprdVers: false,
       mfprdVersDisable: true,
-      mfprdVersParamTo:[],
-      mfprdVersParam:{
-        opnPrdVers:'',
-        wxRate:'',
-        zfbRate:''
+      mfprdVersParamTo: [],
+      mfprdVersParam: {
+        opnPrdVers: '',
+        wxRate: '',
+        zfbRate: ''
       },
 
       headers: {
@@ -3007,15 +3070,16 @@ export default {
       dialogmfprdVers: {
         show: false
       },
-      payConfig: []
+      payConfig: [],
+      lkltypelist:[],
     }
   },
-  mounted() {
+  mounted () {
     this.getMerchantList()
     this.getSystemCOnfigInfo()
   },
   computed: {
-    showChannelList() {
+    showChannelList () {
       return function (mchPayChanelInfo) {
         mchPayChanelInfo = mchPayChanelInfo || {}
         let arr = mchPayChanelInfo.payChanel || []
@@ -3024,24 +3088,55 @@ export default {
     }
   },
   watch: {
-    'sxFrepoInfoArr'(val, oldVal) {
+    'sxFrepoInfoArr' (val, oldVal) {
       if (val && val.length === 1) {
         this.payParam.sxf.subMchId = this.sxFrepoInfoArr[0].childNo
       }
     },
-    tqsxFrepoInfoArr(val, oldVal) {
+    tqsxFrepoInfoArr (val, oldVal) {
       if (val && val.length === 1) {
         this.payParam.tqsxf.subMchId = val[0].childNo
       }
     }
   },
   methods: {
-    getSystemCOnfigInfo() {
+    getSystemCOnfigInfo () {
       getSystemCOnfig().then(res => {
         this.payConfig = [...res.obj]
         // console.log('66666666666666666666666666',this.payConfig)
       })
     },
+    lklProdRateDialogDelData (e, t) {
+
+      var d = this.$data.payParam['lklProdRateParamTo']
+      var n = []
+      for (var i = 0; i < d.length; i++) {
+        n.push(d[i])
+      }
+
+      if (e == 0) {
+        var newsData = {
+          'verCode': '',
+          'verRate': '',
+          'isOpen': false,
+          'lklRateTypeList': this.lkltypelist,
+        }
+        n.push(newsData)
+      } else {
+        if(d.length > 1){
+          n.splice(t, 1)
+        }
+
+      }
+      this.$data.payParam['lklProdRateParamTo'] = n
+
+    },
+    lklRateTypeListShow (e) {
+      let d = this.$data.payParam['lklProdRateParamTo']
+      d[e]['isOpen'] = !d[e]['isOpen']
+      this.$data.payParam['lklProdRateParamTo'] = d
+    },
+
     /**
      * 获取商户列表
      * @param number
@@ -3067,10 +3162,10 @@ export default {
     /**
      * 搜索与重置
      */
-    search() {
+    search () {
       this.$refs.page.search()
     },
-    reset() {
+    reset () {
       // channel 设置为“本商户”
       this.searchForm = {
         name: '', // 公司名
@@ -3079,16 +3174,16 @@ export default {
       this.$refs.page.search()
     },
     // =====================服务商支付参数配置=====================
-    openTopConfigDialog() {
+    openTopConfigDialog () {
       this.topPayDialog = true
       this.findTopPayConfig()
-      this.mfprdVers = true;
+      this.mfprdVers = true
       this.getMfprdVers()
       // this.lklProdRate = true;
       // this.getlklProdRate();
 
     },
-    closeTopPayDialog() {
+    closeTopPayDialog () {
       this.topPayDialog = false
       this.payDisable = true
       let clear = this
@@ -3096,7 +3191,7 @@ export default {
         clear.clearTopPayParam()
       }, 100)
     },
-    clearTopPayParam() {
+    clearTopPayParam () {
       this.topParam.wxAppId = ''
       this.topParam.wxMchId = ''
       this.topParam.wxAppKey = ''
@@ -3155,12 +3250,12 @@ export default {
       this.topParam.ysPaySignKey = ''
       this.topParam.ysPayServiceRate = ''  //易生D0服务费率
       this.topParam.ysImportOrgId = ''  //易生进件系统机构号
-      this.topParam.ysImportKey  = ''  //易生进件系统秘钥
+      this.topParam.ysImportKey = ''  //易生进件系统秘钥
       this.topParam.ysAgreementMerId = ''  //易生协议系统商户编号
       this.topParam.ysAgreementTermId = ''  //易生协议系统终端编号
-      this.topParam.ysAgreementKey  = ''  //易生协议系统秘钥
+      this.topParam.ysAgreementKey = ''  //易生协议系统秘钥
       this.topParam.ysAgreementTemplateId = ''  //易生协议系统模板编号
-      this.topParam.ysAgreementSignKey  = ''  //易生协议系统签名秘钥
+      this.topParam.ysAgreementSignKey = ''  //易生协议系统签名秘钥
       // 新大陆
       this.topParam.newLandWxRate = ''
       this.topParam.newLandAliRate = ''
@@ -3172,7 +3267,7 @@ export default {
       this.topParam.lakalaChannelId = '' // 拉卡拉渠道号
       this.topParam.lklShopNo = ''          //拉卡拉appid
       this.topParam.lklToken = ''        //拉卡拉token
-      this.topParam.lakalaRSAKey =''  //拉卡拉秘钥
+      this.topParam.lakalaRSAKey = ''  //拉卡拉秘钥
       //  手机pos
       this.topParam.posDrawFee = '' // 手机pos提现费
       this.topParam.posTradeRate = '' // 手机pos交易费率
@@ -3204,14 +3299,9 @@ export default {
       this.topParam.mfTradeRate = '' // 交易费率
       this.topParam.mfPrivateKeyName = '' // 私钥名称
 
-
-
-
-
-
     },
     // 获取服务商支付参数
-    findTopPayConfig() {
+    findTopPayConfig () {
       findTopPayConfig().then(response => {
         let data = response.obj
         this.topParam.serviceProviderId = data.serviceProviderId
@@ -3289,7 +3379,6 @@ export default {
         this.topParam.ysAgreementTemplateId = data.ysAgreementTemplateId //易生协议系统模板编号
         this.topParam.ysAgreementSignKey = data.ysAgreementSignKey //易生协议系统签名秘钥
 
-
         // 新大陆
         this.topParam.newLandChannelId = data.newLandChannelId
         this.topParam.newLandWxRate = Number(data.newLandWxRate) ? Number(data.newLandWxRate) * 100 : 0
@@ -3310,13 +3399,8 @@ export default {
         this.topParam.lklAppId = data.lklAppId // 拉卡拉渠道号
         this.topParam.lklVer = data.lklVer          //拉卡拉接口版本号
         this.topParam.lklPrivateKeyName = data.lklPrivateKeyName        //拉卡拉私钥名称
-        this.topParam.lklPublicKeyName =data.lklPublicKeyName  //拉卡拉公钥名称
-        this.topParam.lklSerialNo =data.lklSerialNo  //拉卡拉序列号
-
-
-
-
-
+        this.topParam.lklPublicKeyName = data.lklPublicKeyName  //拉卡拉公钥名称
+        this.topParam.lklSerialNo = data.lklSerialNo  //拉卡拉序列号
 
         //  手机pos
         this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
@@ -3334,7 +3418,7 @@ export default {
         this.topParam.kdbMercPrivateKey = data.kdbMercPrivateKey // 私钥
         this.topParam.kdbMercPublicKey = data.kdbMercPublicKey // 公钥
         this.topParam.kdbWxTradeRate = Number(data.kdbWxTradeRate) ? Number(data.kdbWxTradeRate) * 100 : 0   //费率
-        this.topParam.kdbServiceRate = Number(data.kdbServiceRate) ? Number(data.kdbServiceRate)  : 0   //D0费率
+        this.topParam.kdbServiceRate = Number(data.kdbServiceRate) ? Number(data.kdbServiceRate) : 0   //D0费率
 
         //  畅捷
         this.topParam.signType = data.signType // 算法类型
@@ -3356,7 +3440,7 @@ export default {
       })
     },
     // 保存服务商支付参数
-    saveTopPayConfig() {
+    saveTopPayConfig () {
       this.btnLoading = true // 锁定按钮
       this.payDisable = true
       let params = Object.assign(this.topParam)
@@ -3403,9 +3487,7 @@ export default {
       //敏付
       params.mfTradeRate = (Number(params.mfTradeRate) / 100).toFixed(4)    //费率
 
-      this.setMfprdVers();
-     /* this.savelklProdRate();*/
-
+      this.setMfprdVers()
 
       params.payWay = parseInt(this.payParam.payWay)
       saveTopPayConfig(params).then(response => {
@@ -3422,24 +3504,21 @@ export default {
       })
     },
 
-
-
-
     // ====================商户支付参数配置========================
-    canConfig() {
+    canConfig () {
       this.payDisable = false
     },
-    lklcanConfig() {
+    lklcanConfig () {
       this.payDisable = false
     },
-    openConfigDialog(row) {
+    openConfigDialog (row) {
       this.clearPayParam()
       this.payDialog = true
       this.payParam.payWay = '1'
       this.merchantId = row.id
       this.findPayConfig(row.id)
     },
-    closePayDialog() {
+    closePayDialog () {
       this.payDialog = false
       this.payDisable = true
       let se = this
@@ -3447,7 +3526,7 @@ export default {
         se.clearPayParam()
       }, 100)
     },
-    clearPayParam() {
+    clearPayParam () {
       this.payParam.ali.interestRate = ''
       this.payParam.ali.id = ''
       this.payParam.ali.appAuthToken = ''
@@ -3541,7 +3620,7 @@ export default {
       this.payParam.mf.aliInterestRate = '' // 费率
       this.payParam.mf.wxInterestRate = '' // 费率
     },
-    findPayConfig(merchantId) {
+    findPayConfig (merchantId) {
       findPayConfig(merchantId).then(response => {
         let data = response.obj
         console.log('data', data)
@@ -3712,159 +3791,132 @@ export default {
         this.loading = false
       })
     },
-    radioChange(){
+    radioChange () {
       // console.log(2222222222,this.commissionParam.cashOutWay)
     },
-    cashChange(){
+    cashChange () {
       // console.log(111111111111,this.commissionParam.cashOutTypes)
     },
     //获取佣金配置
-    getCommissionConfig(){
-      getCommissionConfig().then(res=>{
+    getCommissionConfig () {
+      getCommissionConfig().then(res => {
         let commissionParamData = res.obj
-        this.commissionParam =  {...res.obj}
-        this.commissionParam.rateCash = this.commissionParam.rateCash * 100;
+        this.commissionParam = {...res.obj}
+        this.commissionParam.rateCash = this.commissionParam.rateCash * 100
         /*        this.commissionParam.cashOutWay = this.commissionParam.cashOutWay //提现方式
                 this.commissionParam.minCashAmount = this.commissionParam.minCashAmount
                 this.commissionParam.maxCashAmount = this.commissionParam.maxCashAmount
                 this.commissionParam.cashOutTypes = this.commissionParam.cashOutTypes*/
         this.commissionParam.isAllow = Number(this.commissionParam.isAllow)
-        this.commissionParam.cashOutStartTime = this.commissionParam.cashOutStartTime.substring(0,5)
-        this.commissionParam.cashOutEndTime = this.commissionParam.cashOutEndTime.substring(0,5)
-
+        this.commissionParam.cashOutStartTime = this.commissionParam.cashOutStartTime.substring(0, 5)
+        this.commissionParam.cashOutEndTime = this.commissionParam.cashOutEndTime.substring(0, 5)
 
       }).catch(() => {
         this.loading = false
       })
     },
     //当月佣金总额
-    findCommissionCurrentMonth(){
+    findCommissionCurrentMonth () {
       this.companyId = sessionStorage.getItem('companyId')
       findCommissionCurrentMonth(this.companyId)
     },
     /**
      * 佣金提现参数配置
      */
-    openCommissionConfigDialog(){
-      this.commissionDialog = true;
+    openCommissionConfigDialog () {
+      this.commissionDialog = true
       this.getCommissionConfig()
 
-
     },
 
-    openlklProdRateDialog(){
-      this.lklProdRateDialog = true;
+    openlklProdRateDialog () {
+      this.lklProdRateDialog = true
+      this.getlklRateTypeArray();
       this.getlklProdRate()
-
-
     },
 
-
-
-
-    getMfprdVers(){
-      getMfprdVers().then(res=>{
-        let d = res.obj;
-        console.log(JSON.stringify(d));
-        if(d.length == 0){
+    getMfprdVers () {
+      getMfprdVers().then(res => {
+        let d = res.obj
+        console.log(JSON.stringify(d))
+        if (d.length == 0) {
           d = [{
-            "opnPrdVers": "",
-            "wxRate": 0.00,
-            "zfbRate": 0.00
+            'opnPrdVers': '',
+            'wxRate': 0.00,
+            'zfbRate': 0.00
           }, {
 
-            "opnPrdVers": "",
-            "wxRate": 0.00,
-            "zfbRate": 0.00
+            'opnPrdVers': '',
+            'wxRate': 0.00,
+            'zfbRate': 0.00
           }, {
 
-            "opnPrdVers": "",
-            "wxRate": 0.00,
-            "zfbRate": 0.00
+            'opnPrdVers': '',
+            'wxRate': 0.00,
+            'zfbRate': 0.00
           }]
         }
-        this.$data.mfprdVersParamTo =  d;
+        this.$data.mfprdVersParamTo = d
       }).catch(() => {
         this.loading = false
       })
     },
 
-/*
+    /*
 
 
 
-      onItemClick(index) {
-        this.num = index;
-        console.log(this.num);
-        console.log('on item click:', index)
-      },
-*/
-
-
-    getlklProdRate(){
-      getlklProdRate().then(res=>{
-        let a = res.obj;
-         // console.log(JSON.stringify(a));
-
-        if(a.length == 0){
-          a = [{
-            "verRate": "",
-            "verCode": "",
-            "rateTypeCode": "",
-            "rateTypeName": "",
-            "lklRate": "",
-
-          },{
-            "verRate": "",
-            "verCode": "",
-            "rateTypeCode": "",
-            "rateTypeName": "",
-            "lklRate": "",
-          }, {
-            "verRate": "",
-            "verCode": "",
-            "rateTypeCode": "",
-            "rateTypeName": "",
-            "lklRate": "",
-          }]
-        }
-        this.$data.payParam['lklProdRateParamTo'] =  a;
-
-      }).catch(() => {
-        this.loading = false
-      })
-    },
-
-    change(index){
-
-      if(this.item[index].flag==false){
-        this.item[index].flag=true;
-      }else {
-        this.item[index].flag=false;
-      }
-
-    },
-
-
-
-
-  /*  getlklProdRate(){
-      getlklProdRate().then(res=>{
-        let a = res.obj;
-        // console.log(JSON.stringify(a));
-
-        if(a.length == 1){
-          a = [{
-            "verCode": "",
-            "verRate":  "",
-            "lklRateTypeList": [
-              {
-                "rateTypeName": "",
-                "rateTypeCode": "",
-                "lklRate": "",
-              },]
+          onItemClick(index) {
+            this.num = index;
+            console.log(this.num);
+            console.log('on item click:', index)
           },
-            {
+    */
+
+    getlklRateTypeArray () {
+      getlklRateTypeArray().then(res => {
+        this.lkltypelist= res.obj
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+
+
+    getlklProdRate () {
+      getlklProdRate().then(res => {
+        let a = res.obj
+
+        console.log(JSON.stringify(res.obj))
+        if (a.length == 0) {
+          a = [{
+            'verCode': '',
+            'verRate': '',
+            'isOpen': false,
+            'lklRateTypeList': this.lkltypelist,
+          }]
+        }
+
+        for (var i = 0; i < a.length; i++) {
+          a[i]['isOpen'] = false
+        }
+        this.$data.payParam['lklProdRateParamTo'] = a
+
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+
+
+
+
+
+    /*  getlklProdRate(){
+        getlklProdRate().then(res=>{
+          let a = res.obj;
+          // console.log(JSON.stringify(a));
+
+          if(a.length == 1){
+            a = [{
               "verCode": "",
               "verRate":  "",
               "lklRateTypeList": [
@@ -3874,88 +3926,54 @@ export default {
                   "lklRate": "",
                 },]
             },
-            {
-              "verCode": "",
-              "verRate":  "",
-              "lklRateTypeList": [
-                {
-                  "rateTypeName": "",
-                  "rateTypeCode": "",
-                  "lklRate": "",
-                }]
-            }]
-        }
-        this.$data.payParam['lklProdRateParamTo'] =  a;
+              {
+                "verCode": "",
+                "verRate":  "",
+                "lklRateTypeList": [
+                  {
+                    "rateTypeName": "",
+                    "rateTypeCode": "",
+                    "lklRate": "",
+                  },]
+              },
+              {
+                "verCode": "",
+                "verRate":  "",
+                "lklRateTypeList": [
+                  {
+                    "rateTypeName": "",
+                    "rateTypeCode": "",
+                    "lklRate": "",
+                  }]
+              }]
+          }
+          this.$data.payParam['lklProdRateParamTo'] =  a;
 
-      }).catch(() => {
-        this.loading = false
-      })
-    },*/
-
-   /* data: function() {
-      return {
-        items: [{
-          content: '1 item',
-          show: true
-        }, {
-          content: '2 item',
-          show: true
-        }, {
-          content: '3 item',
-          show: true
-        }]
-      }
-    },*/
-
-/*
-
-     toggle: function(item) {
-           item.show = !item.show;
-       },
-
-*/
+        }).catch(() => {
+          this.loading = false
+        })
+      },*/
 
 
 
- /*    addlklProdRate(){
-       var i =1;
-
-       function tianjia() { if(i>=5){
-         alert("超过5个模板");
-
-       }else{
-         var sourceNode = document.getElementById("div-0"); // 获得被克隆的节点对象
-
-         var clonedNode = sourceNode.cloneNode(true); // 克隆节点
-
-         clonedNode.setAttribute("id", "div-" + i); // 修改一下id 值，避免id 重复
-
-         sourceNode.parentNode.appendChild(clonedNode); // 在父节点插入克隆的节点
-
-         i=i+1;
-
-       }
-
-       }
-
-     },
-
-*/
 
 
 
-    savelklProdRate(){
-      let newData = JSON.stringify(this.$data.payParam['lklProdRateParamTo']);
-      newData = JSON.parse(newData);
-      console.log(newData);
+
+
+
+    savelklProdRate () {
+      let newData = JSON.stringify(this.$data.payParam['lklProdRateParamTo'])
+      newData = JSON.parse(newData)
+      console.log(newData)
       //处理数据，
-      let  verRate = [];
-      let  verCode = [];
-      let  rateTypeName = [];
-      let  lklRate = [];
-      let  rateTypeCode = [];
-      for(var i = 0; i<newData.length; i++){
-        let n = newData[i];
+      let verRate = []
+      let verCode = []
+      let rateTypeName = []
+      let lklRate = []
+      let rateTypeCode = []
+      for (var i = 0; i < newData.length; i++) {
+        let n = newData[i]
         verRate.push(n.verRate)
         verCode.push(n.verCode)
         lklRate.push(n.lklRate)
@@ -3963,62 +3981,53 @@ export default {
         rateTypeCode.push(n.rateTypeCode)
       }
       let param = {
-        rateTypeCode:rateTypeCode,
-        rateTypeName:rateTypeName,
-        lklRate:lklRate,
-        verRate:verRate,
-        verCode:verCode,
+        rateTypeCode: rateTypeCode,
+        rateTypeName: rateTypeName,
+        lklRate: lklRate,
+        verRate: verRate,
+        verCode: verCode,
       }
       // console.log(JSON.stringify(param))
       console.log('上传参数')//
       //    this.wxRate = res.obj.wxRate;
       //    this.zfbRate = res.obj.zfbRate;
-      savelklProdRate(newData).then(res=>{
+      savelklProdRate(newData).then(res => {
         let lklProdRateParamToData = res.obj
-        this.lklProdRateParam =  {...res.obj}
+        this.lklProdRateParam = {...res.obj}
         // console.log(this.lklProdRateParam);
         this.clearlklProdRateParam()
         this.closelklProdRate()
 
-         this.$message.success('拉卡拉版本费率配置成功')
       }).catch(() => {  //
         this.loading = false
       })
+       this.$message.success('拉卡拉版本费率配置成功')
+       this.closelklProdRateDialog ()
     },
 
-
-
-
-
-
-
-    openMfprdVers(){
-      this.mfprdVers = true;
+    openMfprdVers () {
+      this.mfprdVers = true
       this.getMfprdVers()
     },
 
-
-
-
-
-    setMfprdVers(){
-      let upData = JSON.stringify(this.$data.mfprdVersParamTo);
-      upData = JSON.parse(upData);
+    setMfprdVers () {
+      let upData = JSON.stringify(this.$data.mfprdVersParamTo)
+      upData = JSON.parse(upData)
       console.log(upData)
       //处理数据，
-      let  opnPrdVers = [];
-      let  wxRate = [];
-      let  zfbRate = [];
-      for(var i = 0; i<upData.length; i++){
-        let n = upData[i];
+      let opnPrdVers = []
+      let wxRate = []
+      let zfbRate = []
+      for (var i = 0; i < upData.length; i++) {
+        let n = upData[i]
         opnPrdVers.push(n.opnPrdVers)
         wxRate.push(n.wxRate)
         zfbRate.push(n.zfbRate)
       }
       let param = {
-        opnPrdVers:opnPrdVers,
-        wxRate:wxRate,
-        zfbRate:zfbRate
+        opnPrdVers: opnPrdVers,
+        wxRate: wxRate,
+        zfbRate: zfbRate
       }
       console.log(JSON.stringify(param))
       console.log('上传参数')//
@@ -4026,9 +4035,9 @@ export default {
       //    this.wxRate = res.obj.wxRate;
       //    this.zfbRate = res.obj.zfbRate;
 
-      setMfprdVers(upData).then(res=>{
+      setMfprdVers(upData).then(res => {
         let mfprdVersParamData = res.obj
-        this.mfprdVersParam =  {...res.obj}
+        this.mfprdVersParam = {...res.obj}
 
         this.clearMfprdVersParam()
         this.closeMfprdVers()
@@ -4039,18 +4048,13 @@ export default {
       })
     },
 
-
-
-
-
-
     /**
      * 敏付产品参数配置
      */
 
     // 保存分佣提现参数
-    saveCommissionConfig() {
-      let postData = {};
+    saveCommissionConfig () {
+      let postData = {}
       postData.minCashAmount = 10
       postData.maxCashAmount = 20
       postData.rateCash = 0.02
@@ -4060,11 +4064,11 @@ export default {
       this.btnLoading = true // 锁定按钮
       this.payDisable = true
       this.commissionParam.rateCash = Number((this.commissionParam.rateCash / 100).toFixed(4))
-      console.log(33333333,this.commissionParam.rateCash)
+      console.log(33333333, this.commissionParam.rateCash)
       // todo 不进行深拷贝，在浏览器看请求数据，费率会自动变为0
       let newData = JSON.parse(JSON.stringify(this.commissionParam))
-      newData.cashOutStartTime = newData.cashOutStartTime+':00'
-      newData.cashOutEndTime = newData.cashOutEndTime+':00'
+      newData.cashOutStartTime = newData.cashOutStartTime + ':00'
+      newData.cashOutEndTime = newData.cashOutEndTime + ':00'
       saveCommissionConfig(newData).then(response => {
         this.$message({
           message: response.msg,
@@ -4081,30 +4085,26 @@ export default {
     },
     // 保存敏付产品参数
 
-
-
-
-
-    clearCommissionParam(){
-      this.commissionParam.rateCash = 0;
+    clearCommissionParam () {
+      this.commissionParam.rateCash = 0
       this.commissionParam.cashOutTypes = []
       this.commissionParam.cashOutWay = ''
       this.commissionParam.maxCashAmount = 0
       this.commissionParam.minCashAmount = 0
     },
-    clearlklProdRateParam(){
-      this.commissionParam.rateCash = 0;
+    clearlklProdRateParam () {
+      this.commissionParam.rateCash = 0
       this.commissionParam.cashOutTypes = []
       this.commissionParam.cashOutWay = ''
       this.commissionParam.maxCashAmount = 0
       this.commissionParam.minCashAmount = 0
     },
-    clearMfprdVersParam(){
-      this.mfprdVersParam.opnPrdVers ='';
-      this.mfprdVersParam.wxRate = '';
-      this.mfprdVersParam.zfbRate ='';
+    clearMfprdVersParam () {
+      this.mfprdVersParam.opnPrdVers = ''
+      this.mfprdVersParam.wxRate = ''
+      this.mfprdVersParam.zfbRate = ''
     },
-    closeCommissionDialog() {
+    closeCommissionDialog () {
       this.commissionDialog = false
       this.payDisable = true
       let se = this
@@ -4112,7 +4112,7 @@ export default {
         se.clearCommissionParam()
       }, 100)
     },
-    closelklProdRateDialog() {
+    closelklProdRateDialog () {
       this.lklProdRateDialog = false
       this.payDisable = true
       let se = this
@@ -4120,7 +4120,7 @@ export default {
         se.clearlklProdRateParam()
       }, 100)
     },
-    closeMfprdVers() {
+    closeMfprdVers () {
       this.mfprdVers = false
       this.payDisable = true
       let se = this
@@ -4129,7 +4129,7 @@ export default {
       }, 100)
     },
     // 保存支付参数
-    savePayConfig() {
+    savePayConfig () {
       this.btnLoading = true // 锁定按钮
       this.payDisable = true
       let config = ''
@@ -4444,7 +4444,7 @@ export default {
         this.loading = false
       })
     },
-    handleSuccess(response) {
+    handleSuccess (response) {
       this.$message({
         message: response.msg,
         type: 'success'
@@ -4452,21 +4452,21 @@ export default {
       this.topParam.wxCertPath = response.obj
     },
 
-    mfuploadSuccess(response) {
+    mfuploadSuccess (response) {
       this.$message({
         message: response.msg,
         type: 'success'
       })
       this.topParam.mfPrivateKeyName = response.obj
     },
-    lklpvuploadSuccess(response) {
+    lklpvuploadSuccess (response) {
       this.$message({
         message: response.msg,
         type: 'success'
       })
       this.topParam.lklPrivateKeyName = response.obj
     },
-    lklpbuploadSuccess(response) {
+    lklpbuploadSuccess (response) {
       this.$message({
         message: response.msg,
         type: 'success'
@@ -4477,19 +4477,17 @@ export default {
     /**
      * 佣金生成
      */
-    openTopCommissionDialog() {
+    openTopCommissionDialog () {
       // createComission
       this.dialogCommisssion = {
         show: true
       }
     },
 
-
-
     /**
      * 商户绑定APPID
      */
-    bindChAppId(merchantId, payWay) {
+    bindChAppId (merchantId, payWay) {
       let params = {
         payWay: payWay,
         merchantId: merchantId
@@ -4501,7 +4499,7 @@ export default {
     /**
      * 获取易生签名密钥
      */
-    getYspayPrivateSignKey() {
+    getYspayPrivateSignKey () {
       let params = {
         ysPayChanelId: this.topParam.ysPayChannelId,
         ysMainKey: this.topParam.ysMainKey
@@ -4513,7 +4511,7 @@ export default {
     /**
      * 获取易生协议签名密钥
      */
-    getYsAgreementPrivateSignKeyVal() {
+    getYsAgreementPrivateSignKeyVal () {
       let params = {
         ysPayChanelId: this.topParam.ysPayChannelId,
         ysAgreementKey: this.topParam.ysAgreementKey
@@ -4526,7 +4524,7 @@ export default {
     /**
      * 随行付商户信息查询
      */
-    getSxfSubmchidByTaskCode() {
+    getSxfSubmchidByTaskCode () {
       if (!this.taskCode) {
         this.$message.warning('请输入随行付任务编码')
         return
@@ -4552,12 +4550,12 @@ export default {
       })
     },
     // 天阙随行付商户信息查询
-    getTqSxfSubmchidByTaskCode() {
+    getTqSxfSubmchidByTaskCode () {
       if (!this.payParam.tqsxf.id) {
         return this.$message.warning('请先提交配置信息再再获取子商户号')
       }
       this.tqsxFrepoInfoArr = []
-      getSxfMerchantQuery({ merchantId: this.merchantId }).then(res => {
+      getSxfMerchantQuery({merchantId: this.merchantId}).then(res => {
         let repoInfoArr = []
         if (res.obj.repoInfo && res.obj.repoInfo.length) {
           res.obj.repoInfo.forEach(item => {
@@ -4569,16 +4567,56 @@ export default {
         this.tqsxFrepoInfoArr = repoInfoArr
       })
     }
-  }
-
+  },
 
 }
 </script>
 
 <style scoped>
+.lklProdRateParamToList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 15px 0px;
+  border-bottom: 1px solid #f6f6f6;
+  float: left;
+}
+.lklProdRateParamToList .el-form-item{
+  margin-bottom:0 !important;
+}
 .formItem {
   display: inline-block;
   width: 150px;
   max-width: 100%;
 }
+
+.lklRateTypeListInfoList {
+  width: 30px;
+  height: 30px;
+  background-image: url("https://i.52112.com/icon/jpg/256/20201203/101519/4117409.jpg");
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+}
+
+.delData-list {
+  width: 30px;
+  height: 30px;
+  border-right: 15px;
+  position: relative;
+  background-image: url("https://i.52112.com/icon/jpg/256/20150806/834/1230902.jpg");
+  background-size: 23px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.setDom{
+  display: flex;
+
+}
+.setDom div:nth-child(1){
+  margin-right: 40px;
+}
+.v-modal{z-index:2006!important;}
 </style>
