@@ -75,11 +75,11 @@
           <!--//如果有方法，传入参数“scope.row”-->
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
-          <el-button type="text" v-if="scope.row.aliStatus!=='2'"
+          <el-button type="text" 
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
           <template  >
 <!--            v-if="scope.row.aliStatus==='2'"-->
-            <el-button type="text" v-if="scope.row.aliStatus==='2'"
+            <el-button type="text" 
                        @click="ruYiUnbindModal(scope.row)">解绑</el-button>
           </template>
         </template>
