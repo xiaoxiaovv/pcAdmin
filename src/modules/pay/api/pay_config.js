@@ -191,6 +191,16 @@ export function getlklProdRate () {
   })
 }
 
+// 拉卡拉版本参数查询
+export function getlklRateTypeArray () {
+  return request({
+    url: '/batchFeed/lklProdRate/findRateTypeArray',
+    method: 'get',
+    // params: params
+  })
+}
+
+
 
 export function savelklProdRate (data) {
   return request({
