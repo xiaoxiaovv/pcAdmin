@@ -29,11 +29,14 @@
                   size="small">
                 </el-date-picker>
               </div>
+              <div class="block" >
+                <el-input size="small" placeholder="请输入商户名搜索" v-model="searchForm.merchantName" clearable></el-input>
+              </div>
             </div>
             <!--下方选项-->
           </div>
           <div>
-            <el-button type="primary" size="small" @click="submitSearch">搜索</el-button>
+            <el-button type="primary" size="small" @click="submitSearch" >搜索</el-button>
           </div>
         </div>
       </el-card>
@@ -637,8 +640,9 @@ export default {
     getFlowList: function (pageNum, pageSize) {
       let cid = sessionStorage.getItem('companyId')
       let ty = this.searchForm.type
+      let merchantName = this.searchForm.merchantName
       this.flowData = []
-      merchantList(pageNum, pageSize, cid, ty).then(res => {
+      merchantList(pageNum, pageSize, cid, ty,merchantName).then(res => {
         this.flowTotalElement = res.obj.totalElement
         this.flowData = res.obj.data
       }).catch(e => {

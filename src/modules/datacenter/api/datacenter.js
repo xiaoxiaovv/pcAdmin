@@ -101,7 +101,7 @@ export function terminal (companyId, type) {
 /**
  *获取表格
  */
-export function merchantList (pageNum, pageSize, companyId, type) {
+export function merchantList (pageNum, pageSize, companyId, type,merchantName) {
   return request({
     url: '/auth/running_account/merchant_count_list',
     method: 'get',
@@ -109,7 +109,8 @@ export function merchantList (pageNum, pageSize, companyId, type) {
       pageNum: pageNum,
       pageSize: pageSize,
       companyId: companyId,
-      type: type
+      type: type,
+      merchantName: merchantName
     }
   })
 }

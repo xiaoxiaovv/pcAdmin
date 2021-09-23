@@ -1,37 +1,76 @@
 const tagsView = {
   state: {
-    visitedViews: []
+    visitedViews: [],
+    cachedViews: []
   },
   mutations: {
-    /*
-     * 添加已浏览路径
-     * */
-    addVisitedView (state, view) {
+    ADD_VISITED_VIEWS: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.path)) return
-      state.visitedViews.push(view)
+      state.visitedViews.push(Object.assign({}, view, {
+        title: view.meta.title || 'no-name'
+      }))
+      if (!view.meta.noCache) {
+        state.cachedViews.push(view.name)
+      }
     },
-    /*
-    * 删除已浏览路径
-    * */
-    deleteVisitedView (state, view) {
-      state.visitedViews.forEach((item, index) => {
-        if (item.path === view.path) {
-          state.visitedViews.splice(index, 1)
+    DEL_VISITED_VIEWS: (state, view) => {
+      for (const [i, v] of state.visitedViews.entries()) {
+        if (v.path === view.path) {
+          state.visitedViews.splice(i, 1)
+          break
         }
-      })
+      }
+      for (const i of state.cachedViews) {
+        if (i === view.name) {
+          const index = state.cachedViews.indexOf(i)
+          state.cachedViews.splice(index, 1)
+          break
+        }
+      }
+    },
+    DEL_OTHERS_VIEWS: (state, view) => {
+      for (const [i, v] of state.visitedViews.entries()) {
+        if (v.path === view.path) {
+          state.visitedViews = state.visitedViews.slice(i, i + 1)
+          break
+        }
+      }
+      for (const i of state.cachedViews) {
+        if (i === view.name) {
+          const index = state.cachedViews.indexOf(i)
+          state.cachedViews = state.cachedViews.slice(index, i + 1)
+          break
+        }
+      }
+    },
+    DEL_ALL_VIEWS: (state) => {
+      state.visitedViews = []
+      state.cachedViews = []
     }
   },
   actions: {
-    addVisitedView ({ commit }, view) {
-      commit('addVisitedView', view)
+    addVisitedViews({ commit }, view) {
+      commit('ADD_VISITED_VIEWS', view)
     },
-    deleteVisitedView ({ commit }, view) {
-      return new Promise(resolve => {
-        commit('deleteVisitedView', view)
-        resolve()
+    delVisitedViews({ commit, state }, view) {
+      return new Promise((resolve) => {
+        commit('DEL_VISITED_VIEWS', view)
+        resolve([...state.visitedViews])
+      })
+    },
+    delOthersViews({ commit, state }, view) {
+      return new Promise((resolve) => {
+        commit('DEL_OTHERS_VIEWS', view)
+        resolve([...state.visitedViews])
+      })
+    },
+    delAllViews({ commit, state }) {
+      return new Promise((resolve) => {
+        commit('DEL_ALL_VIEWS')
+        resolve([...state.visitedViews])
       })
     }
   }
 }
-
+ 
 export default tagsView
