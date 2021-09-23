@@ -56,19 +56,9 @@
 
         <el-table-column label="代理商注册时间" min-width="100" prop="createTime"></el-table-column>
 
-        <el-table-column label="代理商所在城市" min-width="100" prop="cityName"></el-table-column>
+        <el-table-column label="代理商所在城市" min-width="100" prop="city"></el-table-column>
 
-        <el-table-column label="代理商等级" min-width="100" >
-                 <template slot-scope="scope">
-                   <span v-if="scope.row.type==-1">管理员</span>
-                   <span v-if="scope.row.type==1">服务商</span>
-                   <span v-if="scope.row.type==2">一级代理商</span>
-                   <span v-if="scope.row.type==3">二级代理商</span>
-                   <span v-if="scope.row.type==4">三级代理商</span>
-
-                 </template>
-        </el-table-column>
-
+        <el-table-column label="代理商等级" min-width="100" prop="level"></el-table-column>
 
         <el-table-column label="佣金总额" min-width="100" prop="allCommissionTotal"></el-table-column>
 
@@ -218,9 +208,3 @@ export default {
   margin-left: 20px;
 }
 </style>
-
-
-
-
-
-
