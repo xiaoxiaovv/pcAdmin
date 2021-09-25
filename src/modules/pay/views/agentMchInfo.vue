@@ -42,6 +42,7 @@
     -->
     <el-table
       :data="tableData"
+      height="72vh"
       style="width: 100%"
       @selection-change="handleSelectionChange">
       <el-table-column
