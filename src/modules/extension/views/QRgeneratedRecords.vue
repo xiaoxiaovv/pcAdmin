@@ -13,6 +13,7 @@
 
         <el-table
           :data="recordTable"
+          height="66vh"
           style="width: 100%">
           <el-table-column
             type="index"

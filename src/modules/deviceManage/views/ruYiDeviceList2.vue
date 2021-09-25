@@ -45,6 +45,7 @@
     <!--表格-->
 <!--    <div class="mb10 mt-20 vm-color-6 vm-font-16px"><span>设备供应商ID：{{tableData[0].supplierId}}</span></div>-->
     <el-table :data="tableData"
+              height="72vh"
               border
               style="width: 100%">
       <el-table-column prop="aliDeviceSn" label="设备SN"> </el-table-column>
@@ -75,11 +76,11 @@
           <!--//如果有方法，传入参数“scope.row”-->
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
-          <el-button type="text" 
+          <el-button type="text"
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
           <template  >
 <!--            v-if="scope.row.aliStatus==='2'"-->
-            <el-button type="text" 
+            <el-button type="text"
                        @click="ruYiUnbindModal(scope.row)">解绑</el-button>
           </template>
         </template>

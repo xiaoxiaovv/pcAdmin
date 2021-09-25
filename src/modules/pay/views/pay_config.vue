@@ -11,11 +11,12 @@
         <el-option label="是" :value="1"></el-option>
         <el-option label="否" :value="0"></el-option>
       </el-select>
-      <el-button type="primary" icon="el-icon-search" class="filter-item" @click="search" size="small">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="search" size="small">查询</el-button>
     </div>
     <!--表格-->
     <el-table
       :data="tableData"
+      height="72vh"
       style="width: 100%">
       <el-table-column
         type="index"

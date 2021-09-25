@@ -28,6 +28,7 @@
       </div>
       <div class="page-margin-gray vm-margin-lr-0"></div>
       <el-table :data="tableData"
+                height="72vh"
                 style="width: 100%"
                 class="commission-t-table"
                 row-key="id"

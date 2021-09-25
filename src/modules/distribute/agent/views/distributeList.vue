@@ -27,6 +27,7 @@
     <!--表格-->
     <el-table
       :data="tableData"
+      height="72vh"
       style="width: 100%">
       <el-table-column
         type="index"
@@ -70,7 +71,7 @@
       <el-table-column
         fixed="right"
         label="操作"
-        width="400">
+        width="80">
         <template slot-scope="scope">
           <!--//如果有方法，传入参数“scope.row”-->
           <!--//如果需要索引，传入参数“scope.$index”-->

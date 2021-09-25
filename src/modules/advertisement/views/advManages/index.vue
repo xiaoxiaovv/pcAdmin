@@ -1,6 +1,6 @@
 <template>
   <div class="app-container vm-app-container" v-loading="loading">
-    <div class="vm-search-btns">
+    <div class="vm-search-btns vm-search-btns-cus">
       <!--广告标题-->
       <el-input placeholder="广告标题"
                 size="small"
@@ -476,5 +476,8 @@ export default {
     overflow: hidden;
     line-height: 30px;
     max-height: 60px;
+  }
+  .vm-search-btns-cus {
+    padding: 15px 0 10px 15px;
   }
 </style>

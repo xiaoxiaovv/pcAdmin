@@ -13,7 +13,7 @@
     </div>
 
     <!--表格-->
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" height="72vh" style="width: 100%">
       <el-table-column type="index" label="序号" width="50">
       </el-table-column>
       <el-table-column label="商户名" width="180">

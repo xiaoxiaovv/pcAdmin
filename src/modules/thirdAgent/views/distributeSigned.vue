@@ -15,6 +15,7 @@
     <!--表格-->
     <el-table
       :data="tableData"
+      height="72vh"
       style="width: 100%"
       row-key="id"
       ref="multipleTable">

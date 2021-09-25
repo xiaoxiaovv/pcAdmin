@@ -121,7 +121,8 @@
         border-bottom: 1px solid #e6e6e6;
         position: fixed;
         top: 60px;
-        width: 100%;
+        right: 0;
+        left: 200px;
       .tags-view-item {
         display: inline-block;
         position: relative;
@@ -137,7 +138,7 @@
         position: relative;
         top: 1px;
         &:first-of-type {
-          margin-left: 15px;
+          // margin-left: 15px;
         }
         &.active {
           background-color: #3ebdff;

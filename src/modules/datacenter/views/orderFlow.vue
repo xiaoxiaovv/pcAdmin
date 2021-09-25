@@ -71,6 +71,7 @@
         <div class="flow_table_list">
           <el-table
             :data="orderFlowList"
+            height="55vh"
             style="width: 100%">
             <el-table-column
               type="index"
