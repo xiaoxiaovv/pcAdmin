@@ -26,7 +26,7 @@ export default new Router({
       children: [
         {
           name: '首页',
-          path: 'index',
+          path: 'index/index',
           component: () => import('@/modules/index/index')
         }
       ]
