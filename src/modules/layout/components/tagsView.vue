@@ -1,5 +1,5 @@
 <template>
-     <div class="tags-view-container" style="border-bottom: 1px solid #e6e6e6;margin-top: 10px; margin-bottom: 10px;">
+     <div class="tags-view-container">
           <scroll-pane class="tags-view-wrapper" ref="scrollPane">
               <router-link ref="tag"  :class="isActive(tag)?'active':''"  :to="tag"
               class="tags-view-item" @contextmenu.prevent.native="openMenu(tag,$event)" v-for="tag in Array.from(visitedViews)" :key="tag.path" >
@@ -118,7 +118,10 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .tags-view-container {
-
+        border-bottom: 1px solid #e6e6e6;
+        position: fixed;
+        top: 60px;
+        width: 100%;
       .tags-view-item {
         display: inline-block;
         position: relative;
