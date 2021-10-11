@@ -54,10 +54,11 @@
           </el-table-column>
           <el-table-column
                 label="操作"
-                width="180">
+                width="300">
                 <template slot-scope="scope">
                   <el-button type="danger" size="mini" icon="el-icon-delete" @click="delStream(scope.row)">删除</el-button>
                   <el-button type="primary" size="mini" icon="el-icon-edit" @click="editStream(scope.row)">编辑</el-button>
+                  <el-button type="success" size="mini" icon="el-icon-plus" @click="addModel(scope.row)">手动制券</el-button>
                 </template>
               </el-table-column>
         </el-table>
@@ -161,7 +162,8 @@
     getAllList,
     addStream,
     getStreamList,
-    delStream
+    delStream,
+    addModel
   } from '../api/stream.js'
   export default {
       data() {
@@ -263,6 +265,29 @@
           this.ruleFormEdit.token = item.token
           this.itemStream = item
         },
+        addModel(item) {
+          const params = {
+            merchantId: item.merchantId
+          }
+          addModel(params).then(res => {
+            if(res.code === 200) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              });
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.msg
+              });
+            }
+          }).catch(err => {
+            this.$message({
+              type: 'error',
+              message: '请求失败~'
+            });
+          })
+        },
         submitFormEdit(formName) {
           this.$refs[formName].validate((valid) => {
             if (valid) {
@@ -343,7 +368,15 @@
               addStream(params).then(res => {
                   console.log(res)
                   this.showModel = false
-                  this.getStreamList()
+                  if(res.code === 200) {
+                    this.$message({
+                      type: 'success',
+                      message: res.msg
+                    });
+                    this.getStreamList()
+                  } else {
+                    this.$message.error('创建失败!');
+                  }
                 }).catch(e => {
 
                 })

@@ -2,20 +2,6 @@
   <div class="merchant-box">
     <div class="header">
       <div class="header-1">
-        <el-input
-          size='small'
-          placeholder="请输入商户名称"
-          style="width: 180px"
-          v-model="input"
-          clearable>
-        </el-input>
-        <el-input
-          size='small'
-          placeholder="请输入代理商名称"
-          style="width: 180px"
-          v-model="company"
-          clearable>
-        </el-input>
         <el-date-picker
           size='small'
           v-model="dateValue"
@@ -26,12 +12,12 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
-        <el-button type="primary" size="small" icon="el-icon-search" @click="getOrderList">搜索</el-button>
+        <el-button type="primary" size="small" icon="el-icon-search" @click="getModelList">搜索</el-button>
       </div>
       <div class="header-2">
         <div>
           <i class="el-icon-s-order text-danger"></i>
-          <span>订单笔数：{{ total }}</span>
+          <span>模板数：{{ total }}</span>
         </div>
         <!-- <div>
           <i class="el-icon-coin text-primary"></i>
@@ -46,7 +32,7 @@
     <div class="center">
       <el-table
           v-loading="loading"
-          height="66vh"
+          height="77vh"
           :data="orderList"
           stripe
           :header-cell-style="{'backgroundColor': '#f2f4f6'}"
@@ -59,35 +45,27 @@
           </el-table-column>
           <el-table-column
             prop="createTime"
-            label="支付时间">
+            label="创建时间">
           </el-table-column>
           <el-table-column
-            prop="merchantName"
-            label="商户名">
+            prop="templateId"
+            label="模板ID">
           </el-table-column>
           <el-table-column
-            prop="contact"
-            label="联系人">
+            prop="floorAmount"
+            label="券使用门槛(元)">
           </el-table-column>
           <el-table-column
-            prop="phone"
-            label="联系电话">
+            prop="voucherQuantity"
+            label="券数量">
           </el-table-column>
           <el-table-column
-            prop="company"
-            label="代理商">
-          </el-table-column>
-          <el-table-column
-            prop="aliOrder"
-            label="支付宝单号">
-          </el-table-column>
-          <el-table-column
-            prop="marketType"
+            prop="brandName"
             label="券类型">
           </el-table-column>
           <el-table-column
-            prop="actPayPrice"
-            label="实付金额">
+            prop="remarks"
+            label="备注">
           </el-table-column>
         </el-table>
         <el-pagination
@@ -103,13 +81,11 @@
 </template>
 
 <script>
-  import { getOrderList } from '../api/merchant.js'
+  import { getModelList } from '../api/model.js'
   import { fmt } from '@/utils/dateFmt.js'
   export default {
       data() {
         return {
-          input: '',
-          company: '',
           dateValue: [],
           loading: false,
           pickerOptions: {
@@ -145,26 +121,23 @@
         }
       },
       mounted() {
-        this.getOrderList()
+        this.getModelList()
       },
       methods: {
         handleCurrentChange(val) {
-          this.getOrderList()
+          this.getModelList()
         },
-        getOrderList() {
+        getModelList() {
           this.loading = true
-          console.log()
           const params = {
             pageNumber: this.currentPage,
             pageSize: 10,
             pageSort: '',
             pageOrder: '',
-            company: this.company,
-            merchantName: this.input,
             starttime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[0],'yyyy-MM-dd'):'',
             endtime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[1],'yyyy-MM-dd'):''
           }
-          getOrderList(params).then(res => {
+          getModelList(params).then(res => {
             this.loading = false
             if (res.code === 200) {
               this.total = res.obj.totalElements

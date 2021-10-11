@@ -35,3 +35,11 @@ export function delStream (params) {
     data: params
   })
 }
+// 手动制券
+export function addModel (params) {
+  return request({
+    url: '/merchant/market/create_voucher',
+    method: 'get',
+    params
+  })
+}
