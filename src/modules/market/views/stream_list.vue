@@ -110,9 +110,9 @@
                 </el-table>
             </div>
             <div v-show="showModel">
-              <div>
-                <span>商户名：{{ addItem.name }}</span>
-                <span>代理商：{{ addItem.contact }}</span>
+              <div class="model-desp">
+                <span style="margin-right: 20px">商户名：{{ addItem.name }}</span>
+                <span style="margin-right: 20px">代理商：{{ addItem.contact }}</span>
                 <span>联系电话：{{ addItem.phone }}</span>
               </div>
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
@@ -402,5 +402,9 @@
     .center {
       margin-top: 20px
     }
+  }
+  .model-desp {
+    margin: 0 0 30px 20px;
+    font-size: 16px
   }
 </style>
