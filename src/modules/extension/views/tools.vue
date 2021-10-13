@@ -91,6 +91,26 @@
             </div>
           </div>
 
+          <div class="tools-item" @click="payYxConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置营销小程序秘钥</p>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="tools-item" @click="payKqConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>配置卡券小程序秘钥</p>
+              <p></p>
+            </div>
+          </div>
+
         </div>
       </div>
       <div>
@@ -236,7 +256,14 @@
                :visible.sync="email.show">
       <Email :propsInfo="email"></Email>
     </el-dialog>
-
+    <!--支付宝营销小程序-->
+    <el-dialog class="vm-dialog"
+               title="配置支付宝营销小程序秘钥"
+               width="400px"
+               v-if="pay.show"
+               :visible.sync="pay.show">
+      <ali-xcx :propsInfo="pay" :keyType="keyType"></ali-xcx>
+    </el-dialog>
   </div>
 </template>
 
@@ -247,15 +274,19 @@ import ToolWechatConfig from './components/toolWechatConfig.vue'
 import DynamicPsw from './components/dynamicPsw.vue'
 import GaoDe from './components/gaoDe.vue'
 import Ali from './components/ali.vue'
+import AliXcx from './components/aliXcx.vue'
 import AliCycle from './components/aliCycle.vue'
 import Cmf from './components/cmf.vue'
 import Email from './components/email.vue'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
-  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali,AliCycle,Cmf,Email},
+  components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali, AliXcx, AliCycle, Cmf, Email},
   data () {
     return {
+      pay: {
+        show: false
+      },
       email: {
         show: false
       },
@@ -274,6 +305,7 @@ export default {
       wechatInfo: {
         show: false
       },
+      keyType: 1,
       params: {
         appId: '',
         appSecret: '',
@@ -312,6 +344,14 @@ export default {
     }
   },
   methods: {
+    payYxConfig(){
+      this.pay.show = true
+      this.keyType = 2
+    },
+    payKqConfig(){
+      this.pay.show = true
+      this.keyType = 1
+    },
     emailConfig(){
       this.email.show = true
     },

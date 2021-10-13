@@ -88,6 +88,17 @@ export function getAliKey (companyId) {
   })
 }
 
+// 获取支付宝小程序秘钥
+export function getAliXCXKey (keyType) {
+  return request({
+    url: '/auth/ali_key_config/getKeyConfig',
+    method: 'get',
+    params: {
+      keyType,
+    }
+  })
+}
+
 // 提交支付宝秘钥
 export function saveEmails (params) {
   return request({
