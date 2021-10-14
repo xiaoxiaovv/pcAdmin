@@ -93,7 +93,8 @@ export default {
       })
     },
     confirmSubmit () {
-      toolApi.saveAliKey(this.params).then(res => {
+      this.params.keyType = this.keyType
+      toolApi.saveAliXcxKey(this.params).then(res => {
         this.$message.success(res.msg)
         /*this.$alert(msg, '动态密码', {
           confirmButtonText: '确定',

@@ -258,7 +258,7 @@
     </el-dialog>
     <!--支付宝营销小程序-->
     <el-dialog class="vm-dialog"
-               title="配置支付宝营销小程序秘钥"
+               :title="keyType == 1?'配置支付宝卡券小程序秘钥':'配置支付宝营销小程序秘钥'"
                width="400px"
                v-if="pay.show"
                :visible.sync="pay.show">

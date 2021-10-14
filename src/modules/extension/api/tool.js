@@ -77,6 +77,16 @@ export function saveAliKey (params) {
   })
 }
 
+// 提交秘钥
+export function saveAliXcxKey (params) {
+  return request({
+    url: '/auth/ali_key_config/setKeyConfig',
+    method: 'PUT',
+    data: params,
+    jsonHeader: true
+  })
+}
+
 // 获取支付宝钥
 export function getAliKey (companyId) {
   return request({
