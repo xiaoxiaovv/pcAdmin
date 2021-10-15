@@ -125,6 +125,9 @@
                 <el-form-item label="授权token" prop="token">
                   <el-input v-model="ruleForm.token"></el-input>
                 </el-form-item>
+                <el-form-item label="单笔奖励" prop="singleReward">
+                  <el-input v-model="ruleForm.singleReward"></el-input>
+                </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
                   <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -144,6 +147,9 @@
                 </el-form-item>
                 <el-form-item label="授权token" prop="token">
                   <el-input v-model="ruleFormEdit.token"></el-input>
+                </el-form-item>
+                <el-form-item label="单笔奖励" prop="singleReward">
+                  <el-input v-model="ruleFormEdit.singleReward"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitFormEdit('ruleFormEdit')">确认修改</el-button>
@@ -180,12 +186,14 @@
           ruleForm: {
             name: '',
             pid: '',
-            token: ''
+            token: '',
+            singleReward: 0,
           },
           ruleFormEdit: {
             name: '',
             pid: '',
-            token: ''
+            token: '',
+            singleReward: 0,
           },
           rules: {
             name: [
@@ -196,6 +204,9 @@
             ],
             token: [
               { required: true, message: '请输入token', trigger: 'blur' }
+            ],
+            singleReward: [
+              { required: true, message: '请输入单笔奖励', trigger: 'blur' }
             ]
           },
           streamList: [],
@@ -263,6 +274,7 @@
           this.ruleFormEdit.name = item.store,
           this.ruleFormEdit.pid = item.pid,
           this.ruleFormEdit.token = item.token
+          this.ruleFormEdit.singleReward = item.singleReward
           this.itemStream = item
         },
         addModel(item) {
@@ -294,6 +306,7 @@
               this.itemStream.store = this.ruleFormEdit.name
               this.itemStream.pid = this.ruleFormEdit.pid
               this.itemStream.token = this.ruleFormEdit.token
+              this.itemStream.singleReward = Number(this.ruleFormEdit.singleReward)
               const params = this.itemStream
               delStream(params).then(res => {
                 if(res.code === 200) {
@@ -363,7 +376,8 @@
                 merchantId: this.addItem.id,
                 store: this.ruleForm.name,
                 pid: this.ruleForm.pid,
-                token: this.ruleForm.token
+                token: this.ruleForm.token,
+                singleReward: Number(this.ruleForm.singleReward)
               }
               addStream(params).then(res => {
                   console.log(res)
