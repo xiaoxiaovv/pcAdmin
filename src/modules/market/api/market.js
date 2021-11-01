@@ -2,18 +2,25 @@ import request from '@/utils/request'
 import qs from 'qs'
 
 // 获取商户列表
-export function getdayList (params) {
+export function getRuleList () {
   return request({
-    url: '/merchant/commission_day',
+    url: '/merchant/market_rule/get_rule_list',
     method: 'get',
-    params
   })
 }
-//导入数据
-export function importData (params) {
+export function editRule (params) {
   return request({
-    url: '/merchant/commission_day/importCommissionDay',
+    url: '/merchant/market_rule',
     method: 'post',
-    params
+    jsonHeader: true,
+    data: params
+  })
+}
+export function doRule (params) {
+  return request({
+    url: '/merchant/market_rule',
+    method: 'put',
+    jsonHeader: true,
+    data: params
   })
 }

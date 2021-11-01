@@ -60,8 +60,8 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="updateTime"
-            label="支付时间">
+            prop="createTime"
+            label="日期">
           </el-table-column>
           <el-table-column
             prop="paltform"
