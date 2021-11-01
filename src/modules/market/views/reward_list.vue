@@ -25,8 +25,9 @@
           :show-file-list="false"
           accept=".xls,.xlsx"
           :action="url + '/merchant/commission_day/importCommissionDay'"
+          :data="{'paltform':'aliPay'}"
           :on-success="handleSuccess">
-          <el-button size="small" type="primary">导入数据</el-button>
+          <el-button size="small" type="primary">支付宝导入数据</el-button>
           <span slot="tip" class="el-upload__tip">(只能导入xls/xlsx文件)</span>
         </el-upload>
       </div>
