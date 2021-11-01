@@ -4,6 +4,9 @@
      <el-col :span="8">
        <div @click="dialogzfbVisible = true">
          <el-card shadow="hover" class="my-card">
+           <div>
+             <img src="../../../assets/images/extension/alipay.png" />
+           </div>
            <div>支付宝配置规则</div>
          </el-card>
        </div>
@@ -11,6 +14,9 @@
      <el-col :span="8">
        <div @click="dialogwxVisible = true">
          <el-card shadow="hover" class="my-card">
+           <div>
+             <img src="../../../assets/images/extension/wx.png" />
+           </div>
            <div>微信配置规则</div>
          </el-card>
        </div>
@@ -196,6 +202,7 @@
   padding: 40px;
   .my-card {
     cursor: pointer;
+    text-align: center;
   }
 }
 </style>
