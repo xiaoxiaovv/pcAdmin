@@ -85,15 +85,8 @@
     <div class="page-margin-gray"></div>
     <!--表格-->
     <div class="vm-app-bodys" v-if="this.userType !== '4'">
-      <!--<div class="vm-page-table-title">结算清单
-        <el-tooltip class="item" effect="dark" content="显示给下级结算/未结算的佣金"
-                    placement="top-start">
-          <i class="el-icon-question"></i>
-        </el-tooltip>
-        <span class="table-tipss"><span>已结算：{{commissionCount.settleCommisson}}元</span><span>未结算：{{commissionCount.unSettleCommisson}}元</span></span>
-      </div>
       <div class="vm-search-btns vm-padding-lr-0">
-        &lt;!&ndash;开始时间，结束时间&ndash;&gt;
+        <!--开始时间，结束时间-->
         <el-date-picker v-model="timeDate"
                         size="small"
                         style="width: 300px;"
@@ -104,33 +97,16 @@
                         start-placeholder="佣金开始日期"
                         end-placeholder="佣金结束日期">
         </el-date-picker>
-        &lt;!&ndash;结算状态&ndash;&gt;
-        <el-select  placeholder="结算状态"
-                    size="small"
-                    class="formItem"
-                    clearable
-                    v-model="params.status"
-                    @change="search">
-          <el-option v-for="item in statusOption"
-                     :key="item.value"
-                     :label="item.name"
-                     :value="item.value"></el-option>
-        </el-select>
-        &lt;!&ndash;代理名称&ndash;&gt;
+        <!--代理名称-->
         <el-input placeholder="代理名称"
                   size="small"
                   class="formItem"
                   clearable
                   @keyup.enter.native="search"
                   v-model="params.companyName"></el-input>
-        &lt;!&ndash;按钮&ndash;&gt;
         <el-button type="primary" size="small" @click="search">查询</el-button>
-        &lt;!&ndash;导出&ndash;&gt;
-        <el-button size="small" @click="exportData">导出</el-button>
-        &lt;!&ndash;导出&ndash;&gt;
-        <el-button size="small" @click="exportExcel">导出结算报表</el-button>
       </div>
-      <div class="page-margin-gray vm-margin-lr-0"></div>-->
+      <div class="page-margin-gray vm-margin-lr-0"></div>
       <el-table :data="tableData"
                 height="77vh"
                 style="width: 100%"
