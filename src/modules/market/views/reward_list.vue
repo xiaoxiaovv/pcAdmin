@@ -2,6 +2,13 @@
   <div class="merchant-box">
     <div class="header">
       <div class="header-1">
+        <el-input
+          size='small'
+          placeholder="请输入商户名称"
+          style="width: 180px"
+          v-model="input"
+          clearable>
+        </el-input>
         <el-date-picker
           size='small'
           v-model="dateValue"
@@ -12,13 +19,23 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
-        <el-button type="primary" size="small" icon="el-icon-search" @click="getModelList">搜索</el-button>
+        <el-button type="primary" size="small" icon="el-icon-search" @click="getdayList">搜索</el-button>
+        <el-upload
+          style="margin-top: 20px;"
+          :show-file-list="false"
+          accept=".xls,.xlsx"
+          :action="url + '/merchant/commission_day/importCommissionDay'"
+          :data="{'paltform':'aliPay'}"
+          :on-success="handleSuccess">
+          <el-button size="small" type="primary">支付宝导入数据</el-button>
+          <span slot="tip" class="el-upload__tip">(只能导入xls/xlsx文件)</span>
+        </el-upload>
       </div>
       <div class="header-2">
-        <div>
+        <!-- <div>
           <i class="el-icon-s-order text-danger"></i>
-          <span>模板数：{{ total }}</span>
-        </div>
+          <span>订单笔数：{{ total }}</span>
+        </div> -->
         <!-- <div>
           <i class="el-icon-coin text-primary"></i>
           <span>订单金额：10000000000</span>
@@ -32,7 +49,7 @@
     <div class="center">
       <el-table
           v-loading="loading"
-          height="77vh"
+          height="66vh"
           :data="orderList"
           stripe
           :header-cell-style="{'backgroundColor': '#f2f4f6'}"
@@ -45,31 +62,27 @@
           </el-table-column>
           <el-table-column
             prop="createTime"
-            label="创建时间">
-          </el-table-column>
-		  <el-table-column
-		    prop="name"
-		    label="商户名">
-		  </el-table-column>
-          <el-table-column
-            prop="templateId"
-            label="模板ID">
+            label="日期">
           </el-table-column>
           <el-table-column
-            prop="floorAmount"
-            label="券使用门槛(元)">
+            prop="paltform"
+            label="支付平台">
           </el-table-column>
           <el-table-column
-            prop="voucherQuantity"
-            label="券数量">
+            prop="merchantName"
+            label="商户名">
           </el-table-column>
           <el-table-column
-            prop="brandName"
-            label="券类型">
+            prop="totalOrder"
+            label="日总订单数">
           </el-table-column>
           <el-table-column
-            prop="remarks"
-            label="备注">
+            prop="washSale"
+            label="虚假交易订单数">
+          </el-table-column>
+          <el-table-column
+            prop="commission"
+            label="佣金金额(¥)">
           </el-table-column>
         </el-table>
         <el-pagination
@@ -85,11 +98,14 @@
 </template>
 
 <script>
-  import { getModelList } from '../api/model.js'
+  import { getdayList } from '../api/reward.js'
+  import {url} from '@/utils/request'
   import { fmt } from '@/utils/dateFmt.js'
   export default {
       data() {
         return {
+          input: '',
+          company: '',
           dateValue: [],
           loading: false,
           pickerOptions: {
@@ -121,27 +137,32 @@
           },
           currentPage: 1,
           total: 0,
-          orderList: []
+          orderList: [],
+          url: '',
         }
       },
       mounted() {
-        this.getModelList()
+        this.url = url
+        this.getdayList()
       },
       methods: {
         handleCurrentChange(val) {
-          this.getModelList()
+          this.getdayList()
         },
-        getModelList() {
+        getdayList() {
           this.loading = true
+          console.log()
           const params = {
             pageNumber: this.currentPage,
             pageSize: 10,
             pageSort: '',
             pageOrder: '',
+            paltform: '',
+            merchantName: this.input,
             starttime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[0],'yyyy-MM-dd'):'',
             endtime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[1],'yyyy-MM-dd'):''
           }
-          getModelList(params).then(res => {
+          getdayList(params).then(res => {
             this.loading = false
             if (res.code === 200) {
               this.total = res.obj.totalElements
@@ -153,6 +174,14 @@
               this.$message.error('请求失败!');
               this.loading = false
           })
+        },
+        handleSuccess(res) {
+          if(res.code === 200) {
+            this.$message.success('导入成功!');
+            this.getdayList()
+          } else {
+            this.$message.error('导入失败!');
+          }
         },
       },
     }
