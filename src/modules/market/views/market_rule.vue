@@ -203,6 +203,9 @@
   .my-card {
     cursor: pointer;
     text-align: center;
+    img {
+      width: 80px;
+    }
   }
 }
 </style>

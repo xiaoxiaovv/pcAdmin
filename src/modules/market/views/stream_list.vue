@@ -53,14 +53,14 @@
             label="代理商">
           </el-table-column>
           <el-table-column
-                label="操作"
-                width="300">
-                <template slot-scope="scope">
-                  <el-button type="danger" size="mini" icon="el-icon-delete" @click="delStream(scope.row)">删除</el-button>
-                  <el-button type="primary" size="mini" icon="el-icon-edit" @click="editStream(scope.row)">编辑</el-button>
-                  <el-button type="success" size="mini" icon="el-icon-plus" @click="addModel(scope.row)">手动制券</el-button>
-                </template>
-              </el-table-column>
+            label="操作"
+            width="300">
+            <template slot-scope="scope">
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="delStream(scope.row)">删除</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-edit" @click="editStream(scope.row)">编辑</el-button>
+              <el-button type="success" size="mini" icon="el-icon-plus" @click="addModel(scope.row)">手动制券</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           style="margin-top: 20px"
