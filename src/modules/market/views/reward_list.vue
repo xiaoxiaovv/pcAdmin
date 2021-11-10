@@ -61,16 +61,21 @@
             width="50">
           </el-table-column>
           <el-table-column
+            prop="merchantName"
+            label="商户名">
+          </el-table-column>
+          <el-table-column
             prop="createTime"
             label="日期">
           </el-table-column>
           <el-table-column
             prop="paltform"
             label="支付平台">
-          </el-table-column>
-          <el-table-column
-            prop="merchantName"
-            label="商户名">
+            <template slot-scope="scope">
+              <span v-if="scope.row.paltform == 'aliPay'">支付宝</span>
+              <span v-if="scope.row.paltform == 'weChat'">微信</span>
+
+            </template>
           </el-table-column>
           <el-table-column
             prop="totalOrder"
@@ -82,7 +87,7 @@
           </el-table-column>
           <el-table-column
             prop="commission"
-            label="佣金金额(¥)">
+            label="奖励金额(¥)">
           </el-table-column>
         </el-table>
         <el-pagination

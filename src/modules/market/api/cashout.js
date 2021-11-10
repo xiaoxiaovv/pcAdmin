@@ -19,3 +19,11 @@ export function modifyStatus (params) {
     data: params
   })
 }
+
+// 获取总奖励
+export function allCashNum () {
+  return request({
+    url: '/merchant/market_cash/service',
+    method: 'get'
+  })
+}

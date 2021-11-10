@@ -53,6 +53,19 @@
             label="代理商">
           </el-table-column>
           <el-table-column
+            prop="singleReward"
+            label="单笔奖励(元)">
+          </el-table-column>
+          <el-table-column
+            prop="totalCommission"
+            label="总奖励金额">
+          </el-table-column>
+          <el-table-column
+            prop="canCommission"
+            label="可提现金额">
+          </el-table-column>
+          <el-table-column
+            fixed="right"
             label="操作"
             width="300">
             <template slot-scope="scope">
@@ -336,6 +349,7 @@
         },
         handleCurrentChange(val) {
           console.log(`当前页: ${val}`);
+          this.getStreamList()
         },
         handleClose (done) {
           this.input = ''

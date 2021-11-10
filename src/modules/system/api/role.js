@@ -130,3 +130,20 @@ export function setCertCofig (params) {
     data: params
   })
 }
+
+// 获取通道信息
+export function getChanelCofig () {
+  return request({
+    url: '/auth/systemconfig?key=pay_chanel',
+    method: 'GET'
+  })
+}
+
+// 设置通道信息
+export function setChanelCofig (params) {
+  return request({
+    url: '/auth/systemconfig/editPayChanel',
+    method: 'POST',
+    params: params
+  })
+}

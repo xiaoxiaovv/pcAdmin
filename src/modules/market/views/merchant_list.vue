@@ -58,12 +58,12 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="createTime"
-            label="支付时间">
-          </el-table-column>
-          <el-table-column
             prop="merchantName"
             label="商户名">
+          </el-table-column>
+          <el-table-column
+            prop="createTime"
+            label="支付时间">
           </el-table-column>
           <el-table-column
             prop="contact"

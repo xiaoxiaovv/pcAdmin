@@ -24,16 +24,16 @@
       <div class="header-2">
         <div>
           <i class="el-icon-s-order text-danger"></i>
-          <span>提现笔数：{{ total }}</span>
+          <span>提现流水笔数：{{ total }}</span>
         </div>
-        <!-- <div>
+        <div>
           <i class="el-icon-coin text-primary"></i>
-          <span>订单金额：10000000000</span>
+          <span>商户总奖励金额：{{totalInfo?totalInfo.totalCommission.toFixed(2):'0.00'}}</span>
         </div>
         <div>
           <i class="el-icon-collection-tag text-green"></i>
-          <span>用券数量：234322</span>
-        </div> -->
+          <span>商户可提现奖励金额：{{totalInfo?totalInfo.canCommission.toFixed(2):'0.00'}}</span>
+        </div>
       </div>
     </div>
     <div class="center">
@@ -46,21 +46,53 @@
           size="medium"
           style="width: 100%">
           <el-table-column
-            type="index"
-            label="序号"
-            width="50">
+            prop="merchantName"
+            label="商户名">
           </el-table-column>
           <el-table-column
             prop="createTime"
             label="申请时间">
           </el-table-column>
           <el-table-column
-            prop="merchantName"
-            label="商户名">
+            prop="updateTime"
+            label="打款时间">
+          </el-table-column>
+          <el-table-column
+            label="提现方式">
+            <template slot-scope="scope">
+              <span>银行卡</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="applyAmount"
-            label="提现金额">
+            label="申请提现金额">
+          </el-table-column>
+          <el-table-column
+            prop="actPayAmount"
+            label="到账金额">
+          </el-table-column>
+          <el-table-column
+            prop="actPayAmount"
+            label="提现费率(%)">
+            <template slot-scope="scope">
+              <span>{{scope.row.rateCash*100}}%</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="bankAccount"
+            label="提现人姓名">
+          </el-table-column>
+          <el-table-column
+            prop="bankName"
+            label="开户银行名称">
+          </el-table-column>
+          <el-table-column
+            prop="cardNo"
+            label="提现账号">
+          </el-table-column>
+          <el-table-column
+            prop="id"
+            label="提现订单号">
           </el-table-column>
           <el-table-column
             label="状态">
@@ -72,12 +104,15 @@
             </template>
           </el-table-column>
           <el-table-column
+            fixed="right"
             label="操作"
-            width="100">
+            width="130">
             <template slot-scope="scope">
               <el-link type="primary" :underline="false" v-if="scope.row.status == 1" @click="modifyStatus(scope.row.id,2)">通过</el-link>
               <el-link type="danger" :underline="false" v-if="scope.row.status == 1" @click="modifyStatus(scope.row.id,-1)">拒绝</el-link>
-              <el-link type="success" :underline="false" v-if="scope.row.status == 2" @click="modifyStatus(scope.row.id,3)">到账</el-link>
+              <el-link type="success" :underline="false" v-if="scope.row.status == 2" @click="modifyStatus(scope.row.id,3, scope.row.actPayAmount)">确认打款</el-link>
+              <el-link type="success" :underline="false" v-if="scope.row.status == 2" @click="modifyStatus(scope.row.id,1)">撤销</el-link>
+              <el-link type="danger" :underline="false" v-if="scope.row.status == -1" @click="modifyStatus(scope.row.id,-1,-1)">删除</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -94,7 +129,7 @@
 </template>
 
 <script>
-  import { getCashList, modifyStatus } from '../api/cashout.js'
+  import { getCashList, modifyStatus, allCashNum } from '../api/cashout.js'
   import { fmt } from '@/utils/dateFmt.js'
   export default {
       data() {
@@ -131,13 +166,22 @@
           },
           currentPage: 1,
           total: 0,
-          orderList: []
+          orderList: [],
+          totalInfo: '',
         }
       },
       mounted() {
+        this.allCashNum()
         this.getCashList()
       },
       methods: {
+        allCashNum(){
+          allCashNum().then(res => {
+              if (res.code === 200) {
+                this.totalInfo = res.obj
+              }
+          })
+        },
         handleCurrentChange(val) {
           this.getCashList()
         },
@@ -166,10 +210,17 @@
               this.loading = false
           })
         },
-        modifyStatus (id, status) {
-            const params = {
+        modifyStatus (id, status,delFlag) {
+
+            let params = {
               id,
               status
+            }
+            if (delFlag === -1) {
+              params.delFlag = delFlag
+            }
+            if (status == 3) {
+              params.actPayAmount = delFlag
             }
             modifyStatus(params).then(res => {
                 if(res.code === 200) {
