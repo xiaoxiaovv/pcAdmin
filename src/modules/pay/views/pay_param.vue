@@ -3402,7 +3402,8 @@ export default {
         this.topParam.lklPrivateKeyName = data.lklPrivateKeyName        //拉卡拉私钥名称
         this.topParam.lklPublicKeyName = data.lklPublicKeyName  //拉卡拉公钥名称
         this.topParam.lklSerialNo = data.lklSerialNo  //拉卡拉序列号
-
+        this.topParam.lklOrgCode = data.lklOrgCode  //拉卡拉机构代码
+        
         //  手机pos
         this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
         this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) * 100 : 0 // 手机pos交易费率

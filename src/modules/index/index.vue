@@ -29,7 +29,7 @@
                 class="border-right"
                 v-if="userType=='1' || userType=='2' || userType=='3' || userType=='4'"
               >
-                <div class="total_title">总交易额</div>
+                <div class="total_title">本月交易额</div>
                 <div class="total_num">￥{{dataViews.transactionMoney || 0}}</div>
               </div>
               <div
@@ -151,6 +151,7 @@
                   end-placeholder="结束时间"
                   format="yyyy - MM - dd "
                   value-format="timestamp"
+                  style="width: 250px!important;"
                   :clearable="false"
                   size="small">
                 </el-date-picker>
@@ -258,6 +259,7 @@
             :picker-options="pickerOptions"
             value-format="timestamp"
             :clearable="false"
+            style="width: 250px!important;"
             size="small"
             prefix-icon=""
           >
@@ -315,6 +317,7 @@
             :default-time="['00:00:00', '23:59:59']"
             :picker-options="pickerOptions"
             :clearable="false"
+            style="width: 250px!important;"
             size="small"
             prefix-icon=""
             v-if="userType=='undefined'||userType==1">
@@ -459,7 +462,7 @@ export default {
   },
   methods: {
     toMoreList () {
-      this.$router.push({ path: '/notice/views/parentNoticeList' })
+      this.$router.push({ path: '/notice/views/index' })
     },
     // 跳转新增{{levelAlias.firstName}}页面
     toFirstPage () {
