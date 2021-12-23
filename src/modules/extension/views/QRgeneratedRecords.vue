@@ -93,7 +93,7 @@
   import {url} from '@/utils/request'
 
   export default {
-    name: 'QRgeneratedRecords',
+    name: '收款码页面',
     components: {pagination},
     data () {
       var validateNum = (rule, value, callback) => {

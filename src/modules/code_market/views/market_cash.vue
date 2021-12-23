@@ -10,6 +10,7 @@
           clearable>
         </el-input>
         <el-date-picker
+          v-show="activeName!='tab1'"
           size='small'
           v-model="dateValue"
           type="daterange"
@@ -20,10 +21,110 @@
           end-placeholder="结束日期">
         </el-date-picker>
         <el-button type="primary" size="small" icon="el-icon-search" @click="search">搜索</el-button>
+        <!-- <el-button size="small" @click="downloads">导出奖励结余</el-button> -->
+        <el-button size="small" @click="downloadt">导出开户奖励明细</el-button>
       </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="结算汇总" name="tab1">
+      <el-tab-pane label="奖励结算" name="tab2">
+        <div class="center">
+          <el-table
+              v-loading="loading"
+              height="66vh"
+              :data="order1List"
+              stripe
+              :header-cell-style="{'backgroundColor': '#f2f4f6'}"
+              size="medium"
+              style="width: 100%">
+              <el-table-column
+                type="index"
+                label="序号"
+                width="50">
+              </el-table-column>
+              <el-table-column
+                prop="agentName"
+                label="代理商">
+              </el-table-column>
+              <el-table-column label="提现人姓名" min-width="100">
+                <template slot-scope="scope">
+                  {{scope.row.bankAccount}}
+                </template>
+              </el-table-column>
+              <el-table-column label="申请金额" min-width="100">
+                <template slot-scope="scope">
+                  {{scope.row.applyAmount}}
+                </template>
+              </el-table-column>
+              <el-table-column label="到账金额" min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.actPayAmount}}
+                </template>
+              </el-table-column>
+              <el-table-column label="提现费率（%）" min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.rateCash*100}}
+                </template>
+              </el-table-column>
+              <el-table-column label="提现账号"  min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.cardNo}}
+                </template>
+              </el-table-column>
+              <el-table-column label="提现订单号"  min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.id}}
+                </template>
+              </el-table-column>
+              <!--威富通-->
+              <el-table-column label="开户银行名称"  min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.bankName}}
+                </template>
+              </el-table-column>
+              <!--传化-->
+              <el-table-column label="申请状态"  min-width="100" >
+                <template slot-scope="scope">
+                  {{scope.row.status===1?'待审核':scope.row.status===2?'审核通过':scope.row.status===3?'提现成功':scope.row.status===-1?'审核未通过':'未知状态'}}
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="createTime"
+                label="申请时间">
+              </el-table-column>
+              <el-table-column label="打款时间">
+                <template slot-scope="scope">
+                  {{scope.row.payDate || '--'}}
+                </template>
+              </el-table-column>
+              <el-table-column fixed="right"
+                               width="150"
+                               label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="codecardStatus(scope.$index,scope.row, 2)" v-if="scope.row.status === 1">通过</el-button>
+                  <span v-else></span>
+                  <el-button type="text" @click="codecardStatus(scope.$index,scope.row, -1)" v-if="scope.row.status === 1">拒绝</el-button>
+                  <span v-else></span>
+
+                  <el-button type="text" @click="codecardStatus(scope.$index,scope.row, 3)" v-if="scope.row.status === 2">确认打款</el-button>
+                  <span v-else></span>
+                  <el-button type="text" @click="codecardStatus(scope.$index,scope.row, 1)" v-if="scope.row.status === 2">撤销</el-button>
+                  <span v-else></span>
+                  <el-button type="text" @click="codecardStatus(scope.$index,scope.row, 0)" v-if="scope.row.status === -1">删除</el-button>
+                  <span v-else></span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+                  style="margin-top: 20px"
+                  @current-change="handleCurrentChange1"
+                  :current-page.sync="currentPage1"
+                  :page-size="10"
+                  layout="total, prev, pager, next"
+                  :total="total1">
+                </el-pagination>
+        </div>
+      </el-tab-pane>
+        <el-tab-pane label="奖励结余" name="tab1">
           <div class="center">
             <el-table
                 v-loading="loading"
@@ -47,48 +148,20 @@
                   label="创建时间">
                 </el-table-column>
                 <el-table-column
-                  prop="applyAmount"
-                  label="已结算金额">
+                  prop="totalAmount"
+                  label="总奖励金额">
                 </el-table-column>
+
                 <el-table-column
-                  prop="bankAccount"
-                  label="户名">
-                </el-table-column>
-                <el-table-column
-                  prop="bankName"
-                  label="银行名称">
-                </el-table-column>
-                <el-table-column
-                  prop="cardNo"
-                  label="银行卡号">
-                </el-table-column>
-                <el-table-column
-                  label="待结算金额">
+                  label="已提现金额">
                   <template slot-scope="scope">
-                    <span style="color: red;">{{scope.row.canCashAmount.toFixed(2)}}</span>
+                    <span style="color: red;">{{scope.row.allApplyAmount}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
-                  label="操作"
-                  width="140">
+                  label="可提现金额">
                   <template slot-scope="scope">
-                    <el-popover
-                      placement="top"
-                      width="160"
-                      v-model="visible">
-                      <el-input
-                        size='small'
-                        placeholder="请输入记账人"
-                        v-model="bookkeeper"
-                        clearable>
-                      </el-input>
-                      <div style="text-align: right; margin-top: 10px">
-                        <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                        <el-button type="primary" size="mini" @click="editCollect(scope.row)">确定</el-button>
-                      </div>
-                      <el-button slot="reference" type="text" size="mini" icon="el-icon-mouse" v-show="scope.row.canCashAmount>0">结算</el-button>
-                    </el-popover>
-                    <el-button type="text" disabled size="mini" @click="editCollect(scope.row)" v-if="scope.row.canCashAmount<=0">已结算</el-button>
+                    <span style="color: red;">{{scope.row.canAmount}}</span>
                   </template>
                 </el-table-column>
               </el-table>
@@ -99,47 +172,6 @@
                     :page-size="10"
                     layout="total, prev, pager, next"
                     :total="total">
-                  </el-pagination>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="代理商结算明细" name="tab2">
-          <div class="center">
-            <el-table
-                v-loading="loading"
-                height="66vh"
-                :data="order1List"
-                stripe
-                :header-cell-style="{'backgroundColor': '#f2f4f6'}"
-                size="medium"
-                style="width: 100%">
-                <el-table-column
-                  type="index"
-                  label="序号"
-                  width="50">
-                </el-table-column>
-                <el-table-column
-                  prop="agentName"
-                  label="代理商">
-                </el-table-column>
-                <el-table-column
-                  prop="createTime"
-                  label="创建时间">
-                </el-table-column>
-                </el-table-column>
-                <el-table-column
-                  label="结算金额">
-                  <template slot-scope="scope">
-                    <span style="color: red;">{{scope.row.cashOutAmount.toFixed(2)}}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <el-pagination
-                    style="margin-top: 20px"
-                    @current-change="handleCurrentChange1"
-                    :current-page.sync="currentPage1"
-                    :page-size="10"
-                    layout="total, prev, pager, next"
-                    :total="total1">
                   </el-pagination>
           </div>
         </el-tab-pane>
@@ -163,12 +195,20 @@
                   label="代理商">
                 </el-table-column>
                 <el-table-column
+                  prop="agentPhone"
+                  label="代理商电话">
+                </el-table-column>
+                <el-table-column
                   prop="createTime"
-                  label="创建时间">
+                  label="结算时间">
                 </el-table-column>
                 <el-table-column
                   prop="merchantName"
                   label="商户名称">
+                </el-table-column>
+                <el-table-column
+                  prop="contact"
+                  label="联系人">
                 </el-table-column>
                 <el-table-column
                   label="奖励金额">
@@ -193,12 +233,13 @@
 </template>
 
 <script>
-  import { getOrderList, cashCollect, collectList, collitemList } from '../api/merchant.js'
+  import { getOrderList, cashCollect, collectList, collitemList, exportf, exports, exportt, codecardModifyStatus } from '../api/merchant.js'
   import { fmt } from '@/utils/dateFmt.js'
+  import downloadFile from '@/utils/downloadFile.js'
   export default {
       data() {
         return {
-          activeName: 'tab1',
+          activeName: 'tab2',
           visible: false,
           bookkeeper: '',
           input: '',
@@ -249,6 +290,66 @@
         this.collitemList()
       },
       methods: {
+        codecardStatus (index,data, type) {
+          let Obj = {}
+           Obj = {...data}
+          switch (type){
+            case 1:
+              Obj.status = type
+              break;
+            case 2:
+              Obj.status = type
+              break;
+            case 3:
+              Obj.status = type
+              break;
+            case -1:
+              Obj.status = type
+              break;
+            case 0:
+              Obj.delFlag = '-1'
+              break;
+            default:
+              break;
+          }
+          codecardModifyStatus(Obj).then(res=>{
+            if(type === 0){
+                this.collectList()
+            }else{
+              this.order1List.splice(index,1,res.obj)
+            }
+          })
+        },
+        downloads(){
+          if(this.dateValue.length<2){
+            this.$message.error('请选择开始日期和结束日期!');
+            return
+          }
+          const params = {
+            agentName: this.input,
+            starttime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[0],'yyyy-MM-dd'):'',
+            endtime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[1],'yyyy-MM-dd'):''
+          }
+          exports(params).then(res => {
+            downloadFile(res, '代理商结算明细.xls')
+            this.$message.success('导出成功！');
+          })
+        },
+        downloadt(){
+          if(this.dateValue.length<2){
+            this.$message.error('请选择开始日期和结束日期!');
+            return
+          }
+          const params = {
+            agentName: this.input,
+            starttime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[0],'yyyy-MM-dd'):'',
+            endtime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[1],'yyyy-MM-dd'):''
+          }
+          exportt(params).then(res => {
+            downloadFile(res, '开户奖励明细.xls')
+            this.$message.success('导出成功！');
+          })
+        },
         search() {
           console.log(this.activeName)
           if (this.activeName == 'tab1') {
@@ -284,9 +385,7 @@
             pageSize: 10,
             pageSort: '',
             pageOrder: '',
-            agentName: this.input,
-            starttime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[0],'yyyy-MM-dd'):'',
-            endtime: this.dateValue && this.dateValue.length!=0?fmt.date(this.dateValue[1],'yyyy-MM-dd'):''
+            agentName: this.input
           }
           getOrderList(params).then(res => {
             this.loading = false

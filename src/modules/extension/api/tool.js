@@ -27,6 +27,14 @@ export function getWechatConfigList () {
   })
 }
 
+// 获取微信二维码配置列表
+export function getWechatewmList () {
+  return request({
+    url: '/auth/code_auth/list',
+    method: 'GET'
+  })
+}
+
 // 获取小程序发布配置列表
 export function saveWechatConfigList (params) {
   return request({

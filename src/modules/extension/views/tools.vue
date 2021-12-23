@@ -24,6 +24,15 @@
               <p></p>
             </div>
           </div>
+          <div class="tools-item" @click="wxewmConfig">
+            <div class="tools-item-img">
+              <img src="../../../assets/images/extension/wechat.png" alt="">
+            </div>
+            <div class="tools-item-content">
+              <p>通道微信认证上传二维码</p>
+              <p></p>
+            </div>
+          </div>
         </div>
       </div>
     </el-card>
@@ -200,6 +209,35 @@
         </el-form>
       </div>
     </el-dialog>
+    <!--通道微信认证上传二维码-->
+    <el-dialog class="vm-dialog"
+               title="通道微信认证上传二维码"
+               width="800px"
+               v-if="wxewm.show"
+               :visible.sync="wxewm.show">
+      <el-row :gutter="20">
+        <el-col :span="6" v-for="(item,index) in optionsData" :key="index" style="margin-bottom: 20px;">
+          <el-card :body-style="{ padding: '0px'}" style="width: 150px;height:195px">
+            <el-upload
+              class="avatar-uploader"
+              :action="url"
+              :headers="headers"
+              :data="{
+                  channelNme: item.channelName,
+                  channelNo: item.channelNo
+                }"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess">
+              <img v-if="item.codeImg" :src="item.codeBase64" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div style="padding: 14px;text-align: center;">
+              {{ item.channelName }}
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-dialog>
     <!--小程序发布配置-->
     <el-dialog class="vm-dialog"
                title="小程序发布配置"
@@ -269,6 +307,7 @@
 
 <script>
 import * as toolApi from '../api/tool'
+import { getChanelCofig } from '../../pay/api/mind.js'
 import { levelAliasMixin } from '@/mixins'
 import ToolWechatConfig from './components/toolWechatConfig.vue'
 import DynamicPsw from './components/dynamicPsw.vue'
@@ -278,12 +317,16 @@ import AliXcx from './components/aliXcx.vue'
 import AliCycle from './components/aliCycle.vue'
 import Cmf from './components/cmf.vue'
 import Email from './components/email.vue'
+import { url } from '@/utils/request'
 export default {
   name: 'tools',
   mixins: [levelAliasMixin],
   components: {ToolWechatConfig, DynamicPsw, GaoDe, Ali, AliXcx, AliCycle, Cmf, Email},
   data () {
     return {
+      wxewm: {
+        show: false
+      },
       pay: {
         show: false
       },
@@ -305,6 +348,52 @@ export default {
       wechatInfo: {
         show: false
       },
+      options: [{ // 智能通道不支持开店宝，手机pos
+        channelNo: '1',
+        channelName: '官方'
+      }, {
+        channelNo: '6',
+        channelName: '富友'
+      }, {
+        channelNo: '7',
+        channelName: '随行付'
+      }, {
+        channelNo: '9',
+        channelName: '威富通'
+      }, {
+        channelNo: '10',
+        channelName: '乐刷'
+      }, {
+        channelNo: '11',
+        channelName: '传化'
+      }, {
+        channelNo: '12',
+        channelName: '天阙随行付'
+      }, {
+        channelNo: '13',
+        channelName: '易生'
+      }, {
+        channelNo: '16',
+        channelName: '拉卡拉'
+      }, {
+        channelNo: '17',
+        channelName: '手机pos'
+      }, {
+        channelNo: '19',
+        channelName: '开店宝'
+      }, {
+        channelNo: '20',
+        channelName: '畅捷支付'
+      }, {
+        channelNo: '21',
+        channelName: '敏付'
+      }],
+      optionsData: [],
+      url: url + '/auth/code_auth/upload_code',
+      headers: {
+        authorized: sessionStorage.token
+      },
+      imageUrl: '',
       keyType: 1,
       params: {
         appId: '',
@@ -343,7 +432,38 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getChanelCofig()
+  },
   methods: {
+    getChanelCofig() {
+      getChanelCofig().then(res => {
+          if(res.code === 200) {
+            let checkboxGroup = JSON.parse(res.msg)
+            checkboxGroup.map(item => {
+              this.options.map(val => {
+                if (val.channelNo == item) {
+                  this.optionsData.push(val)
+                }
+              })
+            })
+          }
+      })
+    },
+    wxewmConfig() {
+      toolApi.getWechatewmList().then(res => {
+          res.obj.map(item => {
+            this.optionsData.map((val,index )=> {
+              if (val.channelNo == item.channelNo) {
+                 this.optionsData[index] = item
+              }
+            })
+          })
+          this.$forceUpdate()
+          console.log(this.optionsData)
+          this.wxewm.show = true
+      })
+    },
     payYxConfig(){
       this.pay.show = true
       this.keyType = 2
@@ -366,6 +486,9 @@ export default {
     },
     configGaoDeKey(){
       this.gaoDe.show = true
+    },
+    handleAvatarSuccess(res, file) {
+      this.wxewmConfig()
     },
     /**
        * 前往页面
@@ -501,5 +624,27 @@ export default {
     font-size: 13px;
     color: #808080;
   }
-
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+  }
+  .avatar {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
 </style>

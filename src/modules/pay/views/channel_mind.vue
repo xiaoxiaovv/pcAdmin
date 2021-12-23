@@ -217,7 +217,7 @@
             value: '13',
             label: '易生'
           }, {
-            value: '14',
+            value: '16',
             label: '拉卡拉'
           }, {
             value: '20',

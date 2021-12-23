@@ -54,6 +54,10 @@
         label="商户名">
       </el-table-column>
       <el-table-column
+        prop="merchantId"
+        label="商户ID">
+      </el-table-column>
+      <el-table-column
         prop="phone"
         label="联系电话">
       </el-table-column>
@@ -93,7 +97,7 @@
         <template slot-scope="scope">
           <el-button type="text"
                     @click="incomingParts(scope.row)"
-                    v-if="scope.row.isDirect">进件
+                    v-if="scope.row.isDirect || userType == 1">进件
           </el-button>
           <el-button type="text"
                      @click="rooterDeatil(scope.row)">详情

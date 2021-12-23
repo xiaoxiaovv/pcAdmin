@@ -28,6 +28,11 @@
         width="180">
       </el-table-column>
       <el-table-column
+        prop="id"
+        label="id"
+        width="180">
+      </el-table-column>
+      <el-table-column
         prop="contact"
         label="联系人">
       </el-table-column>

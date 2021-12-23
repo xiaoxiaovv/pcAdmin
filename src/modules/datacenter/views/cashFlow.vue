@@ -32,6 +32,9 @@
               <div class="block" >
                 <el-input size="small" placeholder="请输入商户名搜索" v-model="searchForm.merchantName" clearable></el-input>
               </div>
+              <div class="block" >
+                <el-input size="small" placeholder="请输入代理商搜索" v-model="searchForm.agentName" clearable></el-input>
+              </div>
             </div>
             <!--下方选项-->
           </div>
@@ -641,8 +644,9 @@ export default {
       let cid = sessionStorage.getItem('companyId')
       let ty = this.searchForm.type
       let merchantName = this.searchForm.merchantName
+      let agentName = this.searchForm.agentName
       this.flowData = []
-      merchantList(pageNum, pageSize, cid, ty,merchantName).then(res => {
+      merchantList(pageNum, pageSize, cid, ty,merchantName,agentName).then(res => {
         this.flowTotalElement = res.obj.totalElement
         this.flowData = res.obj.data
       }).catch(e => {

@@ -19,6 +19,15 @@ export function cashCollect (params) {
   })
 }
 // 结算
+export function codecardModifyStatus (params) {
+  return request({
+    url: '/pay/code_card/cash_item/modify_status',
+    method: 'post',
+    jsonHeader: true,
+    data:params
+  })
+}
+// 结算
 export function collectList (params) {
   return request({
     url: '/pay/code_card/cash_item',
@@ -32,5 +41,35 @@ export function collitemList (params) {
     url: '/pay/code_card/item',
     method: 'get',
     params
+  })
+}
+export function exportf (params) {
+  return request({
+    url: '/pay/code_card/cash_collect/excel',
+    method: 'get',
+    jsonHeader: true,
+    apiType: 'downFile',
+    responseType: 'blob',
+    params: params
+  })
+}
+export function exports (params) {
+  return request({
+    url: '/pay/code_card/cash_item/excel',
+    method: 'get',
+    jsonHeader: true,
+    apiType: 'downFile',
+    responseType: 'blob',
+    params: params
+  })
+}
+export function exportt (params) {
+  return request({
+    url: '/pay/code_card/item/excel',
+    method: 'get',
+    jsonHeader: true,
+    apiType: 'downFile',
+    responseType: 'blob',
+    params: params
   })
 }

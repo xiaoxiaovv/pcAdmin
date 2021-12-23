@@ -222,6 +222,7 @@
   export default {
       data() {
         return {
+          listLoading: false,
           dateValue: [],
           pickerOptions: {
             shortcuts: [{
@@ -467,6 +468,7 @@
               const params = {
                 agentId: this.addItem.id,
                 agentName: this.addItem.name,
+                contact: this.addItem.contact,
                 marketAmount: this.ruleForm.name,
                 minTradeAmount: this.ruleForm.pid,
                 minTradeTotalMonth: this.ruleForm.token,

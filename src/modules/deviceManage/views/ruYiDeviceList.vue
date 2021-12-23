@@ -113,12 +113,12 @@
           <!--//如果需要索引，传入参数“scope.$index”-->
           <!--//如果需要当前整页表格数据，传入参数“tableData”-->
 
-          <el-button type="text" 
+          <el-button type="text"
                      @click="openbindRuYiDialog(scope.row)">绑定</el-button>
 
           <template  >
 <!--            v-if="scope.row.aliStatus==='2'"-->
-            <el-button type="text" 
+            <el-button type="text"
                        @click="ruYiUnbindModal(scope.row)">解绑</el-button>
           </template>
         </template>
@@ -167,6 +167,12 @@
           <el-input v-model="ruYiDataForm.shopId"
                     class="formItem"></el-input>
         </el-form-item>
+        <el-form-item label="供应商:">
+            <el-select v-model="ruYiDataForm.supplierId" placeholder="请选择供应商">
+              <el-option label="一代供应商" value="201901111100635561"></el-option>
+              <el-option label="二代供应商" value="202109071403204809"></el-option>
+            </el-select>
+          </el-form-item>
         <!--<el-form-item label="受理商户的ISV在支付宝的pid："
                       show-message
                       prop="source">
@@ -356,7 +362,6 @@ export default {
       }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
       }*/
-      this.ruYiDataForm.supplierId = '201901111100635561'  //设备供应商id 死值不会变
       this.ruYiDataForm.externalId = this.ruYiDataForm.id
       this.ruYiDataForm.source = this.ruYiDataForm.merchantId
       this.ruYiDataForm.merchantIdType = 'direct'

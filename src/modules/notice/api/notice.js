@@ -7,6 +7,14 @@ export function getNoticeList(params) {
   })
 }
 
+export function getSwiperList(params) {
+  return request({
+    url: '/merchant/notice/rotation_chart/list',
+    method: 'get',
+    params: params
+  })
+}
+
 export function addNotice(data) {
   return request({
     url: '/merchant/notice',
@@ -16,10 +24,28 @@ export function addNotice(data) {
   })
 }
 
+export function addSwiper(data) {
+  return request({
+    url: '/merchant/notice/rotation_chart/saveAndUpdate',
+    method: 'post',
+    params: data
+  })
+}
+
 export function delNotice(id) {
   return request({
     url: '/merchant/notice/' + id,
     method: 'delete'
+  })
+}
+
+export function delSwiper(id) {
+  return request({
+    url: '/merchant/notice/rotation_chart/delete',
+    method: 'post',
+    params: {
+      id: id
+    }
   })
 }
 

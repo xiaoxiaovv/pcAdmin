@@ -123,6 +123,12 @@
           <el-input v-model="ruYiDataForm.aliShopId"
                     class="formItem"></el-input>
         </el-form-item>
+        <el-form-item label="供应商:">
+            <el-select v-model="ruYiDataForm.aliSupplierId" placeholder="请选择供应商">
+              <el-option label="一代供应商" value="201901111100635561"></el-option>
+              <el-option label="二代供应商" value="202109071403204809"></el-option>
+            </el-select>
+          </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -223,7 +229,6 @@ export default {
       }else if(this.ruYiDataForm.merchantIdType === 'indirect'){
         this.ruYiDataForm.merchantId = this.ruYiDataForm.merchantIdIndirect
       }*/
-      this.ruYiDataForm.aliSupplierId = '201901111100635561'  //设备供应商id 死值不会变
       // this.ruYiDataForm.externalId = this.ruYiDataForm.id
       this.ruYiDataForm.aliSource = this.ruYiDataForm.aliMerchantId
       this.ruYiDataForm.aliMerchantIdType = 'direct'

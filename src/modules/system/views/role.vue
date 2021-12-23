@@ -190,7 +190,7 @@ import { levelAliasMixin } from '@/mixins'
 import NextLeve from './components/roleNextLevel.vue'
 
 export default {
-  name: 'role',
+  name: '角色管理',
   mixins: [levelAliasMixin],
   components: {pagination, NextLeve},
   data () {
