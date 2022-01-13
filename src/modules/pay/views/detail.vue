@@ -23,9 +23,9 @@
       <el-tab-pane label="乐刷"
                    name="5"
                    v-if="payConfig.indexOf('乐刷') > -1"></el-tab-pane>
-      <el-tab-pane label="威富通"
+      <el-tab-pane label="银盛"
                    name="6"
-                   v-if="payConfig.indexOf('威富通') > -1"></el-tab-pane>
+                   v-if="payConfig.indexOf('银盛') > -1"></el-tab-pane>
       <el-tab-pane label="传化"
                    name="7"
                    v-if="payConfig.indexOf('传化') > -1"></el-tab-pane>
@@ -721,28 +721,38 @@
       <el-card class="box-card">
         <div slot="header"
              class="clearfix">
-          <span>威富通通道</span>
+          <span>银盛通道</span>
         </div>
         <div>
           <table>
-            <tr>
+            <!-- <tr>
               <td>经营类目</td>
               <td>
                 <template v-if="detail.ysFirstName">{{detail.industrName || '暂无'}}</template>
                 <template v-else>暂无</template>
               </td>
-            </tr>
+            </tr> -->
             <tr>
-              <td>结算费率</td>
+              <td>微信费率</td>
               <td>
-                {{(detail.ysRate === null || detail.ysRate === undefined)?'暂无':detail.ysRate + '%'}}<el-button class="ml10"
+                {{(detail.ysWxInterestRate === null || detail.ysWxInterestRate === undefined)?'暂无':detail.ysWxInterestRate + '%'}}<el-button class="ml10"
                            type="text"
                            size="small"
-                           v-if="!(detail.ysRate === null || detail.ysRate === undefined)"
-                           @click="changeRate('ys', detail.ysRate, 4)">修改</el-button>
+                           v-if="!(detail.ysWxInterestRate === null || detail.ysWxInterestRate === undefined)"
+                           @click="changeRate('ys', detail.ysWxInterestRate, 4)">修改</el-button>
               </td>
             </tr>
             <tr>
+              <td>支付宝费率</td>
+              <td>
+                {{(detail.ysAliInterestRate === null || detail.ysAliInterestRate === undefined)?'暂无':detail.ysAliInterestRate + '%'}}<el-button class="ml10"
+                           type="text"
+                           size="small"
+                           v-if="!(detail.ysAliInterestRate === null || detail.ysAliInterestRate === undefined)"
+                           @click="changeRate('ys', detail.ysAliInterestRate, 4)">修改</el-button>
+              </td>
+            </tr>
+            <!-- <tr>
               <td>商家协议</td>
               <td>
                 <template v-for="(item, index) in detail.proArr">
@@ -752,7 +762,7 @@
                 </template>
                 <template v-if="!detail.pro">暂无</template>
               </td>
-            </tr>
+            </tr> -->
           </table>
         </div>
       </el-card>
@@ -769,40 +779,46 @@
                 {{ysData.commitTime || '暂无'}}
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>微信费率</td>
               <td>
-                {{(ysData.wxRate === null || ysData.wxRate === undefined) ? '暂无' : ysData.wxRate+'%'}}
+                {{(ysData.ysWxInterestRate === null || ysData.ysWxInterestRate === undefined) ? '暂无' : ysData.ysWxInterestRate+'%'}}
               </td>
             </tr>
             <tr>
               <td>支付宝费率</td>
               <td>
-                {{(ysData.alipayRate === null || ysData.alipayRate === undefined) ? '暂无' : ysData.wxRate+'%'}}
+                {{(ysData.ysAliInterestRate === null || ysData.ysAliInterestRate === undefined) ? '暂无' : ysData.ysAliInterestRate+'%'}}
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <td>商户编码</td>
               <td>
-                {{ysData.mno || '暂无'}}
+                {{ysData.ysMchId || '暂无'}}
               </td>
             </tr>
             <tr>
               <td>注册名称</td>
               <td>
-                {{ysData.name || '暂无'}}
+                {{ysData.ysMchName || '暂无'}}
+              </td>
+            </tr>
+            <tr>
+              <td>签约地址</td>
+              <td>
+                {{ysData.ysSignUrl || '暂无'}}
               </td>
             </tr>
             <tr>
               <td>进件状态</td>
               <td>
-                {{['未知','审核中','审核通过','审核驳回','资料不齐全', '进件失败','商户验证'][Number(ysData.status)-1] || '暂无'}}
+                {{entryStatus[ysData.entryStatus] || '暂无'}}
               </td>
             </tr>
             <tr>
               <td>进件结果</td>
               <td>
-                {{ysData.result || '暂无'}}
+                {{ysData.ysMsg || '暂无'}}
               </td>
             </tr>
           </table>
@@ -1710,7 +1726,8 @@ export default {
     initMounted() {
       // 获取本{{levelAlias.firstName}}详情
       this.getDetail(this.id)
-      this.wxList = this.$route.query.list ? JSON.parse(this.$route.query.list) : []
+      this.wxList = this.$route.query.list ? JSON.parse(this.$route.query.list) : [],
+      console.log('ssssssssssssss',this.wxList)
       this.wxList.forEach(item => {
         this.getWxOrsxfcode(item)
       })
@@ -1752,7 +1769,7 @@ export default {
           this.lsData = res.obj
           console.log(res)
         })
-      } else if (item.channel === 4) { // 威富通
+      } else if (item.channel === 4) { // 银盛
         detailApi.getYsCode({ id: item.id }).then(res => {
           this.ysData = res.obj
           console.log(res)

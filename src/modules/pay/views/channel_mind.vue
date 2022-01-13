@@ -203,7 +203,7 @@
             label: '随行付'
           }, {
             value: '9',
-            label: '威富通'
+            label: '银盛'
           }, {
             value: '10',
             label: '乐刷'

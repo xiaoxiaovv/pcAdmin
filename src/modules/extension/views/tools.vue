@@ -359,7 +359,7 @@ export default {
         channelName: '随行付'
       }, {
         channelNo: '9',
-        channelName: '威富通'
+        channelName: '银盛'
       }, {
         channelNo: '10',
         channelName: '乐刷'

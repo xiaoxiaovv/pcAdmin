@@ -37,10 +37,10 @@ export function getLsCode (params) {
   })
 }
 
-// 查询威富通进件状态
+// 查询银盛进件状态
 export function getYsCode (params) {
   return request({
-    url: '/batchFeed/ys/feedInfo',
+    url: '/batchFeed/ys/get_yinsheng_feedstatus',
     method: 'get',
     params
   })

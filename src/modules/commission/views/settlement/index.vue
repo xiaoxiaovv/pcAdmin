@@ -24,8 +24,8 @@
       <div class="vm-flex-1" v-if="payConfig.indexOf('富友') > -1">
         <p class="title">富友交易金额/佣金总额</p>
       </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('威富通') > -1">
-        <p class="title">威富通交易金额/佣金总额</p>
+      <div class="vm-flex-1" v-if="payConfig.indexOf('银盛') > -1">
+        <p class="title">银盛交易金额/佣金总额</p>
       </div>
       <div class="vm-flex-1" v-if="payConfig.indexOf('传化') > -1">
         <p class="title">传化交易金额/佣金总额</p>
@@ -79,8 +79,8 @@
       <div class="vm-flex-1" v-if="payConfig.indexOf('富友') > -1">
         <p class="num">{{sumarryObj.fyOrderTotal || 0}}/{{sumarryObj.fyCommissionTotal || 0}}</p>
       </div>
-      <!--威富通-->
-      <div class="vm-flex-1" v-if="payConfig.indexOf('威富通') > -1">
+      <!--银盛-->
+      <div class="vm-flex-1" v-if="payConfig.indexOf('银盛') > -1">
         <p class="num">{{sumarryObj.ysOrderTotal || 0}}/{{sumarryObj.ysCommissionTotal || 0}}</p>
       </div>
       <!--传化-->
@@ -215,8 +215,8 @@
             {{scope.row.fyOrderTotal}}/{{scope.row.fyCommissionTotal}}
           </template>
         </el-table-column>
-        <!--威富通-->
-        <el-table-column label="威富通交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('威富通') > -1">
+        <!--银盛-->
+        <el-table-column label="银盛交易金额/佣金总额"  min-width="100" v-if="payConfig.indexOf('银盛') > -1">
           <template slot-scope="scope">
             {{scope.row.ysOrderTotal}}/{{scope.row.ysCommissionTotal}}
           </template>

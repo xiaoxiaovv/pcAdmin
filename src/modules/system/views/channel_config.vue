@@ -5,7 +5,7 @@
             <el-checkbox class="check-item check-item-1" :label="1" border>官方</el-checkbox>
             <el-checkbox class="check-item check-item-2" :label="6" border>富友</el-checkbox>
             <el-checkbox class="check-item check-item-3" :label="7" border>随行付</el-checkbox>
-            <el-checkbox class="check-item check-item-4" :label="9" border>威富通</el-checkbox>
+            <el-checkbox class="check-item check-item-4" :label="9" border>银盛</el-checkbox>
             <el-checkbox class="check-item check-item-5" :label="10" border>乐刷</el-checkbox>
             <el-checkbox class="check-item check-item-6" :label="11" border>传化</el-checkbox>
             <el-checkbox class="check-item check-item-7" :label="12" border>天阙随行付</el-checkbox>
@@ -96,7 +96,7 @@ export default {
   background-image: url(../../../assets/images/nav/suixingfu.png);
 }
 .check-item-4 {
-  background-image: url(../../../assets/images/nav/weifutong.jpg);
+  background-image: url(../../../assets/images/nav/ysjt.png);
 }
 .check-item-5 {
   background-image: url(../../../assets/images/nav/lechua.png);

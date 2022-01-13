@@ -443,10 +443,10 @@
         <el-form-item label="支付方式">
           <el-radio-group v-model="payParam.payWay"
                           class="radio-bottom-params">
-            <el-radio label="1"
+            <el-radio :label="1"
                       v-if="payConfig.indexOf('官方') > -1">微信
             </el-radio>
-            <el-radio label="2"
+            <el-radio :label="2"
                       v-if="payConfig.indexOf('官方') > -1">支付宝
             </el-radio>
             <el-radio label="6"
@@ -456,7 +456,7 @@
                       v-if="payConfig.indexOf('随行付') > -1">随行付
             </el-radio>
             <el-radio label="9"
-                      v-if="payConfig.indexOf('威富通') > -1">威富通
+                      v-if="payConfig.indexOf('银盛') > -1">银盛
             </el-radio>
             <el-radio label="10"
                       v-if="payConfig.indexOf('乐刷') > -1">乐刷
@@ -493,7 +493,6 @@
             <el-radio label="16"
                       v-if="payConfig.indexOf('拉卡拉') > -1">拉卡拉
             </el-radio>
-
           </el-radio-group>
         </el-form-item>
         <div style="max-height: 50vh;overflow-y: auto;padding-right: 10px;">
@@ -719,56 +718,6 @@
                         v-model.trim="topParam.sxfOrgId"
                         :disabled="payDisable"
                         placeholder="随行付机构编码"></el-input>
-            </el-form-item>
-          </div>
-          <!--=威富通-->
-          <div v-show="payParam.payWay==9">
-            <el-form-item label="微信利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.ysWxRate">
-              </el-input-number>
-              %
-              <el-tooltip class="item"
-                          effect="dark"
-                          content="威富通微信通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                          placement="top-start">
-                <i class="el-icon-question"></i>
-              </el-tooltip>
-            </el-form-item>
-            <el-form-item label="支付宝利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.ysAliRate">
-              </el-input-number>
-              %
-              <el-tooltip class="item"
-                          effect="dark"
-                          content="威富通支付宝通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                          placement="top-start">
-                <i class="el-icon-question"></i>
-              </el-tooltip>
-            </el-form-item>
-            <el-form-item label="商户编码">
-              <el-input v-model.trim="topParam.ysAgentId"
-                        :disabled="payDisable"
-                        placeholder="商户编码"></el-input>
-            </el-form-item>
-            <el-form-item label="key密钥">
-              <el-input v-model.trim="topParam.ysSecurityKey"
-                        :disabled="payDisable"
-                        placeholder="key密钥"></el-input>
-            </el-form-item>
-            <el-form-item label="威富通支付类型">
-              <el-input v-model.trim="topParam.ysPayTypeId"
-                        :disabled="payDisable"
-                        placeholder="威富通支付类型,多个用;隔开"></el-input>
             </el-form-item>
           </div>
           <!--乐刷-->
@@ -1023,83 +972,6 @@
                         placeholder="新大陆渠道号"></el-input>
             </el-form-item>
           </div>
-          <!--中国银联-->
-          <!--<div v-show="payParam.payWay==15">
-            <el-form-item label="微信利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.tqSxfWxRate">
-              </el-input-number>
-              %
-            </el-form-item>
-            <el-form-item label="支付宝利率">
-              <el-input-number :disabled="payDisable"
-                               :precision="2"
-                               :min="0"
-                               :max="100"
-                               :step="0.01"
-                               v-model="topParam.tqSxfAliRate">
-              </el-input-number>
-              %
-            </el-form-item>
-            <el-form-item label="中国银联私钥">
-              <el-input type="text"
-                        v-model.trim="topParam.tqSxfPrivateKey"
-                        :disabled="payDisable"
-                        placeholder="中国银联私钥"></el-input>
-            </el-form-item>
-            <el-form-item label="中国银联机构编码">
-              <el-input type="text"
-                        v-model.trim="topParam.tqSxfOrgId"
-                        :disabled="payDisable"
-                        placeholder="中国银联机构编码"></el-input>
-            </el-form-item>
-          </div>-->
-          <!--拉卡拉-->
-          <!-- <div v-show="payParam.payWay==16">
-             <el-form-item label="微信利率">
-               <el-input-number :disabled="payDisable"
-                                :precision="2"
-                                :min="0"
-                                :max="100"
-                                :step="0.01"
-                                v-model="topParam.lakalaWxRate">
-               </el-input-number>
-               %
-             </el-form-item>
-             <el-form-item label="支付宝利率">
-               <el-input-number :disabled="payDisable"
-                                :precision="2"
-                                :min="0"
-                                :max="100"
-                                :step="0.01"
-                                v-model="topParam.lakalaAliRate">
-               </el-input-number>
-               %
-             </el-form-item>
-             <el-form-item label="拉卡拉APPID">
-               <el-input type="text"
-                         v-model.trim="topParam.lklShopNo"
-                         :disabled="payDisable"
-                         placeholder="拉卡拉APPID"></el-input>
-             </el-form-item>
-             <el-form-item label="拉卡拉TOKEN">
-               <el-input type="text"
-                         v-model.trim="topParam.lklToken"
-                         :disabled="payDisable"
-                         placeholder="拉卡拉TOKEN"></el-input>
-             </el-form-item>
-             <el-form-item label="拉卡拉秘钥">
-               <el-input type="text"
-                         v-model.trim="topParam.lakalaRSAKey"
-                         :disabled="payDisable"
-                         placeholder="拉卡拉秘钥"></el-input>
-             </el-form-item>
-           </div>-->
-
           <!--手机pos-->
           <div v-show="payParam.payWay==17">
             <el-form-item label="手机pos机构号">
@@ -1126,10 +998,6 @@
                                :step="0.5"
                                v-model="topParam.posDrawFee">
               </el-input-number>
-              <!--<el-input type="text"
-                        v-model.trim="topParam.posDrawFee"
-                        :disabled="payDisable"
-                        placeholder="手机pos提现费"></el-input>-->
             </el-form-item>
             <el-form-item label="网联交易费率">
               <el-input-number :disabled="payDisable"
@@ -1488,7 +1356,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-for="s in item.lklRateTypeList" :key="s" style="width: 900px; float: left;" v-show="item.isOpen">
+                <div v-for="(s,index) in item.lklRateTypeList" :key="index" style="width: 900px; float: left;" v-show="item.isOpen">
                   <el-form-item label="费率类型编码" style="width: 230px;float: left;">
                     <el-input type="text"
                               v-model.trim="s.rateTypeCode"
@@ -1533,8 +1401,113 @@
                 </div>
               </div>
             </el-dialog>
+          </div>
+          <!--银盛配置-->
+          <div v-show="payParam.payWay==9">
 
+            <el-form-item label="机构号">
+              <el-input type="text"
+                        v-model.trim="topParam.ysAgentId"
+                        :disabled="payDisable"
+                        placeholder="机构号"></el-input>
+            </el-form-item>
+            <el-form-item label="银盛业务代码">
+              <el-input type="text"
+                        v-model.trim="topParam.ysBusinessCode"
+                        :disabled="payDisable"
+                        placeholder="银盛业务代码"></el-input>
+            </el-form-item>
+            <el-form-item label="加密秘钥aesKey">
+              <el-input type="text"
+                        v-model.trim="topParam.ysAesKey"
+                        :disabled="payDisable"
+                        placeholder="加密秘钥aesKey"></el-input>
+            </el-form-item>
+            <el-form-item label="银盛发起方id">
+              <el-input type="text"
+                        v-model.trim="topParam.ysPartnerId"
+                        :disabled="payDisable"
+                        placeholder="银盛发起方id"></el-input>
+            </el-form-item>
+            <el-form-item label="D0垫资费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.ysServiceRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="微信费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.ysWxRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="支付宝费率">
+              <el-input-number :disabled="payDisable"
+                               :precision="2"
+                               :min="0"
+                               :max="100"
+                               :step="0.01"
+                               v-model="topParam.ysAliRate">
+              </el-input-number>
+              %
+            </el-form-item>
+            <el-form-item label="私钥名称">
+              <el-input type="text"
+                        v-model.trim="topParam.ysPrivateKey"
+                        :disabled="payDisable"
+                        placeholder="私钥名称"></el-input>
+            </el-form-item>
+            <el-form-item label="证书"
+                          :disabled="payDisable">
+              <el-upload :disabled="payDisable"
+                         class="upload-demo"
+                         :headers="headers"
+                         :action="mfuploadUrl"
+                         :data="mffileData"
+                         :on-success="yspvuploadSuccess"
+                         :show-file-list="false">
+                <el-button size="small"
+                           type="primary"
+                           :disabled="payDisable">点击上传
+                </el-button>
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="私钥文件密码">
+              <el-input type="text"
+                        v-model.trim="topParam.ysPrivateKeyPassword"
+                        :disabled="payDisable"
+                        placeholder="私钥文件密码"></el-input>
+            </el-form-item>
+            <el-form-item label="公钥名称">
+              <el-input type="text"
+                        v-model.trim="topParam.ysPublicKey"
+                        :disabled="payDisable"
+                        placeholder="公钥名称"></el-input>
+            </el-form-item>
 
+            <el-form-item label="证书"
+                          :disabled="payDisable">
+              <el-upload :disabled="payDisable"
+                         class="upload-demo"
+                         :headers="headers"
+                         :action="mfuploadUrl"
+                         :data="mffileData"
+                         :on-success="yspbuploadSuccess"
+                         :show-file-list="false">
+                <el-button size="small"
+                           type="primary"
+                           :disabled="payDisable">点击上传
+                </el-button>
+              </el-upload>
+            </el-form-item>
           </div>
         </div>
 
@@ -1579,7 +1552,7 @@
             </el-radio>
             <el-radio label="9"
                       class="mt10"
-                      v-if="payConfig.indexOf('威富通') > -1">威富通
+                      v-if="payConfig.indexOf('银盛') > -1">银盛
             </el-radio>
             <el-radio label="10"
                       class="mt10"
@@ -1947,7 +1920,7 @@
             </div>
           </el-form-item>
         </div>
-        <!--=威富通-->
+        <!--=银盛-->
         <div v-show="payParam.payWay==9">
           <el-form-item label="微信利率">
             <el-input-number :disabled="payDisable"
@@ -1960,7 +1933,7 @@
             %
             <el-tooltip class="item"
                         effect="dark"
-                        content="威富通微信通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        content="银盛微信通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
                         placement="top-start">
               <i class="el-icon-question"></i>
             </el-tooltip>
@@ -1976,7 +1949,7 @@
             %
             <el-tooltip class="item"
                         effect="dark"
-                        content="威富通支付宝通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
+                        content="银盛支付宝通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
                         placement="top-start">
               <i class="el-icon-question"></i>
             </el-tooltip>
@@ -1986,15 +1959,10 @@
                       :disabled="payDisable"
                       placeholder="商户编码"></el-input>
           </el-form-item>
-          <el-form-item label="key密钥">
-            <el-input v-model.trim="payParam.ys.privateKey"
+          <el-form-item label="商户名称">
+            <el-input v-model.trim="payParam.ys.mchName"
                       :disabled="payDisable"
-                      placeholder="key密钥"></el-input>
-          </el-form-item>
-          <el-form-item label="公钥">
-            <el-input v-model.trim="payParam.ys.ysPayPublicKey"
-                      :disabled="payDisable"
-                      placeholder="公钥"></el-input>
+                      placeholder="商户名称"></el-input>
           </el-form-item>
         </div>
         <!--=乐刷-->
@@ -2236,114 +2204,6 @@
                       placeholder="交易密钥"></el-input>
           </el-form-item>
         </div>
-        <!--=中国银联配置-->
-        <!-- <div v-show="payParam.payWay==15">
-           <el-form-item label="微信利率">
-             <el-input-number :disabled="payDisable"
-                              :precision="2"
-                              :min="0"
-                              :max="100"
-                              :step="0.01"
-                              v-model="payParam.tqsxf.wxInterestRate">
-             </el-input-number>
-             %
-             <el-tooltip class="item"
-                         effect="dark"
-                         content="天阙随行付微信通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                         placement="top-start">
-               <i class="el-icon-question"></i>
-             </el-tooltip>
-           </el-form-item>
-           <el-form-item label="支付宝利率">
-             <el-input-number :disabled="payDisable"
-                              :precision="2"
-                              :min="0"
-                              :max="100"
-                              :step="0.01"
-                              v-model="payParam.tqsxf.aliInterestRate">
-             </el-input-number>
-             %
-             <el-tooltip class="item"
-                         effect="dark"
-                         content="天阙随行付支付宝通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                         placement="top-start">
-               <i class="el-icon-question"></i>
-             </el-tooltip>
-           </el-form-item>
-           <el-form-item label="商户编码">
-             <el-input v-model.trim="payParam.tqsxf.mno"
-                       :disabled="payDisable"
-                       placeholder="商户编码"></el-input>
-           </el-form-item>
-           <el-form-item label="天阙随行付子商户号">
-             <div style="display: flex;">
-               &lt;!&ndash; <el-input v-model.trim="taskCode"
-                         :disabled="payDisable"
-                         placeholder="随行付任务编码"
-                         clearable></el-input> &ndash;&gt;
-               <el-input v-model.trim="payParam.tqsxf.subMchId"
-                         :disabled="payDisable"
-                         placeholder="天阙随行付子商户号"></el-input>
-               <el-button style="margin-left: 10px;"
-                          :disabled="payDisable"
-                          type="primary"
-                          @click="getTqSxfSubmchidByTaskCode">获取子商户号</el-button>
-             </div>
-
-           </el-form-item>
-         </div>-->
-        <!--=拉卡拉配置-->
-        <!--<div v-show="payParam.payWay==16">
-          <el-form-item label="微信利率">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="100"
-                             :step="0.01"
-                             v-model="payParam.lakala.wxInterestRate">
-            </el-input-number>
-            %
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="天阙随行付微信通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                        placement="top-start">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </el-form-item>
-          <el-form-item label="支付宝利率">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="100"
-                             :step="0.01"
-                             v-model="payParam.lakala.aliInterestRate">
-            </el-input-number>
-            %
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="拉卡拉支付宝通道签约商户的费率，比如填写0.38%，则每笔交易收取商户0.38%手续费"
-                        placement="top-start">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </el-form-item>
-          <el-form-item label="商户编码">
-            <el-input v-model.trim="payParam.lakala.lklMercId"
-                      :disabled="payDisable"
-                      placeholder="商户编码"></el-input>
-          </el-form-item>
-          <el-form-item label="商户终端号">
-            <div style="display: flex;">
-              &lt;!&ndash; <el-input v-model.trim="taskCode"
-                        :disabled="payDisable"
-                        placeholder="随行付任务编码"
-                        clearable></el-input> &ndash;&gt;
-              <el-input v-model.trim="payParam.lakala.termId"
-                        :disabled="payDisable"
-                        placeholder="商户终端号"></el-input>
-            </div>
-
-          </el-form-item>
-        </div>-->
         <!--=手机pos配置-->
         <div v-show="payParam.payWay==17">
           <el-form-item label="手机pos交易费率">
@@ -2495,7 +2355,7 @@
           </el-form-item>
         </div>
 
-
+        <!-- 拉卡拉 -->
         <div v-show="payParam.payWay==16">
           <el-form-item label="支付宝费率">
             <!-- <el-input type="number" v-model="payParam.wx.interestRate" :disabled="payDisable"
@@ -2543,6 +2403,24 @@
             <el-input v-model.trim="payParam.lakala.termId"
                       :disabled="payDisable"
                       placeholder="商户终端号"></el-input>
+          </el-form-item>
+          <el-form-item label="是否使用银联前置">
+            <el-switch
+              v-model="payParam.lakala.lklIsYlFront"
+              :disabled="payDisable"
+              :active-value="1"
+              :inactive-value="0">
+            </el-switch>
+          </el-form-item>
+          <el-form-item label="银联前置商户号">
+            <el-input v-model.trim="payParam.lakala.lklYlMchId"
+                      :disabled="payDisable"
+                      placeholder="银联前置商户号"></el-input>
+          </el-form-item>
+          <el-form-item label="拉卡拉银联前置token">
+            <el-input v-model.trim="payParam.lakala.lklYlToken"
+                      :disabled="payDisable"
+                      placeholder="拉卡拉银联前置token"></el-input>
           </el-form-item>
         </div>
 
@@ -2775,12 +2653,17 @@ export default {
         lsNoticeKey: '', // 乐刷通知时使用的key
         lsWxRate: '', // 乐刷微信利率
         lsAliRate: '', // 乐刷支付宝利率
-        // 威富通
-        ysSecurityKey: '', // 威富通key密钥
-        ysAgentId: '', // 威富通商户编码
-        ysPayTypeId: '', // 威富通支付类型
-        ysWxRate: '', // 威富通微信利率
-        ysAliRate: '', // 威富通支付宝利率
+        // 银盛
+        ysAgentId: '', // 银盛商户编码
+        ysBusinessCode: '', //银盛业务代码
+        ysWxRate: '', // 银盛微信利率
+        ysAliRate: '', // 银盛支付宝利率
+        ysPrivateKey: '', // 银盛私钥文件名称
+        ysPublicKey: '', //  银盛公钥文件名称
+        ysAesKey: '', //  银盛加密秘钥aesKey
+        ysPartnerId: '', // 银盛发起方id
+        ysServiceRate: '', //  银盛D0垫资费率
+        ysPrivateKeyPassword: '', //  银盛私钥文件密码
         // 传化
         chAliInterestRate: '', // 传化支付宝利率
         chWxInterestRate: '', // 传化微信利率
@@ -2863,7 +2746,7 @@ export default {
       payDialog: false,
       payDisable: true,
       payParam: {
-        payWay: '1',
+        payWay: 1,
         ali: {
           interestRate: '',
           id: '',
@@ -2910,13 +2793,10 @@ export default {
           subMchId: ''
         },
         ys: {
-          aliInterestRate: '',
-          wxInterestRate: '',
-          id: '',
-          mchId: '',
-          privateKey: '',
-          ysPayPublicKey: ''
-          // ysPayTypeId: ''
+          aliInterestRate:'', // 支付宝结算费率
+          wxInterestRate:'', //  微信结算费率
+          mchId:'', //  银盛商户编码
+          mchName:'' //  银盛商户名称
         },
         ls: {
           aliInterestRate: '',
@@ -2959,6 +2839,9 @@ export default {
           aliInterestRate: '',
           lklMercId: '',  //拉卡拉 商户编码
           termId: '', //拉卡拉终端号
+          lklYlMchId: '',
+          lklIsYlFront: 0,
+          lklYlToken: '',
         },
         lklProdRateDialog: false,
         lklProdRateDisable: true,
@@ -3015,6 +2898,7 @@ export default {
         }
 
       },
+      lklProdRateDialog: false,
       //佣金提现参数
       commissionDialog: false,
       commissionDisable: true,
@@ -3269,6 +3153,17 @@ export default {
       this.topParam.lklShopNo = ''          //拉卡拉appid
       this.topParam.lklToken = ''        //拉卡拉token
       this.topParam.lakalaRSAKey = ''  //拉卡拉秘钥
+      // 银盛
+      this.topParam.ysAgentId = '' // 银盛商户编码
+      this.topParam.ysBusinessCode = '' // ysBusinessCode
+      this.topParam.ysWxRate = '' // 银盛微信利率
+      this.topParam.ysAliRate = '' // 银盛支付宝利率
+      this.topParam.ysPrivateKey = '' // 银盛私钥文件名称
+      this.topParam.ysPublicKey = '' //  银盛公钥文件名称
+      this.topParam.ysAesKey = '' //  银盛加密秘钥aesKey
+      this.topParam.ysPartnerId = '' //  银盛发起方id
+      this.topParam.ysServiceRate = '' //  银盛D0垫资费率
+      this.topParam.ysPrivateKeyPassword = '' //  银盛私钥文件密码
       //  手机pos
       this.topParam.posDrawFee = '' // 手机pos提现费
       this.topParam.posTradeRate = '' // 手机pos交易费率
@@ -3341,14 +3236,6 @@ export default {
         this.topParam.fyFtpPassword = data.fyFtpPassword
         this.topParam.fyWxRate = Number(data.fyWxRate) ? Number(data.fyWxRate) * 100 : 0
         this.topParam.fyAliRate = Number(data.fyAliRate) ? Number(data.fyAliRate) * 100 : 0
-        console.log(response)
-        // 威富通
-        this.topParam.ysAgentId = data.ysAgentId
-        this.topParam.ysPayTypeId = data.ysPayTypeId
-        this.topParam.ysSecurityKey = data.ysSecurityKey
-        this.topParam.ysAliRate = Number(data.ysAliRate) ? Number(data.ysAliRate) * 100 : 0
-        this.topParam.ysWxRate = Number(data.ysWxRate) ? Number(data.ysWxRate) * 100 : 0
-        console.log(response)
         // 乐刷
         this.topParam.lsNoticeKey = data.lsNoticeKey
         this.topParam.lsPayKey = data.lsPayKey
@@ -3386,15 +3273,6 @@ export default {
         this.topParam.newLandAliRate = Number(data.newLandAliRate) ? Number(data.newLandAliRate) * 100 : 0
         // 银联 暂时没有
         //  拉卡拉
-        /*this.topParam.lakalaWxRate = Number(data.lakalaWxRate) ? Number(data.lakalaWxRate) * 100 : 0 // 拉卡拉微信利率
-        this.topParam.lakalaAliRate = Number(data.lakalaAliRate) ? Number(data.lakalaAliRate) * 100 : 0 // 拉卡拉支付宝利率
-        this.topParam.lakalaChannelId = data.lakalaChannelId // 拉卡拉渠道号
-        this.topParam.lklShopNo = data.lklShopNo          //拉卡拉appid
-        this.topParam.lklToken = data.lklToken        //拉卡拉token
-        this.topParam.lakalaRSAKey =data.lakalaRSAKey  //拉卡拉秘钥*/
-
-        //  拉卡拉
-
         this.topParam.lakalaWxRate = Number(data.lakalaWxRate) ? Number(data.lakalaWxRate) * 100 : 0 // 拉卡拉微信利率
         this.topParam.lakalaAliRate = Number(data.lakalaAliRate) ? Number(data.lakalaAliRate) * 100 : 0 // 拉卡拉支付宝利率
         this.topParam.lklAppId = data.lklAppId // 拉卡拉渠道号
@@ -3403,7 +3281,17 @@ export default {
         this.topParam.lklPublicKeyName = data.lklPublicKeyName  //拉卡拉公钥名称
         this.topParam.lklSerialNo = data.lklSerialNo  //拉卡拉序列号
         this.topParam.lklOrgCode = data.lklOrgCode  //拉卡拉机构代码
-        
+        // 银盛
+        this.topParam.ysAgentId = data.ysAgentId // 银盛商户编码
+        this.topParam.ysBusinessCode = data.ysBusinessCode
+        this.topParam.ysWxRate = Number(data.ysWxRate) ? Number(data.ysWxRate) * 100 : 0 // 银盛微信利率
+        this.topParam.ysAliRate = Number(data.ysAliRate) ? Number(data.ysAliRate) * 100 : 0 // 银盛支付宝利率
+        this.topParam.ysPrivateKey = data.ysPrivateKey // 银盛私钥文件名称
+        this.topParam.ysPublicKey = data.ysPublicKey //  银盛公钥文件名称
+        this.topParam.ysAesKey = data.ysAesKey //  银盛加密秘钥aesKey
+        this.topParam.ysPartnerId = data.ysPartnerId //  银盛发起方id
+        this.topParam.ysServiceRate = Number(data.ysServiceRate) ? Number(data.ysServiceRate) : 0 //  银盛D0垫资费率
+        this.topParam.ysPrivateKeyPassword = data.ysPrivateKeyPassword //  银盛私钥文件密码
         //  手机pos
         this.topParam.posDrawFee = data.posDrawFee // 手机pos提现费
         this.topParam.posTradeRate = Number(data.posTradeRate) ? Number(data.posTradeRate) * 100 : 0 // 手机pos交易费率
@@ -3454,9 +3342,6 @@ export default {
       // 富友
       params.fyWxRate = (Number(params.fyWxRate) / 100).toFixed(4)
       params.fyAliRate = (Number(params.fyAliRate) / 100).toFixed(4)
-      // 威富通
-      params.ysWxRate = (Number(params.ysWxRate) / 100).toFixed(4)
-      params.ysAliRate = (Number(params.ysAliRate) / 100).toFixed(4)
       // 乐刷
       params.lsWxRate = (Number(params.lsWxRate) / 100).toFixed(4)
       params.lsAliRate = (Number(params.lsAliRate) / 100).toFixed(4)
@@ -3478,6 +3363,9 @@ export default {
       //  拉卡拉
       params.lakalaWxRate = (Number(params.lakalaWxRate) / 100).toFixed(4) // 拉卡拉微信利率
       params.lakalaAliRate = (Number(params.lakalaAliRate) / 100).toFixed(4) // 拉卡拉支付宝利率
+      // 银盛
+      params.ysWxRate = (Number(params.ysWxRate) / 100).toFixed(4) // 银盛微信利率
+      params.ysAliRate = (Number(params.ysAliRate) / 100).toFixed(4) // 银盛支付宝利率
       //  手机pos
       params.posTradeRate = (Number(params.posTradeRate) / 100).toFixed(4) // 手机pos交易费率
       params.quickTradeRate = (Number(params.quickTradeRate) / 100).toFixed(4) // 网联交易费率
@@ -3516,7 +3404,7 @@ export default {
     openConfigDialog (row) {
       this.clearPayParam()
       this.payDialog = true
-      this.payParam.payWay = '1'
+      this.payParam.payWay = 1
       this.merchantId = row.id
       this.findPayConfig(row.id)
     },
@@ -3562,13 +3450,11 @@ export default {
       this.payParam.sxf.mno = ''
       this.payParam.sxf.subMchId = ''
       this.payParam.sxf.id = ''
-      // 威富通
+      // 银盛
       this.payParam.ys.wxInterestRate = ''
       this.payParam.ys.aliInterestRate = ''
       this.payParam.ys.mchId = ''
-      this.payParam.ys.privateKey = ''
-      this.payParam.ys.id = ''
-      this.payParam.ys.ysPayPublicKey = ''
+      this.payParam.ys.mchName = ''
       // this.payParam.ys.ysPayTypeId = ''
       // 乐刷
       this.payParam.ls.wxInterestRate = ''
@@ -3604,7 +3490,9 @@ export default {
       this.payParam.lakala.aliInterestRate = ''
       this.payParam.lakala.lklMercId = '' //编码
       this.payParam.lakala.termId = '' //终端号
-
+      this.payParam.lakala.lklYlMchId = ''
+      this.payParam.lakala.lklIsYlFront = 0
+      this.payParam.lakala.lklYlToken = ''
       //手机pos
       this.payParam.sjPos.posTradeRate = ''
       this.payParam.sjPos.posDrawFee = ''
@@ -3697,9 +3585,7 @@ export default {
           this.payParam.ys.wxInterestRate = ysData.wxInterestRate * 100
           this.payParam.ys.aliInterestRate = ysData.aliInterestRate * 100
           this.payParam.ys.mchId = ysData.mchId
-          this.payParam.ys.privateKey = ysData.privateKey
-          this.payParam.ys.ysPayPublicKey = ysData.ysPayPublicKey
-          this.payParam.ys.id = ysData.id
+          this.payParam.ys.mchName = ysData.mchName
           // this.payParam.ys.ysPayTypeId = ysData.ysPayTypeId
         }
 
@@ -3757,6 +3643,9 @@ export default {
           this.payParam.lakala.aliInterestRate = lakalaData.aliInterestRate * 100
           this.payParam.lakala.lklMercId = lakalaData.lklMercId //编码
           this.payParam.lakala.termId = lakalaData.termId //终端号
+          this.payParam.lakala.lklYlMchId = lakalaData.lklYlMchId
+          this.payParam.lakala.lklIsYlFront = lakalaData.lklIsYlFront
+          this.payParam.lakala.lklYlToken = lakalaData.lklYlToken
         }
         // 手机pos
         let sjPosData = data.sjPos
@@ -4267,8 +4156,8 @@ export default {
         config.aliInterestRate = Number((this.payParam.fy.aliInterestRate / 100).toFixed(4))
       }
       */
-      // ys
-      if (this.payParam.ys && (this.payParam.ys.id || this.payParam.ys.aliInterestRate || this.payParam.ys.mchId || this.payParam.ys.privateKey || this.payParam.ys.wxInterestRate || this.payParam.ys.ysPayPublicKey)) {
+      // 银盛
+      if (this.payParam.ys && (this.payParam.ys.aliInterestRate || this.payParam.ys.mchId || this.payParam.ys.wxInterestRate || this.payParam.ys.mchName)) {
         config = JSON.parse(JSON.stringify(this.payParam.ys))
         config.wxInterestRate = Number((this.payParam.ys.wxInterestRate / 100).toFixed(4))
         config.aliInterestRate = Number((this.payParam.ys.aliInterestRate / 100).toFixed(4))
@@ -4279,14 +4168,6 @@ export default {
         }
         arr.push(params)
       }
-      /*
-      // 威富通
-      if (this.payParam.payWay == 9) {
-        config = JSON.parse(JSON.stringify(this.payParam.ys))
-        config.wxInterestRate = Number((this.payParam.ys.wxInterestRate / 100).toFixed(4))
-        config.aliInterestRate = Number((this.payParam.ys.aliInterestRate / 100).toFixed(4))
-      }
-      */
       // ls
       if (this.payParam.ls && (this.payParam.ls.id || this.payParam.ls.aliInterestRate || this.payParam.ls.mchId || this.payParam.ls.wxInterestRate)) {
         config = JSON.parse(JSON.stringify(this.payParam.ls))
@@ -4468,6 +4349,13 @@ export default {
       })
       this.topParam.lklPrivateKeyName = response.obj
     },
+    yspvuploadSuccess (response) {
+      this.$message({
+        message: response.msg,
+        type: 'success'
+      })
+      this.topParam.ysPrivateKey = response.obj
+    },
     lklpbuploadSuccess (response) {
       this.$message({
         message: response.msg,
@@ -4475,7 +4363,13 @@ export default {
       })
       this.topParam.lklPublicKeyName = response.obj
     },
-
+    yspbuploadSuccess (response) {
+      this.$message({
+        message: response.msg,
+        type: 'success'
+      })
+      this.topParam.ysPublicKey = response.obj
+    },
     /**
      * 佣金生成
      */

@@ -94,7 +94,7 @@
               <el-radio v-model="form.wx.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>微信服务商</el-radio>
               <el-radio v-model="form.wx.scanPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.wx.scanPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.wx.scanPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.wx.scanPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.wx.scanPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.wx.scanPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.wx.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -123,7 +123,7 @@
               <el-radio v-model="form.wx.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>微信服务商</el-radio>
               <el-radio v-model="form.wx.wapPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.wx.wapPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.wx.wapPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.wx.wapPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.wx.wapPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.wx.wapPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.wx.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -153,7 +153,7 @@
               <el-radio v-model="form.ali.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
               <el-radio v-model="form.ali.scanPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.ali.scanPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.ali.scanPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.ali.scanPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.ali.scanPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.ali.scanPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.ali.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -182,7 +182,7 @@
               <el-radio v-model="form.ali.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>支付宝服务商</el-radio>
               <el-radio v-model="form.ali.wapPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.ali.wapPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.ali.wapPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.ali.wapPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.ali.wapPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.ali.wapPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.ali.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -214,7 +214,7 @@
 <!--              <el-radio v-model="form.yl.scanPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>银联服务商</el-radio>-->
               <el-radio v-model="form.yl.scanPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.yl.scanPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.yl.scanPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.yl.scanPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.yl.scanPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.yl.scanPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.yl.scanPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -243,7 +243,7 @@
 <!--              <el-radio v-model="form.yl.wapPay" label="1" v-if="payConfig.indexOf('官方') > -1" border>银联服务商</el-radio>-->
               <el-radio v-model="form.yl.wapPay" label="6" v-if="payConfig.indexOf('富友') > -1" border>富友</el-radio>
               <el-radio v-model="form.yl.wapPay" label="7" v-if="payConfig.indexOf('随行付') > -1" border>随行付</el-radio>
-              <el-radio v-model="form.yl.wapPay" label="9" v-if="payConfig.indexOf('威富通') > -1" border>威富通</el-radio>
+              <el-radio v-model="form.yl.wapPay" label="9" v-if="payConfig.indexOf('银盛') > -1" border>银盛</el-radio>
               <el-radio v-model="form.yl.wapPay" label="10" v-if="payConfig.indexOf('乐刷') > -1" border>乐刷</el-radio>
               <el-radio v-model="form.yl.wapPay" label="11" v-if="payConfig.indexOf('传化') > -1" border>传化</el-radio>
               <el-radio v-model="form.yl.wapPay" label="12" v-if="payConfig.indexOf('天阙随行付') > -1" border>天阙随行付</el-radio>
@@ -405,6 +405,7 @@ export default {
         })
         this.clearForm()
         this.configDialog = false
+        this.getMerchantList()
       }).catch(() => {
         this.loading = false
       })
