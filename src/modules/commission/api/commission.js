@@ -135,6 +135,7 @@ export function commissionListExportExcel (params) {
   return request({
     url: '/order/commission/settle/export',
     method: 'get',
+    timeout: 65000,
     jsonHeader: true,
     apiType: 'downFile',
     responseType: 'blob',
@@ -218,16 +219,10 @@ export function commissionDetailExportExcel (params) {
   return request({
     url: '/order/cash/out/export',
     method: 'get',
+    timeout: 65000,
     jsonHeader: true,
     apiType: 'downFile',
     responseType: 'blob',
     params: params
   })
 }
-
-
-
-
-
-
-

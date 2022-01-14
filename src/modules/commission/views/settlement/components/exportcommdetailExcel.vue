@@ -72,7 +72,7 @@ export default {
           // let status = (time.getTime() < date.getTime() + 1) && (time.getTime() > date.getTime() + 1 - 30 * 24 * 60 * 60 * 1000)
           let status = time.getTime() < date.getTime() + 1
           if (self.pickerMinDate) {
-            const day30 = 30 * 24 * 3600 * 1000
+            const day30 = 31 * 24 * 3600 * 1000
             let maxTime = self.pickerMinDate + day30
             let minTime = self.pickerMinDate - day30
             if (maxTime > date.getTime()) {
