@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="login-form loginform">
-      <p class="title_zh">刷脸支付后台登录系统</p>
-      <p class="title_en">Face payment background login system</p>
+      <p class="title_zh">聚合支付后台登录系统</p>
+      <p class="title_en">Aggregate payment background login system</p>
       <el-form class="form-box">
         <el-form-item class="form-item-box">
           <!-- <p class="input-p">用户名：</p> -->

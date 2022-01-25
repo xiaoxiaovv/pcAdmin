@@ -155,6 +155,12 @@
                     <el-radio :label="2">客户被扫</el-radio>
                   </el-radio-group>
                 </el-form-item>
+                <el-form-item label="订单去重" prop="payRepeat">
+                  <el-radio-group v-model="ruleForm.payRepeat">
+                    <el-radio :label="1">开启</el-radio>
+                    <el-radio :label="-1">关闭</el-radio>
+                  </el-radio-group>
+                </el-form-item>
                 <el-form-item label="当前状态" prop="status">
                   <el-radio-group v-model="ruleForm.status">
                     <el-radio :label="1">开启</el-radio>
@@ -190,6 +196,12 @@
                     <el-radio :label="3">全部</el-radio>
                     <el-radio :label="1">客户主扫</el-radio>
                     <el-radio :label="2">客户被扫</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item label="订单去重" prop="payRepeat">
+                  <el-radio-group v-model="ruleFormEdit.payRepeat">
+                    <el-radio :label="1">开启</el-radio>
+                    <el-radio :label="-1">关闭</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="当前状态" prop="status">
@@ -266,6 +278,7 @@
             token: '',
             singleReward: 0,
             resource: '',
+            payRepeat: 1,
             status: ''
           },
           ruleFormEdit: {
@@ -274,6 +287,7 @@
             token: '',
             singleReward: 0,
             resource: '',
+            payRepeat: 1,
             status: ''
           },
           rules: {
@@ -291,6 +305,9 @@
             ],
             resource: [
               { required: true, message: '请选择付款方式', trigger: 'change' }
+            ],
+            payRepeat: [
+              { required: true, message: '请选择是否去重', trigger: 'change' }
             ],
             status: [
               { required: true, message: '请选择状态', trigger: 'change' }
@@ -364,6 +381,7 @@
           this.ruleFormEdit.token = item.minTradeTotalMonth
           this.ruleFormEdit.singleReward = item.minValidOrder
           this.ruleFormEdit.resource = item.payWay
+          this.ruleFormEdit.payRepeat = item.payRepeat
           this.ruleFormEdit.status = item.status
           this.itemStream = item
         },
@@ -398,6 +416,7 @@
               this.itemStream.minTradeTotalMonth = this.ruleFormEdit.token
               this.itemStream.minValidOrder = Number(this.ruleFormEdit.singleReward)
               this.itemStream.payWay = this.ruleFormEdit.resource
+              this.itemStream.payRepeat = this.ruleFormEdit.payRepeat
               this.itemStream.status = this.ruleFormEdit.status
               const params = this.itemStream
               delStream(params).then(res => {
@@ -474,6 +493,7 @@
                 minTradeTotalMonth: this.ruleForm.token,
                 minValidOrder: this.ruleForm.singleReward,
                 payWay: this.ruleForm.resource,
+                payRepeat: this.ruleForm.payRepeat,
                 status: this.ruleForm.status
               }
               addStream(params).then(res => {

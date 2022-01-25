@@ -72,9 +72,14 @@
         </template>
       </el-table-column>
       <!--上级代理-->
-      <el-table-column label="上级代理">
+      <el-table-column label="直属代理">
         <template slot-scope="scope">
           <span>{{ scope.row.companyName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="一级代理" v-if="userType === 1 || userType === '1'">
+        <template slot-scope="scope">
+          <span>{{ scope.row.upCompanyName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间">

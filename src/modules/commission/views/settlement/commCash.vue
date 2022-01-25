@@ -84,7 +84,7 @@
         <pagination ref="page"
                     style="margin-top: 20px !important;"
                     :total-elements="totalElements"
-                    :change-callback="expocommissioncommCashrtData" ></pagination>
+                    :change-callback="expocommissioncommCashrtData"></pagination>
       </div>
     </div>
   </div>
@@ -161,7 +161,7 @@ export default {
     //佣金结余方法
     expocommissioncommCashrtData (pagenumber, pageSize) {
       console.log(this.params)
-      commissionApi.commissioncommCash(pagenumber, pageSize,this.params).then(res => {
+      commissionApi.commissioncommCash(pagenumber, pageSize, 'allCommissionTotal', 'desc', true, this.params).then(res => {
         this.tableData = res.obj.content;
         this.totalElements = res.obj.totalElements;
 

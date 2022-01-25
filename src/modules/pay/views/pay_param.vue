@@ -262,7 +262,14 @@
             <el-checkbox label="3" name="cashOutTypes">银行卡</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-
+        <el-form-item label="佣金代付">
+          <el-switch v-model="commissionParam.isBehalf"
+                     :disabled="payDisable"
+                     :active-value="1"
+                     :inactive-value="0">
+          </el-switch>
+          <el-button type="warning" size="mini" :disabled="payDisable" v-if="commissionParam.isBehalf" @click="showBehalf">配 置</el-button>
+        </el-form-item>
       </el-form>
       <div slot="footer"
            class="dialog-footer">
@@ -277,162 +284,61 @@
         </el-button>
       </div>
     </el-dialog>
-
-
-    <!--//敏付产品参数-->
-
-
-    <!--<el-dialog :title="`敏付产品参数配置`"
-               :visible.sync="mfprdVers"
-               :before-close="closeMfprdVers"
-               width="900px">
-      <el-form :model="mfprdVers"
-               label-width="auto" >
-
-     <span v-for="item in mfprdVersParamTo">
-
-        <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
-          <el-input :disabled="payDisable"
-                    :precision="2"
-
-                    v-model="item.opnPrdVers">
-          </el-input>
-        </el-form-item>
-
-            <el-form-item label="微信费率"  style="width: 250px; float: left; margin-left: 20px;">
-              <el-input :disabled="payDisable"
-                        :precision="2"
-                        :min="0"
-                        :max="1000000000"
-                        :step="10"
-                        v-model="item.wxRate">
-              </el-input>
+    <!-- 代付配置 -->
+    <el-dialog :title="`佣金代付参数配置`"
+               :visible.sync="showBehalfModel"
+               width="700px">
+      <el-form :model="behalfParam"
+               label-width="auto">
+             <el-form-item label="代付平台id">
+               <el-input v-model.trim="behalfParam.platFormId"
+                         placeholder="代付平台id"></el-input>
+             </el-form-item>
+             <el-form-item label="代付平台登录账号">
+               <el-input v-model.trim="behalfParam.username"
+                         placeholder="代付平台登录账号"></el-input>
+             </el-form-item>
+             <el-form-item label="代付平台登录密码">
+               <el-input v-model.trim="behalfParam.password"
+                         placeholder="代付平台登录密码"></el-input>
+             </el-form-item>
+             <el-form-item label="客户端id">
+               <el-input v-model.trim="behalfParam.clientId"
+                         placeholder="客户端id"></el-input>
+             </el-form-item>
+             <el-form-item label="客户端秘钥">
+               <el-input v-model.trim="behalfParam.clientSecret"
+                         placeholder="客户端秘钥"></el-input>
+             </el-form-item>
+             <el-form-item label="平台方公钥">
+               <el-input v-model.trim="behalfParam.publicKey"
+                         placeholder="平台方公钥"></el-input>
+             </el-form-item>
+             <el-form-item label="私钥">
+               <el-input v-model.trim="behalfParam.privateKey"
+                         placeholder="私钥"></el-input>
+             </el-form-item>
+             <el-form-item label="平台方服务器url">
+               <el-input v-model.trim="behalfParam.serverUrl"
+                         placeholder="平台方服务器url"></el-input>
+             </el-form-item>
+            <el-form-item label="平台标示">
+              <el-radio-group v-model="behalfParam.type"
+                              class="radio-bottom-params">
+                <el-radio :label="1">云获</el-radio>
+                <el-radio :label="2">其他</el-radio>
+              </el-radio-group>
             </el-form-item>
-
-        <el-form-item label="支付宝费率"   style="width: 250px; float: left; margin-left: 20px;">
-          <el-input :disabled="payDisable"
-                    :precision="2"
-                    :min="0"
-                    :max="1000000000"
-                    :step="10"
-                    v-model="item.zfbRate">
-          </el-input>
-        </el-form-item>
-        </span>
-
-
-        &lt;!&ndash;  <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam1.opnPrdVers">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="微信费率"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam1.wxRate">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="支付宝费率"   style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam1.zfbRate">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam2.opnPrdVers">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="微信费率"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam2.wxRate">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="支付宝费率"   style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam2.zfbRate">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="产品版本号"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam3.opnPrdVers">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="微信费率"  style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam3.wxRate">
-            </el-input-number>
-          </el-form-item>
-
-          <el-form-item label="支付宝费率"   style="width: 250px; float: left; margin-left: 20px;">
-            <el-input-number :disabled="payDisable"
-                             :precision="2"
-                             :min="0"
-                             :max="1000000000"
-                             :step="10"
-                             v-model="mfprdVersParam3.zfbRate">
-            </el-input-number>
-          </el-form-item>&ndash;&gt;
-
-
-
-
-
-
-
-
-        &lt;!&ndash;操作时段&ndash;&gt;
-
-
       </el-form>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="closeMfprdVers">取 消</el-button>
-        <el-button type="warning"
-                   @click="canConfig">配 置</el-button>
+        <el-button @click="closeBehalf">取 消</el-button>
         <el-button type="primary"
-                   @click="setMfprdVers"
-                   v-loading="btnLoading"
-                   :disabled="payDisable">提 交</el-button>
+                   @click="submitBehalf"
+                   v-loading="btnLoading">提 交
+        </el-button>
       </div>
-    </el-dialog>-->
+    </el-dialog>
     <!--服务商支付参数配置-->
     <el-dialog :title="`${levelAlias.oemName}支付参数配置`"
                :visible.sync="topPayDialog"
@@ -1428,6 +1334,12 @@
                         v-model.trim="topParam.ysPartnerId"
                         :disabled="payDisable"
                         placeholder="银盛发起方id"></el-input>
+            </el-form-item>
+            <el-form-item label="所属代理商编号">
+              <el-input type="text"
+                        v-model.trim="topParam.ysCoOperatorNo"
+                        :disabled="payDisable"
+                        placeholder="所属代理商编号"></el-input>
             </el-form-item>
             <el-form-item label="D0垫资费率">
               <el-input-number :disabled="payDisable"
@@ -2581,7 +2493,9 @@ import {
   getlklProdRate,
   savelklProdRate,
   clearlklProdRateParam,
-  closelklProdRateDialog
+  closelklProdRateDialog,
+  postBehalfData,
+  getBehalfData
 } from '@/modules/pay/api/pay_config'
 // import {fileUpload} from '@/modules/file/api/upload'
 import {levelAliasMixin} from '@/mixins'
@@ -2593,6 +2507,7 @@ export default {
   mixins: [levelAliasMixin],
   data () {
     return {
+      showBehalfModel: false,
       taskCode: '', // 随行付任务编码
       sxFrepoInfoArr: [],
       tqsxFrepoInfoArr: [],
@@ -2662,6 +2577,7 @@ export default {
         ysPublicKey: '', //  银盛公钥文件名称
         ysAesKey: '', //  银盛加密秘钥aesKey
         ysPartnerId: '', // 银盛发起方id
+        ysCoOperatorNo: '',
         ysServiceRate: '', //  银盛D0垫资费率
         ysPrivateKeyPassword: '', //  银盛私钥文件密码
         // 传化
@@ -2745,6 +2661,17 @@ export default {
       // 商户支付参数
       payDialog: false,
       payDisable: true,
+      behalfParam: {
+        platFormId: '',
+        username: '',
+        password: '',
+        clientId: '',
+        clientSecret: '',
+        publicKey: '',
+        privateKey: '',
+        serverUrl: '',
+        type: 1
+      },
       payParam: {
         payWay: 1,
         ali: {
@@ -2912,7 +2839,8 @@ export default {
         rateCash: 0,  // 佣金提现费率
         cashOutWay: '', // 提现方式:1手动2自动
         cashOutTypes: [], // 支持账号类型:1微信2支付宝3银行卡
-        isAllow: 1 //是否开启提现
+        isAllow: 1 ,//是否开启提现
+        isBehalf: -1 //是否开通佣金代付
       },
 
       //敏付产品参数
@@ -2985,6 +2913,29 @@ export default {
     }
   },
   methods: {
+    showBehalf() {
+      this.showBehalfModel = true
+      getBehalfData().then(res => {
+        if(res.obj) {
+          this.behalfParam = res.obj
+        }
+      })
+    },
+    closeBehalf() {
+      this.showBehalfModel = false
+    },
+    submitBehalf() {
+      console.log(this.behalfParam)
+      postBehalfData(this.behalfParam).then(res => {
+          if(res.code === 200) {
+            this.showBehalfModel = false
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+          }
+      })
+    },
     getSystemCOnfigInfo () {
       getSystemCOnfig().then(res => {
         this.payConfig = [...res.obj]
@@ -3162,6 +3113,7 @@ export default {
       this.topParam.ysPublicKey = '' //  银盛公钥文件名称
       this.topParam.ysAesKey = '' //  银盛加密秘钥aesKey
       this.topParam.ysPartnerId = '' //  银盛发起方id
+      this.topParam.ysCoOperatorNo = ''
       this.topParam.ysServiceRate = '' //  银盛D0垫资费率
       this.topParam.ysPrivateKeyPassword = '' //  银盛私钥文件密码
       //  手机pos
@@ -3290,6 +3242,7 @@ export default {
         this.topParam.ysPublicKey = data.ysPublicKey //  银盛公钥文件名称
         this.topParam.ysAesKey = data.ysAesKey //  银盛加密秘钥aesKey
         this.topParam.ysPartnerId = data.ysPartnerId //  银盛发起方id
+        this.topParam.ysCoOperatorNo = data.ysCoOperatorNo
         this.topParam.ysServiceRate = Number(data.ysServiceRate) ? Number(data.ysServiceRate) : 0 //  银盛D0垫资费率
         this.topParam.ysPrivateKeyPassword = data.ysPrivateKeyPassword //  银盛私钥文件密码
         //  手机pos

@@ -1,87 +1,5 @@
 <template>
   <div class="app-container vm-app-container" v-loading="loading">
-    <!--<div class="vm-app-bodys">
-      <div class="vm-page-table-title">数据统计  费率
-        <el-tooltip class="item" effect="dark" content="显示自己和下级的交易总额和佣金总额"
-                    placement="top-start">
-          <i class="el-icon-question"></i>
-        </el-tooltip>
-        <span class="vm-margin-l-15 vm-size-14 vm-color-9">仅统计近一年的数据</span></div>
-    </div>-->
-    <!--<div class="vm-flex cset-data-show cset-data-title vm-align-center vm-align-center vm-size-14 vm-color-3">
-      <div class="vm-flex-1 ">
-        <p class="title">交易总额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('官方') > -1">
-        <p class="title">微信交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('官方') > -1">
-        <p class="title">支付宝交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('随行付') > -1">
-        <p class="title">随行付交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('富友') > -1">
-        <p class="title">富友交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('威富通') > -1">
-        <p class="title">威富通交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('传化') > -1">
-        <p class="title">传化交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('乐刷') > -1">
-        <p class="title">乐刷交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('天阙随行付') > -1">
-        <p class="title">天阙随行付交易金额/佣金总额</p>
-      </div>
-      <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
-        <p class="title">已结算佣金</p>
-      </div>
-      <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
-        <p class="title">未结算佣金</p>
-      </div>
-    </div>-->
-    <!--<div class="vm-flex cset-data-show vm-align-justify-center vm-align-center vm-size-14 vm-color-6">
-      <div class="vm-flex-1">
-        <p class="num">{{sumarryObj.orderTotal}}/{{sumarryObj.commissionTotal}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('官方') > -1">
-        <p class="num">{{sumarryObj.wxOrderTotal}}/{{sumarryObj.wxCommissionTotal}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('官方') > -1">
-        <p class="num">{{sumarryObj.zfbOrderTotal}}/{{sumarryObj.zfbCommissionTotal}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('随行付') > -1">
-        <p class="num">{{sumarryObj.sxfOrderTotal || 0}}/{{sumarryObj.sxfCommissionTotal || 0}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="payConfig.indexOf('富友') > -1">
-        <p class="num">{{sumarryObj.fyOrderTotal || 0}}/{{sumarryObj.fyCommissionTotal || 0}}</p>
-      </div>
-      &lt;!&ndash;威富通&ndash;&gt;
-      <div class="vm-flex-1" v-if="payConfig.indexOf('威富通') > -1">
-        <p class="num">{{sumarryObj.ysOrderTotal || 0}}/{{sumarryObj.ysCommissionTotal || 0}}</p>
-      </div>
-      &lt;!&ndash;传化&ndash;&gt;
-      <div class="vm-flex-1" v-if="payConfig.indexOf('传化') > -1">
-        <p class="num">{{sumarryObj.chOrderTotal || 0}}/{{sumarryObj.chCommissionTotal || 0}}</p>
-      </div>
-      &lt;!&ndash;乐刷&ndash;&gt;
-      <div class="vm-flex-1" v-if="payConfig.indexOf('乐刷') > -1">
-        <p class="num">{{sumarryObj.lsOrderTotal || 0}}/{{sumarryObj.lsCommissionTotal || 0}}</p>
-      </div>
-      &lt;!&ndash;天阙随行付&ndash;&gt;
-      <div class="vm-flex-1" v-if="payConfig.indexOf('天阙随行付') > -1">
-        <p class="num">{{sumarryObj.tqOrderTotal || 0}}/{{sumarryObj.tqCommissionTotal || 0}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
-        <p class="num">{{sumarryObj.settleCommisson}}</p>
-      </div>
-      <div class="vm-flex-1" v-if="userType==='2' || userType==='3' || userType==='4'">
-        <p class="num">{{sumarryObj.unSettleCommisson}}</p>
-      </div>
-    </div>-->
     <div class="page-margin-gray"></div>
     <!--表格-->
     <div class="vm-app-bodys" v-if="this.userType !== '4'">
@@ -105,6 +23,11 @@
                   @keyup.enter.native="search"
                   v-model="params.companyName"></el-input>
         <el-button type="primary" size="small" @click="search">查询</el-button>
+      </div>
+      <div v-if="yhaccountInfo" class="vm-flex vm-justify-between vm-padding-b-10 vm-padding-t-5" style="width: 60%;">
+        <div class="vm-font-16px"><i class="el-icon-news color-blue"></i><span style="margin-right: 6px;">可用余额:</span><span style="color: #008000;">{{yhaccountInfo.avaliableBal?yhaccountInfo.avaliableBal/100:'0.00'}}</span></div>
+        <div class="vm-font-16px"><i class="el-icon-news color-orange"></i><span style="margin-right: 6px;">不可用余额:</span><span style="color: #008000;">{{yhaccountInfo.unavaliableBal?yhaccountInfo.unavaliableBal/100:'0.00'}}</span></div>
+        <div class="vm-font-16px"><i class="el-icon-news color-orange"></i><span style="margin-right: 6px;">服务费账户返点余额:</span><span style="color: #008000;">{{yhaccountInfo.avalibaleServiceBal?yhaccountInfo.avalibaleServiceBal/100:'0.00'}}</span></div>
       </div>
       <div class="page-margin-gray vm-margin-lr-0"></div>
       <el-table :data="tableData"
@@ -184,6 +107,12 @@
             {{scope.row.payDate || '--'}}
           </template>
         </el-table-column>
+        <el-table-column label="代付状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.platformStatus == '已完成'" style="color: green;">{{scope.row.platformStatus}}</span>
+            <span v-if="scope.row.platformStatus != '已完成'" style="color: orangered;">{{scope.row.platformStatus}}</span>
+          </template>
+        </el-table-column>
         <!--操作-->
         <el-table-column fixed="right"
                          width="150"
@@ -261,6 +190,7 @@ export default {
   mixins: [tableMixin],
   data () {
     return {
+      yhaccountInfo: '',
       timeDate: [],
       loading: false, // 加载动画
       statusOption: [
@@ -305,6 +235,7 @@ export default {
     this.userType = sessionStorage.getItem('userType')
     this.getCountInfo()
     this.getSystemCOnfigInfo()
+    this.getYhaccount()
   },
   /*
   computed: {
@@ -322,6 +253,14 @@ export default {
     }
   },
   methods: {
+    getYhaccount() {
+      commissionApi.getYhaccount().then(res => {
+        if(res.code === 200){
+          const yhaccountInfo = JSON.parse(res.obj)
+          this.yhaccountInfo = yhaccountInfo.data
+        }
+      })
+    },
     /**
      *导出佣金列表
      **/
@@ -425,6 +364,9 @@ export default {
       commissionApi.commissionModifyStatus(commitObj).then(res=>{
         if(type === 0){
           this.requestTableList()
+          if(type === 3) {
+            this.getYhaccount()
+          }
         }else{
           this.tableData.splice(index,1,res.obj)
           // console.log('this.tableData===================',this.tableData)

@@ -122,7 +122,7 @@ import * as commissionApi from '../../api/commission'
 import pagination from '@/components/pagination/index'
 import Settlement from './components/settlement'
 import ExportExcel from './components/exportcommdetailExcel.vue'
-import { tableMixin  } from '@/mixins'
+// import { tableMixin  } from '@/mixins'
 import ImgShow from '@/components/imgShow/index'
 export default {
   name: 'operator',
@@ -132,7 +132,7 @@ export default {
     Settlement,
     ExportExcel
   },
-  mixins: [tableMixin],
+  // mixins: [tableMixin],
   data () {
     return {
       timeDate: [],//时间选择框
@@ -198,7 +198,7 @@ export default {
     }
   },
   mounted () {
-    this.changeDays() // 设置默认日期
+    //this.changeDays() // 设置默认日期
   },
   created () {//初始化调用
 
@@ -269,9 +269,3 @@ export default {
 }
 
 </style>
-
-
-
-
-
-

@@ -24,6 +24,11 @@
         <!-- <el-button size="small" @click="downloads">导出奖励结余</el-button> -->
         <el-button size="small" @click="downloadt">导出开户奖励明细</el-button>
       </div>
+      <div v-if="yhaccountInfo" class="vm-flex vm-justify-between vm-padding-b-10 vm-padding-t-5" style="width: 60%;">
+        <div class="vm-font-16px"><i class="el-icon-news color-blue"></i><span style="margin-right: 6px;">可用余额:</span><span style="color: #008000;">{{yhaccountInfo.avaliableBal?yhaccountInfo.avaliableBal/100:'0.00'}}</span></div>
+        <div class="vm-font-16px"><i class="el-icon-news color-orange"></i><span style="margin-right: 6px;">不可用余额:</span><span style="color: #008000;">{{yhaccountInfo.unavaliableBal?yhaccountInfo.unavaliableBal/100:'0.00'}}</span></div>
+        <div class="vm-font-16px"><i class="el-icon-news color-orange"></i><span style="margin-right: 6px;">服务费账户返点余额:</span><span style="color: #008000;">{{yhaccountInfo.avalibaleServiceBal?yhaccountInfo.avalibaleServiceBal/100:'0.00'}}</span></div>
+      </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="奖励结算" name="tab2">
@@ -94,6 +99,12 @@
               <el-table-column label="打款时间">
                 <template slot-scope="scope">
                   {{scope.row.payDate || '--'}}
+                </template>
+              </el-table-column>
+              <el-table-column label="代付状态">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.platformStatus == '已完成'" style="color: green;">{{scope.row.platformStatus}}</span>
+                  <span v-if="scope.row.platformStatus != '已完成'" style="color: orangered;">{{scope.row.platformStatus}}</span>
                 </template>
               </el-table-column>
               <el-table-column fixed="right"
@@ -234,6 +245,7 @@
 
 <script>
   import { getOrderList, cashCollect, collectList, collitemList, exportf, exports, exportt, codecardModifyStatus } from '../api/merchant.js'
+  import * as commissionApi from '../../commission/api/commission.js'
   import { fmt } from '@/utils/dateFmt.js'
   import downloadFile from '@/utils/downloadFile.js'
   export default {
@@ -281,15 +293,25 @@
           total2: 0,
           orderList: [],
           order1List: [],
-          order2List: []
+          order2List: [],
+          yhaccountInfo: '',
         }
       },
       mounted() {
         this.getOrderList()
         this.collectList()
         this.collitemList()
+        this.getYhaccount()
       },
       methods: {
+        getYhaccount() {
+          commissionApi.getYhaccount().then(res => {
+            if(res.code === 200){
+              const yhaccountInfo = JSON.parse(res.obj)
+              this.yhaccountInfo = yhaccountInfo.data
+            }
+          })
+        },
         codecardStatus (index,data, type) {
           let Obj = {}
            Obj = {...data}
@@ -315,6 +337,9 @@
           codecardModifyStatus(Obj).then(res=>{
             if(type === 0){
                 this.collectList()
+                if(type === 3) {
+                  this.getYhaccount()
+                }
             }else{
               this.order1List.splice(index,1,res.obj)
             }

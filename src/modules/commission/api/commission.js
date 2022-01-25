@@ -115,6 +115,15 @@ export function commissionCounts (params) {
   })
 }
 /**
+ *获取云获余额
+ */
+export function getYhaccount () {
+  return request({
+    url: '/order/cash/out/account',
+    method: 'get'
+  })
+}
+/**
  *佣金管理--导出
  */
 export function commissionListExport (params) {
@@ -147,13 +156,16 @@ export function commissionListExportExcel (params) {
  * 佣金结余
  */
 
-export function commissioncommCash (pageNumber, pageSize,params) {
+export function commissioncommCash (pageNumber, pageSize, pageSort, pageOrder, sort, params) {
   return request({
     url: '/order/cash/out/commission_cash_list_pc',
     method: 'get',
     params: {
       pageNumber:pageNumber,
       pageSize: pageSize,
+      pageSort: pageSort,
+      pageOrder: pageOrder,
+      sort: sort,
       companyName: params.companyName,
       status: params.status,//结算状态
       begin: params.begin,

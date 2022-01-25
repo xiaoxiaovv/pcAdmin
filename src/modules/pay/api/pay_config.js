@@ -210,3 +210,17 @@ export function savelklProdRate (data) {
     data: data
   })
 }
+
+export function postBehalfData (data) {
+  return request({
+    url: '/behalf_config',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+export function getBehalfData (data) {
+  return request({
+    url: '/behalf_config',
+    method: 'get',
+  })
+}
